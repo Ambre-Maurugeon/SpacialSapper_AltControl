@@ -1,12 +1,11 @@
-using UnityEditor.ShaderGraph.Internal;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Splines;
-using static UnityEngine.GraphicsBuffer;
 
 public class Controls : MonoBehaviour
 {
     #region Fields
+    [Header("References")]
     [SerializeField] Transform _horizontalTransform;
     [SerializeField] Transform _verticalTransform;
 
@@ -21,10 +20,10 @@ public class Controls : MonoBehaviour
     #endregion
 
     #region Main
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Awake()
     {
-        
+        InitAxisPos();
     }
 
     // Update is called once per frame
@@ -34,21 +33,52 @@ public class Controls : MonoBehaviour
     }
     #endregion
 
+    private void InitAxisPos()
+    {
+        _horizontalTransform.position = _planet.position;
+        _verticalTransform.position = _planet.position;
+
+        //SplineContainer container;
+
+        if (_horizontalTransform.gameObject.TryGetComponent<SplineContainer>(out var container))
+        {
+            var firstKnot = container.Spline.ToArray()[0];
+            _ancre.localPosition = firstKnot.Position;
+        }
+        //else
+        //{
+        //_ancre.position = _planet.position + _horizontalTransform.localScale / 2;
+        //}
+    }
+
+    // TO DEBUG VERTICAL ROTATION WITH QUAT
     void CalculatePos()
     {
-        // look at planet
-        Quaternion lookRot = GetLookRotation();
-        _player.transform.rotation = lookRot;
 
-        // calculate input move result
-        float y = _horizontalTransform.eulerAngles.y + PlayerController.MoveVector.x*_horizontalSpeed*Time.deltaTime; 
-        float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * Time.deltaTime;
+        // -- PLAYER POS--
+        // Input result
+        // invert to link rotation direction to accurate move direction 
+        float y = _horizontalTransform.eulerAngles.y + PlayerController.MoveVector.x * _horizontalSpeed * -1 * Time.deltaTime; 
+        //float y = _horizontalTransform.rotation.y + PlayerController.MoveVector.x * -1 * _horizontalSpeed * Time.deltaTime;
 
+        float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
+        //float z = _verticalTransform.rotation.z + PlayerController.MoveVector.y * -1 *_verticalSpeed  * Time.deltaTime;
+
+        _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
         _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
-        _verticalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
+
+
+
+        //_verticalTransform.Rotate(new Vector3(_verticalTransform.rotation.x, y, z), Space.World);
 
 
         _player.transform.position = _ancre.position;
+
+        // look at planet
+        Quaternion lookRot = GetLookRotation();
+        //Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
+        //_player.transform.rotation = Quaternion.Euler(test);
+        _player.transform.rotation = lookRot;
     }
 
     private Quaternion GetLookRotation()
@@ -58,4 +88,5 @@ public class Controls : MonoBehaviour
 
         return lookRot;
     }
+
 }
