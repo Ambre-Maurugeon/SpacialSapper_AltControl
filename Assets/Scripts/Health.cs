@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -18,10 +19,13 @@ public class Health : MonoBehaviour
         if (dmg < 0) return;
 
         _health = Mathf.Max(0, _health-dmg);
+
+        Debug.Log("takedmg, life : " + _health);
+
         if (_health == 0)
         {
             Debug.Log("He t'es mort tdc");
-            // destory for now
+            Destroy(gameObject);
         }
 
         // UpdateVisuals();

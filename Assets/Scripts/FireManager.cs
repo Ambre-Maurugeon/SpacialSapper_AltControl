@@ -1,54 +1,69 @@
 using NaughtyAttributes;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class FireManager : MonoBehaviour
 {
+    #region Fields
+
     [Header("References")]
     [SerializeField] MeshFilter _planetMesh;
     [SerializeField] GameObject _firePrefab;
     [SerializeField] Transform _fireParent;
-    Transform _planet;
-    Vector3 _position;
 
+    Transform _planet;
     Vector3[] _vertices;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    #endregion
+
+    public static FireManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance);
+        }
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
+        Init();
+    }
+
+    private void Init()
     {
         _planet = _planetMesh.transform;
         _vertices = _planetMesh.mesh.vertices;
     }
 
     [Button]
-    [System.Obsolete]
     void SpawnFireRandomly()
     {
+        // get rd vertice pos
         int r = Random.Range(0, _vertices.Length-1);
-        _position = _vertices[r];
+        Vector3 position = _vertices[r];
 
-        // if planet is scaled
-        _position.x *= _planet.localScale.x;
-        _position.y *= _planet.localScale.y;
-        _position.z *= _planet.localScale.z;
+        // fix pos if planet is scaled
+        position.x *= _planet.localScale.x;
+        position.y *= _planet.localScale.y;
+        position.z *= _planet.localScale.z;
 
-        _position += _planet.position;
+        position += _planet.position;
 
-        // rotation
-
-        GameObject fire = Instantiate(_firePrefab, _position, GetLookRotation(), _fireParent);// rotation à faire plus tard
+        // spawn fire at pos
+        SpawnFire(position);
     }
 
-    private void OnDrawGizmos()
+    public void SpawnFire(Vector3 position)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(_position, 0.1f);
+        Quaternion lookRot = GetLookRotation(position);
+        Instantiate(_firePrefab, position, lookRot, _fireParent);
     }
 
-    private Quaternion GetLookRotation()
+    private Quaternion GetLookRotation(Vector3 position)
     {
-
-        Vector3 dir = (_position - _planet.transform.position).normalized;
+        Vector3 dir = (position - _planet.position).normalized;
         Quaternion lookRot = Quaternion.LookRotation(dir);
 
         return lookRot;

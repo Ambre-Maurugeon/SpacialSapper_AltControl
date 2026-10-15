@@ -6,25 +6,24 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Fields
-    private static Vector2 _moveVector;
-    private static Vector2 _lookVector;
 
-    private static bool _canReload;
+    private bool _canReload;
 
     #endregion
-    public static Vector2 MoveVector => _moveVector;
-    public static Vector2 LookVector => _lookVector;
+
+    public static Vector2 MoveVector { get; private set; }
+    public static Vector2 LookVector { get; private set; }
 
     public static event Action OnReload ;
 
     public void ReadMoveInput(InputAction.CallbackContext context)
     {
-        _moveVector = context.ReadValue<Vector2>();
+        MoveVector = context.ReadValue<Vector2>();
     }
 
     public void ReadLookInput(InputAction.CallbackContext context)
     {
-        _lookVector = context.ReadValue<Vector2>();
+        LookVector = context.ReadValue<Vector2>();
     }
 
     public void ReadReloadInput(InputAction.CallbackContext context)
