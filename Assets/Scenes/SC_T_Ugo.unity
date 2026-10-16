@@ -1342,6 +1342,8 @@ MonoBehaviour:
   _clampPosY: 400
   _cursorHorizontalSpeed: 7.5
   _cursorVerticalSpeed: 22.5
+  _deadZoneAngleVertical: 15
+  _deadZoneAngleHorizontal: 10
   _firingDelay: 3
   _firingDuration: 20
   _waterRadius: 0.1

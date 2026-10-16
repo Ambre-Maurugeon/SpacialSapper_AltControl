@@ -25,21 +25,13 @@ public class ArduinoInputReceiver : MonoBehaviour
     
     public void OnMessageArrived(string message)
     {
-        Debug.Log(message);
         var splitMessage = message.Split(':');
-        //Debug.Log(splitMessage[0]); // se clamp entre 230 et 320 ???
+        if (splitMessage.Length != 2) return; // à modifier 
         _yaw = int.Parse(splitMessage[0]);
         _pitch = int.Parse(splitMessage[1]);
         if (_yaw >= 180) _yaw = 0f;
         _yaw -= 45;
         _pitch -= 15;
-        // _yaw = CheckForDeadZone(_yaw, _pitch)[0];
-        // _pitch = CheckForDeadZone(_yaw, _pitch)[1];
-        // _yaw = Clamp(_yaw, ); // Clamp with screen size
-        // _pitch = Clamp(_pitch, ); // Clamp with screen size
-        //Debug.Log("yaw : " + _yaw + "  |  pitch : " + _pitch);
-        // _sliderYaw.value = _yaw;
-        // _sliderPitch.value = _pitch;
     }
     
     public void OnConnectionEvent(bool useless) {}
