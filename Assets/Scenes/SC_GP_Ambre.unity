@@ -2841,6 +2841,9 @@ MonoBehaviour:
   _planetMesh: {fileID: 1100321900}
   _firePrefab: {fileID: 3586437821756696723, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
   _fireParent: {fileID: 1906910598}
+  _fireDamageable:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2119650450
 GameObject:
   m_ObjectHideFlags: 0
