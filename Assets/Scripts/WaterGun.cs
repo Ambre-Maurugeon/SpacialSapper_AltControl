@@ -1,20 +1,19 @@
 
 using System.Collections;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 
 public class WaterGun : MonoBehaviour
 {
-    [Header("References")]
+    [Foldout("References")]
     [SerializeField] RectTransform _cursor;
     [SerializeField] Transform _barrel;
+    [SerializeField] LineRenderer _ballisticLine;
+     
+    [SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
 
     [Header("Cursor Values")]
-    [SerializeField] float _speedX = 30 ;
-    [SerializeField] float _speedY = 30 ;
-
-    [Space(5)]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
 
@@ -91,7 +90,7 @@ public class WaterGun : MonoBehaviour
         while (_isShooting)
         {
             time += Time.deltaTime;
-            frequencyTime -= Time.deltaTime;
+            frequencyTime += Time.deltaTime;
 
             if (time >= _firingDuration)
             {
@@ -99,18 +98,17 @@ public class WaterGun : MonoBehaviour
                 break;
             }
 
-            if (frequencyTime <= 0)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
-                Vector3 destination = ray.GetPoint(_firingDistance);
-                Vector3 dir = (destination - _barrel.position).normalized;
+            // Trajectory
+            UpdateBallisticTrajectory(out Vector3 dir);
 
-                if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance))
+            // Dmg
+            if (frequencyTime >= _damageFrequency) // dmg time
+            {
+                if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance, _waterDamageable)) // layerMask  to debug
                 {
                     Debug.Log("hit");
                     if (hit.collider.gameObject.TryGetComponent<Health>(out var h))
                     {
-                        Debug.Log("takedmg");
                         h.TakeDamage(_waterDamage);
                     }
 
@@ -120,19 +118,44 @@ public class WaterGun : MonoBehaviour
                     Debug.Log("no hit");
                 }
 
-                // Debug
-                Debug.DrawLine(ray.origin, _barrel.position + _firingDistance * dir);
-
                 // Reset timer 
-                frequencyTime = _damageFrequency;
+                frequencyTime = 0;
             }
             yield return new WaitForEndOfFrame();
 
         }
 
+        // -- STOP SHOOTING --
+        ShowTrajectory(false);
         Debug.Log("Shooting ended");
     }
 
+    private void UpdateBallisticTrajectory(out Vector3 dir)
+    {
+        // ray from barrel to X distance
+        Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
+        Vector3 destination = ray.GetPoint(_firingDistance);
+        dir = (destination - _barrel.position).normalized;
+
+        // line from start to end
+        _ballisticLine.SetPosition(0, _barrel.position);
+        _ballisticLine.SetPosition(_ballisticLine.positionCount - 1, destination);
+
+        // Visuals
+        ShowTrajectory(true);
+
+        // Debug
+        Debug.DrawLine(ray.origin, _barrel.position + _firingDistance * dir);
+    }
+
+    private void ShowTrajectory(bool show)
+    {
+        _ballisticLine.enabled = show;
+    }
+
+
+
+    #region Debug
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -145,5 +168,6 @@ public class WaterGun : MonoBehaviour
         Gizmos.DrawSphere(hit.point, _waterRadius);
 
     }
+    #endregion
 
 }
