@@ -4,6 +4,8 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] int _initHealth = 100;
+    //[SerializeField] TYPE _weakness = TYPE.NONE;
+
     private int _health;
 
     #region Main

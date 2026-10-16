@@ -1264,8 +1264,8 @@ MonoBehaviour:
   _horizontalTransform: {fileID: 1570748468}
   _verticalTransform: {fileID: 186175206}
   _planet: {fileID: 1100321901}
-  _ancre: {fileID: 124739760}
   _player: {fileID: 591733236}
+  _ancre: {fileID: 124739760}
   _horizontalSpeed: 50
   _verticalSpeed: 50
 --- !u!1 &678251777
@@ -1571,7 +1571,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951422122
 MonoBehaviour:
@@ -1687,7 +1687,7 @@ GameObject:
   - component: {fileID: 1100321900}
   - component: {fileID: 1100321899}
   - component: {fileID: 1100321902}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Planet
   m_TagString: Planet
   m_Icon: {fileID: 0}
@@ -2397,6 +2397,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1387911855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1563442053 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 255954523452677229, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+  m_PrefabInstance: {fileID: 7639308633090409455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1570748467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2775,7 +2780,7 @@ MonoBehaviour:
   _clampPosY: 600
   _firingDelay: 3
   _firingDuration: 20
-  _waterRadius: 0.1
+  _waterRadius: 0.0625
   _firingDistance: 2
   _waterDamage: 10
   _damageFrequency: 2
@@ -3001,6 +3006,22 @@ PrefabInstance:
     - target: {fileID: 3268471348325051146, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
       propertyPath: m_Name
       value: Dragon_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268471348325051146, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696157471731975525, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+      propertyPath: _flames
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696157471731975525, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+      propertyPath: _dragonMouth
+      value: 
+      objectReference: {fileID: 1563442053}
+    - target: {fileID: 6696157471731975525, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+      propertyPath: _breathingRadius
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7664175874635313121, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
       propertyPath: m_Target

@@ -10,9 +10,8 @@ public class Controls : MonoBehaviour
     [SerializeField] Transform _verticalTransform;
 
     [SerializeField] Transform _planet;
-    [SerializeField] Transform _ancre;
-
     [SerializeField] GameObject _player;
+    [SerializeField] Transform _ancre;
 
     [Header("Values")]
     [SerializeField] float _horizontalSpeed = 50f;

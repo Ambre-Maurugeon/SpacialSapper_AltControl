@@ -99,24 +99,20 @@ public class WaterGun : MonoBehaviour
             }
 
             // Trajectory
-            UpdateBallisticTrajectory(out Vector3 dir);
+            UpdateBallisticTrajectory(out hit);
 
             // Dmg
             if (frequencyTime >= _damageFrequency) // dmg time
             {
-                if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance, _waterDamageable)) // layerMask  to debug
+                if (hit.collider != null)
                 {
-                    Debug.Log("hit");
-                    if (hit.collider.gameObject.TryGetComponent<Health>(out var h))
-                    {
+                    if(hit.collider.gameObject.TryGetComponent<Health>(out var h))
                         h.TakeDamage(_waterDamage);
-                    }
-
                 }
-                else
-                {
-                    Debug.Log("no hit");
-                }
+                //else
+                //{
+                //    Debug.Log("no hit");
+                //}
 
                 // Reset timer 
                 frequencyTime = 0;
@@ -130,12 +126,20 @@ public class WaterGun : MonoBehaviour
         Debug.Log("Shooting ended");
     }
 
-    private void UpdateBallisticTrajectory(out Vector3 dir)
+    private void UpdateBallisticTrajectory(out RaycastHit hit)
     {
         // ray from barrel to X distance
         Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
-        Vector3 destination = ray.GetPoint(_firingDistance);
-        dir = (destination - _barrel.position).normalized;
+        Vector3 destination = ray.GetPoint(_firingDistance); // default end pos
+
+        Vector3 dir = (destination - _barrel.position).normalized;
+
+        // raycast
+        if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance)) // layerMask  to debug
+        {
+            // update end pos at contact
+            destination = hit.point;
+        }
 
         // line from start to end
         _ballisticLine.SetPosition(0, _barrel.position);
@@ -143,9 +147,6 @@ public class WaterGun : MonoBehaviour
 
         // Visuals
         ShowTrajectory(true);
-
-        // Debug
-        Debug.DrawLine(ray.origin, _barrel.position + _firingDistance * dir);
     }
 
     private void ShowTrajectory(bool show)

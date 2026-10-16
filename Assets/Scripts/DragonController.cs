@@ -1,8 +1,10 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Splines;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 public class DragonController : MonoBehaviour
 {
@@ -15,10 +17,16 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float _breathingDelay = 5f;
     [SerializeField] private float _breathingDuration = 3f;
     [SerializeField] private float _breathingDistance = 200;
+    [SerializeField] private float _breathingRadius = 0.5f;
     [SerializeField] private int _flames = 5;
 
     private bool _canBreath = false;
     GameObject _planet;
+
+    // test
+    //RaycastHit[] hits;
+
+
     #endregion
     private void Awake()
     {
@@ -77,4 +85,38 @@ public class DragonController : MonoBehaviour
 
         _canBreath = true;
     }
+
+    [Button]
+    private void TestSphereCast()
+    {
+        Vector3 dir = (_planet.transform.position - _dragonMouth.position).normalized;
+        RaycastHit[] hits = Physics.SphereCastAll(_dragonMouth.position, _breathingRadius, dir, _breathingDistance);
+
+        if (hits.Length != 0) // to debug : use layerMask
+        {
+            Debug.Log(hits.Length + " hit.s sphere test detected");
+            int r = Random.Range(0, hits.Length-1);
+
+            FireManager.Instance?.SpawnFire(hits[r].point);
+        }
+    }
+
+    #region Debug
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.pink;
+        Gizmos.DrawSphere(_dragonMouth.position, _breathingRadius);
+
+        //Gizmos.color = Color.yellow;
+
+        //if (UnityEngine.Application.isPlaying)
+        //{
+        //    foreach (RaycastHit hit in hits)
+        //    {
+        //        Gizmos.DrawSphere(hit.point, 0.5f);
+        //    }
+        //}
+
+    }
+    #endregion
 }
