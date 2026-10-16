@@ -1,22 +1,19 @@
 
 using System.Collections;
-using System.Threading;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 
 public class WaterGun : MonoBehaviour
 {
-    [Header("References")]
+    [Foldout("References")]
     [SerializeField] RectTransform _cursor;
     [SerializeField] Transform _barrel;
     [SerializeField] LineRenderer _ballisticLine;
+     
+    [SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
 
     [Header("Cursor Values")]
-    [SerializeField] float _speedX = 30 ;
-    [SerializeField] float _speedY = 30 ;
-
-    [Space(5)]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
 
@@ -107,7 +104,7 @@ public class WaterGun : MonoBehaviour
             // Dmg
             if (frequencyTime >= _damageFrequency) // dmg time
             {
-                if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance)) // layerMask 3 = fire to debug
+                if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance, _waterDamageable)) // layerMask  to debug
                 {
                     Debug.Log("hit");
                     if (hit.collider.gameObject.TryGetComponent<Health>(out var h))

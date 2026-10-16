@@ -1,7 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 
 public class FireManager : MonoBehaviour
 {
@@ -11,6 +10,8 @@ public class FireManager : MonoBehaviour
     [SerializeField] MeshFilter _planetMesh;
     [SerializeField] GameObject _firePrefab;
     [SerializeField] Transform _fireParent;
+
+    [SerializeField] LayerMask _fireDamageable; // change to enum in weakness health
 
     Transform _planet;
     Vector3[] _vertices;
@@ -26,7 +27,7 @@ public class FireManager : MonoBehaviour
             Destroy(Instance);
         }
         Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
 
         Init();
     }

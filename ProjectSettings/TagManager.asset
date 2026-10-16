@@ -9,11 +9,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Fire
+  - 
   - Water
   - UI
-  - 
-  - 
+  - FireDamageable
+  - WaterDamageable
   - 
   - 
   - 
