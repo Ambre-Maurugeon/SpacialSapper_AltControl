@@ -14,6 +14,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float _lapDuration = 5f;
     [SerializeField] private float _breathingDelay = 5f;
     [SerializeField] private float _breathingDuration = 3f;
+    [SerializeField] private float _breathingDistance = 200;
     [SerializeField] private int _flames = 5;
 
     private bool _canBreath = false;
@@ -64,7 +65,7 @@ public class DragonController : MonoBehaviour
             if (frequencyTime >= flameFrequency) 
             {
                 Vector3 dir = (_planet.transform.position - _dragonMouth.position).normalized;
-                if (Physics.Raycast(_dragonMouth.position, dir, out RaycastHit hit, 200)) // to debug : use layerMask
+                if (Physics.Raycast(_dragonMouth.position, dir, out RaycastHit hit, _breathingDistance)) // to debug : use layerMask
                 {
                     FireManager.Instance?.SpawnFire(hit.point);
                 }
