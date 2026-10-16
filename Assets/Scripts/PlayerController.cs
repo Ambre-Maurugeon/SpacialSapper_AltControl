@@ -54,7 +54,8 @@ public class PlayerController : MonoBehaviour
         var splitMessage = message.Split(':');
         float yawValue = int.Parse(splitMessage[0]);
         float pitchValue = int.Parse(splitMessage[1]);
-        Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
+        
+        //Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
         FaucetInput = new Vector2(yawValue, pitchValue);
     }
     

@@ -16,6 +16,8 @@ public class WaterGun : MonoBehaviour
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
+    [SerializeField] float _cursorHorizontalSpeed;
+    [SerializeField] float _cursorVerticalSpeed;
 
     [Header("Gun Values")]
     [SerializeField] float _firingDelay = 3;
@@ -55,10 +57,14 @@ public class WaterGun : MonoBehaviour
 
     void CalculateCursorPos()
     {
-        Vector3 mousePos = Mouse.current.position.ReadValue();
+        //Vector3 mousePos = Mouse.current.position.ReadValue();
+        Vector3 cursorPos = _cursor.position;
+        cursorPos.x -= ArduinoInputReceiver.Instance._yaw * _cursorHorizontalSpeed * Time.deltaTime;
+        cursorPos.y -= ArduinoInputReceiver.Instance._pitch * _cursorVerticalSpeed * Time.deltaTime;
+        //Debug.Log(cursorPos);
 
         // clamp
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,mousePos, null, out Vector2 localPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,cursorPos, null, out Vector2 localPos);
         localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
         localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
