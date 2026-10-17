@@ -143,11 +143,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonController
   _dragonMouth: {fileID: 0}
+  _layerToBreathOn:
+    serializedVersion: 2
+    m_Bits: 0
   _lapDuration: 10
   _breathingDelay: 7
   _breathingDuration: 4
-  _breathingDistance: 200
-  _flames: 10
+  _breathingDistance: 100
+  _breathingRadius: 0.2
+  _flames: 20
 --- !u!135 &8261719244564430748
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -167,5 +171,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.28
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.93
+  m_Center: {x: 0, y: 0.58, z: -0.12}
