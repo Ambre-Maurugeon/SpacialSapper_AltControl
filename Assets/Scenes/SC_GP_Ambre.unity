@@ -1687,6 +1687,7 @@ GameObject:
   - component: {fileID: 1100321900}
   - component: {fileID: 1100321899}
   - component: {fileID: 1100321902}
+  - component: {fileID: 1100321903}
   m_Layer: 8
   m_Name: Planet
   m_TagString: Planet
@@ -1790,6 +1791,35 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1100321903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100321897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b43463d2392384409a1db1e4ae10eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  _initHealth: 1000
+  _weakness: 2
+  _onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1100321897}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "Plan\xE8te morte, end of game ?"
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1167660945
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,6 +2119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   _initHealth: 100
+  _weakness: 0
+  _onDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1387911850
 GameObject:
   m_ObjectHideFlags: 0

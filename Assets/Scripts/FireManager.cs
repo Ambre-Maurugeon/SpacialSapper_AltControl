@@ -13,8 +13,6 @@ public class FireManager : MonoBehaviour
     [SerializeField] GameObject _firePrefab;
     [SerializeField] Transform _fireParent;
 
-    //[SerializeField] LayerMask _fireDamageable; // change to enum in weakness health
-
     Transform _planet;
     Vector3[] _vertices;
 

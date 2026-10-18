@@ -26,6 +26,7 @@ public class DragonController : MonoBehaviour
     GameObject _planet;
 
     #endregion
+
     private void Awake()
     {
         Init();
@@ -34,8 +35,8 @@ public class DragonController : MonoBehaviour
     {
         _planet = GameObject.FindGameObjectWithTag("Planet");
 
-        // launch dragon breathing behaviour at start
-        StartCoroutine("LaunchBreathingBehaviour");
+        // launch dragon breathing loop at start
+        StartCoroutine("StartBreathingBehaviour");
     }
 
     private void Init()
@@ -45,7 +46,7 @@ public class DragonController : MonoBehaviour
         GetComponent<SplineAnimate>().Duration = _lapDuration;
     }
 
-    private IEnumerator LaunchBreathingBehaviour()
+    private IEnumerator StartBreathingBehaviour()
     {
         while(true){
             _canBreath = false;
