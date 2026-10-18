@@ -1412,9 +1412,6 @@ MonoBehaviour:
   _planetMesh: {fileID: 4042261169236928297}
   _firePrefab: {fileID: 3586437821756696723, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
   _fireParent: {fileID: 441884914}
-  _fireDamageable:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &2119650450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,6 +1634,10 @@ PrefabInstance:
       propertyPath: _planet
       value: 
       objectReference: {fileID: 7459265707010166846}
+    - target: {fileID: 3663496278310393087, guid: 9bb5d43592a13564c89698d6a41c4bab, type: 3}
+      propertyPath: _horizontalSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3663496278310393087, guid: 9bb5d43592a13564c89698d6a41c4bab, type: 3}
       propertyPath: _verticalTransform
       value: 
