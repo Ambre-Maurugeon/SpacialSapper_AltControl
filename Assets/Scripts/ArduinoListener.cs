@@ -6,28 +6,14 @@ using static UnityEngine.Mathf;
 
 public class ArduinoListener : MonoBehaviour
 {
-
-    [Header("Valeurs d'équilibrage")] 
-    [Space(10)]
     
-    [InfoBox("Valeurs en ° des zones mortes")]
-    [Space(10)]
-    
-    [Tooltip("Angle de la zone morte verticale au centre de l'écran (en °)")]
     [SerializeField] private int _centerVerticalDeadZoneRange;
-    [Space(5)]
-    [Tooltip("Angle de la zone morte horizontale au centre de l'écran (en °)")]
     [SerializeField] private int _centerHorizontalDeadZoneRange;
-    [Space(5)]
-    [Tooltip("Angle de la zone morte verticale aux bords de l'écran (en °)")]
     [SerializeField] private int _borderVerticalDeadZoneRange;
-    [Space(5)]
-    [Tooltip("Angle de la zone morte horizontales aux bords de l'écran (en °)")]
     [SerializeField] private int _borderHorizontalDeadZoneRange;
-    [Foldout("References")]
     [SerializeField] Slider _sliderYaw;
-    [Foldout("References")] 
     [SerializeField] Slider _sliderPitch;
+    [SerializeField] Slider _sliderEncoder;
 
     
     private bool IsInDeadZone = false;
@@ -93,6 +79,7 @@ public class ArduinoListener : MonoBehaviour
     public void OnMessageArrived(string message)
     {
         var splitMessage = message.Split(':');
+        if (splitMessage.Length is < 2 or > 3) return;
         //Debug.Log(splitMessage[0]); // se clamp entre 230 et 320 ???
         float yawValue = int.Parse(splitMessage[0]);
         float pitchValue = int.Parse(splitMessage[1]);
@@ -104,6 +91,13 @@ public class ArduinoListener : MonoBehaviour
         Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
         _sliderYaw.value = yawValue;
         _sliderPitch.value = pitchValue;
+        if (splitMessage.Length == 3)
+        {
+            var EncoderValueModifier = splitMessage[2];
+            if (EncoderValueModifier == "+") _sliderEncoder.value++; 
+            else if (EncoderValueModifier == "-") _sliderEncoder.value--; 
+            Debug.Log("EncoderValueModifier : " + EncoderValueModifier);
+        }
     }
     
     
