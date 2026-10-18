@@ -3,6 +3,8 @@ using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UI;
 
 public class WaterGun : MonoBehaviour
 {
@@ -97,26 +99,30 @@ public class WaterGun : MonoBehaviour
         float time = 0;
         float frequencyTime = _damageFrequency;
 
+        // make dmg every x time during the duration of the shoot
         while (_isShooting)
         {
             time += Time.deltaTime;
             frequencyTime += Time.deltaTime;
 
-            if (time >= _firingDuration)
+            // shooting is over
+            if (time >= _firingDuration) // to edit ? delete _isShooting field?
             {
                 _isShooting=false;
                 break;
             }
 
-            // Trajectory
+            // shoot Trajectory
             UpdateBallisticTrajectory(out hit);
 
-            // Dmg
-            if (frequencyTime >= _damageFrequency) // dmg time
+            // it's dmg time !
+            if (frequencyTime >= _damageFrequency) 
             {
                 if (hit.collider != null)
                 {
-                    if(hit.collider.gameObject.TryGetComponent<Health>(out var h))
+                    // if object is waterdmgeable && has health component => make dmg 
+                    if ((_waterDamageable & (1 << hit.collider.gameObject.layer)) != 0 // check if layer of the hit "is found in" layerMask _waterDamageable
+                        && hit.collider.gameObject.TryGetComponent<Health>(out var h))
                         h.TakeDamage(_waterDamage);
                 }
                 //else
