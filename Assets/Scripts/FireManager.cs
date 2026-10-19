@@ -60,7 +60,7 @@ public class FireManager : MonoBehaviour
         SpawnFire(position);
     }
 
-    public void SpawnFire(Vector3 position)
+    private void SpawnFire(Vector3 position)
     {
         // spawn fire on planet at an accurate rotation
         Quaternion lookRot = GetLookRotation(position);
@@ -92,6 +92,7 @@ public class FireManager : MonoBehaviour
         SpawnFire(nearbyPos);
     }
 
+    // call in global geometry/maths script
     private Quaternion GetLookRotation(Vector3 position)
     {
         Vector3 dir = (position - _planet.position).normalized;

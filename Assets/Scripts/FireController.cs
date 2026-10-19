@@ -125,7 +125,7 @@ public class FireController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnDamage()
+    private void OnDamage(int dmg)
     {
     }
 

@@ -51,14 +51,14 @@ public class DragonManager : MonoBehaviour
 
         // spawn dragon at first knot pos of my spline
         Vector3 firstKnotPos = mySpline.Spline.ToArray()[0].Position;
-        SpawnDrag(firstKnotPos, out GameObject dragon);
+        SpawnDragon(firstKnotPos, out GameObject dragon);
 
         // dragon starts follow my spline 
         if(dragon.TryGetComponent<DragonController>(out var controller))
             controller.FollowSpline(mySpline);
     }
 
-    private void SpawnDrag(Vector3 position, out GameObject dragon)
+    private void SpawnDragon(Vector3 position, out GameObject dragon)
     {
         dragon = Instantiate(_dragonPrefab, position, Quaternion.identity, _dragonParent); // default rot for now
     }

@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
     public TYPE Weakness => _weakness;
     public int MyHealth => _health;
 
-    public event Action OnDamage;
+    public event Action<int> OnDamage;
     public event Action OnDie;
 
     #endregion Fields
@@ -45,7 +45,7 @@ public class Health : MonoBehaviour
             OnDie?.Invoke();
         }
 
-        OnDamage?.Invoke();
+        OnDamage?.Invoke(dmg);
     }
 
     public void Heal(int heal)

@@ -120,7 +120,7 @@ public class DragonController : MonoBehaviour
     }
 
     // broadcast in health component
-    private void OnDamage()
+    private void OnDamage(int dmg)
     {
        
     }

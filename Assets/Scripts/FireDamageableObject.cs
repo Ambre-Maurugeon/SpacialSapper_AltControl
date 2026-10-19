@@ -33,7 +33,7 @@ public class FireDamageableObject : MonoBehaviour
     #endregion
 
     // CODE DEGUEU MAIS EN TEST
-    private void OnDamage()
+    private void OnDamage(int dmg)
     {
         if(!_isDecreasing)
             StartCoroutine("DecreaseHealthProgressively");
@@ -53,9 +53,9 @@ public class FireDamageableObject : MonoBehaviour
 
         while (_currentHealth > targetHealth)
         {
-            _currentHealth -= Time.deltaTime * _speed; // get percent
+            _currentHealth -= Time.deltaTime * _speed; 
 
-            _currentHealthPercent = _currentHealth / _initHealth;
+            _currentHealthPercent = _currentHealth / _initHealth; // get percent for GA use
 
             yield return new WaitForEndOfFrame();
         }
