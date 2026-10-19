@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5734798779912653955}
   - component: {fileID: 5582081886538709840}
   m_Layer: 7
-  m_Name: fire
+  m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b43463d2392384409a1db1e4ae10eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _initHealth: 30
+  _initHealth: 20
+  _weakness: 0
+  _onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5582081886538709840}
+        m_TargetAssemblyTypeName: FireController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5582081886538709840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434ab90997ccf574e9f10d12ce3a130c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireController
+  _harmlessTime: 10
+  _redDmg: 10
+  _dmgFrequency: 3
+  _fireDamageable:
+    serializedVersion: 2
+    m_Bits: 768
+  _dmgRadius: 0.075
+  _yellowMat: {fileID: -6478536213147159724, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
+  _redMat: {fileID: 4874126678125670354, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
