@@ -57,10 +57,10 @@ public class Controls : MonoBehaviour
         // -- PLAYER POS--
         // Input result
         // invert to link rotation direction to accurate move direction 
-        float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance.EncoderValue * _horizontalSpeed * -1 * Time.deltaTime; 
+        float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance.Encoder1Value * _horizontalSpeed * -1 * Time.deltaTime; 
         //float y = _horizontalTransform.rotation.y + PlayerController.MoveVector.x * -1 * _horizontalSpeed * Time.deltaTime;
 
-        float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
+        float z = _verticalTransform.eulerAngles.z + (int)ArduinoInputReceiver.Instance.Encoder2Value * _verticalSpeed * -1 * Time.deltaTime;
         //float z = _verticalTransform.rotation.z + PlayerController.MoveVector.y * -1 *_verticalSpeed  * Time.deltaTime;
 
         _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
