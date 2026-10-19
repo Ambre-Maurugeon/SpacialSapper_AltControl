@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlanetController : MonoBehaviour
 {
     [Header("Slider")]
-    [SerializeField] Slider _healthSlider;
-    [SerializeField] private float _speed = 20;
+    [SerializeField] Slider _healthSlider; 
+    //[SerializeField] private float _speed = 20;// to edit 
 
     Health _healthComponent;
 
@@ -55,6 +55,7 @@ public class PlanetController : MonoBehaviour
     {
         _isDrecreasing = true;
 
+        // -- TO EDIT --
         // slider value progressively reaches the health value
         while (_healthSlider.value > _healthComponent.MyHealth / _initHealth)
         {

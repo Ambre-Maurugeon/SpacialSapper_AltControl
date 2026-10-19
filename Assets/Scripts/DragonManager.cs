@@ -43,7 +43,7 @@ public class DragonManager : MonoBehaviour
     }
 
     [Button]
-    public void SpawnDragonOnSpline()
+    public void SpawnDragonOnRdSpline()
     {
         // get random spline in dragon splines
         int r = Random.Range(0, splines.Count()-1);

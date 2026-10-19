@@ -13,20 +13,21 @@ public class MeteoriteController : MonoBehaviour
     {
         InitData(data);
 
-        CastRayTowardsPlanet(); // get futur contact point
+        //cast ray towards planet, to get futur contact point
+        CastRayTowardsPlanet(); 
 
-        StartCoroutine("RushPlanet");
+        // rush towards planet
+        StartCoroutine("RushPlanet"); 
     }
 
     private void InitData(MeteoriteData data)
     {
         _myData = data;
-
-        // visuals
     }
 
     private IEnumerator RushPlanet()
     {
+        // rush towards planet until collide with it
         while (!_hasCollided)
         {
             transform.position += _myData.speed * Time.deltaTime * transform.forward; // meteorite is facing the planet and rushing towards it
@@ -66,14 +67,6 @@ public class MeteoriteController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         _hasCollided = true;
-        Debug.Log("collision");
-    }
-
-    void OnTriggerEnter(Collider collider)
-    {
-        _hasCollided = true;
-
-        Debug.Log("trigger");
     }
 
 }

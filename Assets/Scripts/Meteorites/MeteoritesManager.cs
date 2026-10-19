@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MeteoritesManager : MonoBehaviour
 {
-
+    #region Fields
     [Foldout("References"),SerializeField] MeteoritesSO _meteoriteDbMgr;
     [Foldout("References"), SerializeField] Transform _meteoriteParent;
 
     [Header("Spawn")]
-    [SerializeField] float _speed = 1;
     [SerializeField] float _meteoriteDistance = 100;
 
     [Header("Debug")]
@@ -18,16 +17,39 @@ public class MeteoritesManager : MonoBehaviour
     Transform _player;
     Transform _planet;
 
+    public static MeteoritesManager Instance { get; private set; }
+    #endregion
+
+    #region Main
+
+    private void Awake()
+    {
+        // -- INSTANCE --
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     private void Start()
     {
         InitWithOthers();
     }
+    #endregion
 
+    #region Init
     private void InitWithOthers()
     {
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _planet = GameObject.FindGameObjectWithTag("Planet").transform;
     }
+    #endregion
 
 
     public void GenerateMeteorite(string id)
