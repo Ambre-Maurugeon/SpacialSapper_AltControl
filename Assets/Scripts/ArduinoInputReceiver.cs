@@ -4,14 +4,19 @@ using static UnityEngine.Mathf;
 
 public class ArduinoInputReceiver : MonoBehaviour
 {
+#region Fields
     public static ArduinoInputReceiver Instance {get; private set;}
-
     public float _yaw {get; private set;}
     public float _pitch {get; private set;}
-    
     public ENCODERTYPE Encoder1Value {get; private set;}
     public ENCODERTYPE Encoder2Value {get; private set;}
-    
+#endregion
+
+#region DebugTools
+
+    public bool UseKeyboard;
+
+#endregion
     private void Awake() 
     { 
         if (Instance != null && Instance != this) 

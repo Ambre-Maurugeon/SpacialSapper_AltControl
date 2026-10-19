@@ -61,20 +61,32 @@ public class WaterGun : MonoBehaviour
 
     void CalculateCursorPos()
     {
-        Vector3 cursorPos = _cursor.position;
-        float yaw = ArduinoInputReceiver.Instance._yaw;
-        float pitch = ArduinoInputReceiver.Instance._pitch;
-        yaw = CheckDeadZones(yaw, pitch)[0];
-        pitch = CheckDeadZones(yaw, pitch)[1];
-        cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
-        cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
+        if (ArduinoInputReceiver.Instance.UseKeyboard){
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, mousePos, null, out Vector2 localPos);
+            localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
+            localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
+            _cursor.localPosition = localPos;
+        }
+        else
+        {
+            Vector3 cursorPos = _cursor.position;
+            float yaw = ArduinoInputReceiver.Instance._yaw;
+            float pitch = ArduinoInputReceiver.Instance._pitch;
+            yaw = CheckDeadZones(yaw, pitch)[0];
+            pitch = CheckDeadZones(yaw, pitch)[1];
+            cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
+            cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, cursorPos, null, out Vector2 localPos);
+            localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
+            localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
+
+            _cursor.localPosition = localPos;
+            
+        }
         // clamp
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,cursorPos, null, out Vector2 localPos);
-        localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
-        localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
-
-        _cursor.localPosition = localPos;
+        
     }
 
     void OnReload()
