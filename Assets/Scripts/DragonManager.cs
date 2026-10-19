@@ -9,11 +9,11 @@ public class DragonManager : MonoBehaviour
 {
     #region Fields
     [Header("Splines")]
-    [SerializeField] private Transform _dragonSplines;
+    [Foldout("References"), SerializeField] private Transform _dragonSplines;
 
     [Header("Dragons")]
-    [SerializeField] private Transform _dragonParent;
-    [SerializeField] private GameObject _dragonPrefab;
+    [Foldout("References"), SerializeField] private Transform _dragonParent;
+    [Foldout("References"), SerializeField] private GameObject _dragonPrefab;
 
     SplineContainer[] splines;
     public static DragonManager Instance { get; private set; }

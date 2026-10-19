@@ -8,10 +8,12 @@ public class FireManager : MonoBehaviour
 {
     #region Fields
 
-    [Header("References")]
-    [SerializeField] MeshFilter _planetMesh;
-    [SerializeField] GameObject _firePrefab;
-    [SerializeField] Transform _fireParent;
+    [Header("Planet")]
+    [Foldout("References")][SerializeField] MeshFilter _planetMesh;
+
+    [Header("Fire")]
+    [Foldout("References")][SerializeField] GameObject _firePrefab;
+    [Foldout("References")][SerializeField] Transform _fireParent;
 
     Transform _planet;
     Vector3[] _vertices;
