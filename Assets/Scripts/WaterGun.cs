@@ -8,12 +8,11 @@ using UnityEngine.UI;
 
 public class WaterGun : MonoBehaviour
 {
-    [Foldout("References")]
-    [SerializeField] RectTransform _cursor;
-    [SerializeField] Transform _barrel;
-    [SerializeField] LineRenderer _ballisticLine;
-     
-    [SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
+    [Foldout("References"),SerializeField] RectTransform _cursor;
+    [Foldout("References"), SerializeField] Transform _barrel;
+    [Foldout("References"), SerializeField] LineRenderer _ballisticLine;
+
+    [Foldout("References"), SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
 
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
