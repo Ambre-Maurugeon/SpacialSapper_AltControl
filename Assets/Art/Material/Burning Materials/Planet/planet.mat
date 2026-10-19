@@ -51,7 +51,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SpecularHighlights: 0
-    - _Taillenoise: 1
+    - _Taillenoise: -0.18
     - _normalscale: 0.1
     - _tailletexture: 1
     m_Colors:
