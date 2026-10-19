@@ -13,7 +13,8 @@ public class ArduinoListener : MonoBehaviour
     [SerializeField] private int _borderHorizontalDeadZoneRange;
     [SerializeField] Slider _sliderYaw;
     [SerializeField] Slider _sliderPitch;
-    [SerializeField] Slider _sliderEncoder;
+    [SerializeField] Slider _sliderEncoder1;
+    [SerializeField] Slider _sliderEncoder2;
 
     
     private bool IsInDeadZone = false;
@@ -79,7 +80,7 @@ public class ArduinoListener : MonoBehaviour
     public void OnMessageArrived(string message)
     {
         var splitMessage = message.Split(':');
-        if (splitMessage.Length is < 2 or > 3) return;
+        if (splitMessage.Length is < 2) return;
         //Debug.Log(splitMessage[0]); // se clamp entre 230 et 320 ???
         float yawValue = int.Parse(splitMessage[0]);
         float pitchValue = int.Parse(splitMessage[1]);
@@ -91,12 +92,16 @@ public class ArduinoListener : MonoBehaviour
         Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
         _sliderYaw.value = yawValue;
         _sliderPitch.value = pitchValue;
-        if (splitMessage.Length == 3)
+        if (splitMessage.Length > 2)
         {
-            var EncoderValueModifier = splitMessage[2];
-            if (EncoderValueModifier == "+") _sliderEncoder.value++; 
-            else if (EncoderValueModifier == "-") _sliderEncoder.value--; 
-            Debug.Log("EncoderValueModifier : " + EncoderValueModifier);
+            var Encoder1ValueModifier = splitMessage[2];
+            if (Encoder1ValueModifier == "+") _sliderEncoder1.value++; 
+            else if (Encoder1ValueModifier == "-") _sliderEncoder1.value--; 
+            //Debug.Log("EncoderValueModifier : " + Encoder1ValueModifier);
+            var Encoder2ValueModifier = splitMessage[3];
+            if (Encoder2ValueModifier == "+") _sliderEncoder2.value++; 
+            else if (Encoder2ValueModifier == "-") _sliderEncoder2.value--; 
+            //Debug.Log("EncoderValueModifier : " + Encoder1ValueModifier);
         }
     }
     
