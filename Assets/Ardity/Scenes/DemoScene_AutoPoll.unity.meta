@@ -1,7 +1,15 @@
 fileFormatVersion: 2
-guid: e0668706ccf023346ac3019ff53aad3d
+guid: 5e3c786f8a316e444aca9132e8863e39
+timeCreated: 1461996794
+licenseType: Store
 DefaultImporter:
-  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123819
+  packageName: 'Ardity: Arduino + Unity communication made easy'
+  packageVersion: 1.1.0
+  assetPath: Assets/Ardity/Scenes/DemoScene_AutoPoll.unity
+  uploadId: 262010

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public static Vector2 MoveVector { get; private set; }
     public static Vector2 LookVector { get; private set; }
+    
+    public static Vector2 FaucetInput { get; private set; }
 
     public static event Action OnReload ;
 
@@ -46,4 +48,19 @@ public class PlayerController : MonoBehaviour
         _canReload = true;
         Debug.Log("Can reload.");
     }
+    
+    public void OnMessageArrived(string message)
+    {
+        var splitMessage = message.Split(':');
+        float yawValue = int.Parse(splitMessage[0]);
+        float pitchValue = int.Parse(splitMessage[1]);
+        
+        //Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
+        FaucetInput = new Vector2(yawValue, pitchValue);
+    }
+    
+    
+    public void OnConnectionEvent(bool useless) {}
+
+    
 }

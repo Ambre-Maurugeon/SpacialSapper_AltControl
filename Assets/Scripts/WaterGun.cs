@@ -18,6 +18,10 @@ public class WaterGun : MonoBehaviour
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
+    [SerializeField] float _cursorHorizontalSpeed;
+    [SerializeField] float _cursorVerticalSpeed;
+    [SerializeField] float _deadZoneAngleVertical;
+    [SerializeField] float _deadZoneAngleHorizontal;
 
     [Header("Gun Values")]
     [SerializeField] float _firingDelay = 3;
@@ -57,10 +61,16 @@ public class WaterGun : MonoBehaviour
 
     void CalculateCursorPos()
     {
-        Vector3 mousePos = Mouse.current.position.ReadValue();
+        Vector3 cursorPos = _cursor.position;
+        float yaw = ArduinoInputReceiver.Instance._yaw;
+        float pitch = ArduinoInputReceiver.Instance._pitch;
+        yaw = CheckDeadZones(yaw, pitch)[0];
+        pitch = CheckDeadZones(yaw, pitch)[1];
+        cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
+        cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
 
         // clamp
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,mousePos, null, out Vector2 localPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,cursorPos, null, out Vector2 localPos);
         localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
         localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
@@ -160,7 +170,20 @@ public class WaterGun : MonoBehaviour
         _ballisticLine.enabled = show;
     }
 
-
+    private float[] CheckDeadZones(float yaw, float pitch)
+    {
+        if ((_deadZoneAngleVertical / 2) > yaw
+            && (-_deadZoneAngleVertical / 2) < yaw)
+        {
+            yaw = 0;
+        }
+        if ((_deadZoneAngleHorizontal / 2) > pitch
+            && (- _deadZoneAngleHorizontal / 2) < pitch)
+        {
+            pitch = 0;
+        }
+        return new float[] { yaw, pitch };
+    }
 
     #region Debug
     private void OnDrawGizmos()

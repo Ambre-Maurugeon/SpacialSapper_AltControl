@@ -1,7 +1,15 @@
 fileFormatVersion: 2
-guid: f13da2ee14a3b8348bff10580c6fd8c8
+guid: 4b71bd1d8aebcb3409220f04dba1fe4c
+timeCreated: 1461990741
+licenseType: Store
 DefaultImporter:
-  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123819
+  packageName: 'Ardity: Arduino + Unity communication made easy'
+  packageVersion: 1.1.0
+  assetPath: Assets/Ardity/Scenes/DemoScene_UserPoll_JustRead.unity
+  uploadId: 262010
