@@ -25,6 +25,9 @@ public class DragonController : MonoBehaviour
     private bool _canBreath = false;
     GameObject _planet;
 
+    // splines
+    SplineAnimate splineAnimate;
+
     #endregion
 
     private void Awake()
@@ -43,7 +46,8 @@ public class DragonController : MonoBehaviour
     {
         if (!_dragonMouth) _dragonMouth = GetComponent<Transform>();
 
-        GetComponent<SplineAnimate>().Duration = _lapDuration;
+        splineAnimate = GetComponent<SplineAnimate>();
+        splineAnimate.Duration = _lapDuration;
     }
 
     private IEnumerator StartBreathingBehaviour()
@@ -92,4 +96,15 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
+    public void FollowSpline(SplineContainer spline)
+    {
+        splineAnimate.Container = spline;
+        splineAnimate.Play();
+    }
+
+    // called by unity event on health component
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 }

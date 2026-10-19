@@ -684,6 +684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eefed5d0938c4f93762e64cc7554c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonManager
+  _dragonSplines: {fileID: 678251779}
+  _dragonParent: {fileID: 1650482916}
+  _dragonPrefab: {fileID: 3268471348325051146, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
 --- !u!1 &393189187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,12 +1416,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678251777}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.11597734, w: 0.9932519}
+  m_LocalRotation: {x: -0, y: -0, z: -0.11597734, w: 0.9932519}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.2, y: 3.2, z: 3.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1158202775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -13.32}
 --- !u!1 &812930792
 GameObject:
@@ -1820,6 +1823,38 @@ MonoBehaviour:
           m_StringArgument: "Plan\xE8te morte, end of game ?"
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1158202774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1158202775}
+  m_Layer: 0
+  m_Name: DragonSplines
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1158202775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158202774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 678251779}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167660945
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,6 +2779,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 591733242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1650482915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1650482916}
+  m_Layer: 0
+  m_Name: Dragons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1650482916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650482915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1906910597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2775,6 +2841,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2025352906
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.04743
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.41954
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 650818008058411339, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2050559308859555960, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
+      propertyPath: m_Name
+      value: ArduinoManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7896b71f455a31a40b7facf68e6b11eb, type: 3}
 --- !u!1 &2080220768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2935,10 @@ MonoBehaviour:
     m_Bits: 192
   _clampPosX: 600
   _clampPosY: 600
+  _cursorHorizontalSpeed: 0
+  _cursorVerticalSpeed: 0
+  _deadZoneAngleVertical: 0
+  _deadZoneAngleHorizontal: 0
   _firingDelay: 3
   _firingDuration: 20
   _waterRadius: 0.0625
@@ -3085,4 +3212,6 @@ SceneRoots:
   - {fileID: 1906910598}
   - {fileID: 1254307402}
   - {fileID: 7639308633090409455}
-  - {fileID: 678251779}
+  - {fileID: 2025352906}
+  - {fileID: 1650482916}
+  - {fileID: 1158202775}

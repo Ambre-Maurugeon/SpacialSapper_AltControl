@@ -22,6 +22,7 @@ public class FireManager : MonoBehaviour
 
     private void Awake()
     {
+        // -- INSTANCE --
         if (Instance != null && Instance != this)
         {
             Destroy(Instance);
@@ -29,6 +30,7 @@ public class FireManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        // -- INIT myself --
         Init();
     }
 
