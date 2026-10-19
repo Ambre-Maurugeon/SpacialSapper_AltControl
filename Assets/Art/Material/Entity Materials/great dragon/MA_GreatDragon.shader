@@ -5,8 +5,9 @@ Shader "MA_GreatDragon"
 	Properties
 	{
 		_TX_Papier( "TX_Papier", 2D ) = "white" {}
-		_TX_PapierNORMAL( "TX_PapierNORMAL", 2D ) = "white" {}
-		_normalscale( "normal scale", Float ) = 0.1
+		_Normalplasticscale( "Normal plastic scale", Float ) = 0.1
+		_TextureSample0( "Texture Sample 0", 2D ) = "white" {}
+		_reflective( "reflective", Float ) = 0
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -345,8 +346,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -380,7 +382,7 @@ Shader "MA_GreatDragon"
 			#endif
 
 			sampler2D _TX_Papier;
-			sampler2D _TX_PapierNORMAL;
+			sampler2D _TextureSample0;
 
 
 			
@@ -602,16 +604,16 @@ Shader "MA_GreatDragon"
 
 				float2 uv_TX_Papier = input.ase_texcoord7.xy * _TX_Papier_ST.xy + _TX_Papier_ST.zw;
 				
-				float2 uv_TX_PapierNORMAL = input.ase_texcoord7.xy * _TX_PapierNORMAL_ST.xy + _TX_PapierNORMAL_ST.zw;
-				float3 unpack15 = UnpackNormalScale( tex2D( _TX_PapierNORMAL, uv_TX_PapierNORMAL ), _normalscale );
-				unpack15.z = lerp( 1, unpack15.z, saturate(_normalscale) );
+				float2 uv_TextureSample0 = input.ase_texcoord7.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float3 unpack21 = UnpackNormalScale( float4( tex2D( _TextureSample0, uv_TextureSample0 ).rgb , 0.0 ), _Normalplasticscale );
+				unpack21.z = lerp( 1, unpack21.z, saturate(_Normalplasticscale) );
 				
 
 				float3 BaseColor = tex2D( _TX_Papier, uv_TX_Papier ).rgb;
-				float3 Normal = unpack15;
+				float3 Normal = unpack21;
 				float3 Specular = 0.5;
 				float Metallic = 0;
-				float Smoothness = 0.0;
+				float Smoothness = _reflective;
 				float Occlusion = 1;
 				float3 Emission = 0;
 				float Alpha = 1;
@@ -958,8 +960,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1263,8 +1266,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1541,8 +1545,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1826,8 +1831,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2113,8 +2119,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2147,7 +2154,7 @@ Shader "MA_GreatDragon"
 				int _PassValue;
 			#endif
 
-			sampler2D _TX_PapierNORMAL;
+			sampler2D _TextureSample0;
 
 
 			
@@ -2322,12 +2329,12 @@ Shader "MA_GreatDragon"
 					BitangentWS = cross(NormalWS, -TangentWS);
 				#endif
 
-				float2 uv_TX_PapierNORMAL = input.ase_texcoord3.xy * _TX_PapierNORMAL_ST.xy + _TX_PapierNORMAL_ST.zw;
-				float3 unpack15 = UnpackNormalScale( tex2D( _TX_PapierNORMAL, uv_TX_PapierNORMAL ), _normalscale );
-				unpack15.z = lerp( 1, unpack15.z, saturate(_normalscale) );
+				float2 uv_TextureSample0 = input.ase_texcoord3.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float3 unpack21 = UnpackNormalScale( float4( tex2D( _TextureSample0, uv_TextureSample0 ).rgb , 0.0 ), _Normalplasticscale );
+				unpack21.z = lerp( 1, unpack21.z, saturate(_Normalplasticscale) );
 				
 
-				float3 Normal = unpack15;
+				float3 Normal = unpack21;
 				float Alpha = 1;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
@@ -2536,8 +2543,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2571,7 +2579,7 @@ Shader "MA_GreatDragon"
 			#endif
 
 			sampler2D _TX_Papier;
-			sampler2D _TX_PapierNORMAL;
+			sampler2D _TextureSample0;
 
 
 			#if ( UNITY_VERSION >= 60010000 )
@@ -2790,16 +2798,16 @@ Shader "MA_GreatDragon"
 
 				float2 uv_TX_Papier = input.ase_texcoord7.xy * _TX_Papier_ST.xy + _TX_Papier_ST.zw;
 				
-				float2 uv_TX_PapierNORMAL = input.ase_texcoord7.xy * _TX_PapierNORMAL_ST.xy + _TX_PapierNORMAL_ST.zw;
-				float3 unpack15 = UnpackNormalScale( tex2D( _TX_PapierNORMAL, uv_TX_PapierNORMAL ), _normalscale );
-				unpack15.z = lerp( 1, unpack15.z, saturate(_normalscale) );
+				float2 uv_TextureSample0 = input.ase_texcoord7.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float3 unpack21 = UnpackNormalScale( float4( tex2D( _TextureSample0, uv_TextureSample0 ).rgb , 0.0 ), _Normalplasticscale );
+				unpack21.z = lerp( 1, unpack21.z, saturate(_Normalplasticscale) );
 				
 
 				float3 BaseColor = tex2D( _TX_Papier, uv_TX_Papier ).rgb;
-				float3 Normal = unpack15;
+				float3 Normal = unpack21;
 				float3 Specular = 0.5;
 				float Metallic = 0;
-				float Smoothness = 0.0;
+				float Smoothness = _reflective;
 				float Occlusion = 1;
 				float3 Emission = 0;
 				float Alpha = 1;
@@ -3021,8 +3029,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3298,8 +3307,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3588,8 +3598,9 @@ Shader "MA_GreatDragon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TX_Papier_ST;
-			float4 _TX_PapierNORMAL_ST;
-			float _normalscale;
+			float4 _TextureSample0_ST;
+			float _Normalplasticscale;
+			float _reflective;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3745,11 +3756,16 @@ Shader "MA_GreatDragon"
 
 /*ASEBEGIN
 Version=19909
-Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;12;-896,224;Inherit;True;Property;_TX_PapierNORMAL;TX_PapierNORMAL;1;0;Create;True;0;0;0;False;0;False;-1;46eb7b97261e8f04ead11f8e09c70652;6557f7a25306d6f42ae02f6afde3ae9a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;14;-592,336;Inherit;False;Property;_normalscale;normal scale;2;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.UnpackScaleNormalNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;15;-448,192;Inherit;False;Tangent;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;16;-208,96;Inherit;False;Constant;_Float0;Float 0;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;13;-528,-32;Inherit;True;Property;_TX_Papier;TX_Papier;0;0;Create;True;0;0;0;False;0;False;-1;36b8741ba6a384b4eb0bf8f0c9745cdc;e83c7616adcc89f4aa24ae028eaf9aa3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-741.6454,42.76508;Inherit;True;Property;_plasticnormal;plasticnormal;3;0;Create;True;0;0;0;False;0;False;-1;b807ed78a6370284f91a360cf3d8e9f5;b807ed78a6370284f91a360cf3d8e9f5;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;12;-992,304;Inherit;True;Property;_TX_PapierNORMAL;TX_PapierNORMAL;1;0;Create;True;0;0;0;False;0;False;-1;46eb7b97261e8f04ead11f8e09c70652;6557f7a25306d6f42ae02f6afde3ae9a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;16;-208,96;Inherit;False;Property;_reflective;reflective;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.BlendNormalsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;18;-448,320;Inherit;False;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;14;-896,224;Inherit;False;Constant;_normalpapierscale;normal papier scale;2;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.UnpackScaleNormalNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;15;-672,304;Inherit;False;Tangent;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;19;-768,528;Inherit;True;Property;_TextureSample0;Texture Sample 0;4;0;Create;True;0;0;0;False;0;False;-1;b807ed78a6370284f91a360cf3d8e9f5;b807ed78a6370284f91a360cf3d8e9f5;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.UnpackScaleNormalNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;21;-448,480;Inherit;False;Tangent;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;20;-688,480;Inherit;False;Property;_Normalplasticscale;Normal plastic scale;2;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;1;0,0;Float;False;True;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;MA_GreatDragon;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;51;Category;0;0;  Instanced Terrain Normals;1;0;Lighting Model;0;0;Workflow;1;0;Surface;0;0;  Keep Alpha;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;0;639277564570876752;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Fragment Normal Space;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;Receive Shadows;2;0;Specular Highlights;2;0;Environment Reflections;2;0;Receive SSAO;1;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;  XR Motion Vectors;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position;1;0;Debug Display;1;0;Clear Coat;0;0;0;12;False;True;True;True;True;True;True;True;True;True;True;False;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -3762,10 +3778,14 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Versi
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;9;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;10;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;MotionVectors;0;10;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;False;False;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;11;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;XRMotionVectors;0;11;XRMotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;True;1;False;;255;False;;1;False;;7;False;;3;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;False;True;1;LightMode=XRMotionVectors;False;False;0;;0;0;Standard;0;False;0
-WireConnection;15;0;12;0
+WireConnection;18;0;15;0
+WireConnection;18;1;21;0
+WireConnection;15;0;12;5
 WireConnection;15;1;14;0
+WireConnection;21;0;19;5
+WireConnection;21;1;20;0
 WireConnection;1;0;13;5
-WireConnection;1;1;15;0
+WireConnection;1;1;21;0
 WireConnection;1;4;16;0
 ASEEND*/
-//CHKSM=375647388E6D279A450B27DD6F9D70B447A8708F
+//CHKSM=7B36E6A78148A888A1D81F700BE6141FC8645986
