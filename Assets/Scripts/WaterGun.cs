@@ -3,8 +3,6 @@ using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.UI;
 
 public class WaterGun : MonoBehaviour
 {
@@ -30,6 +28,11 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _waterRadius = 0.1f;
     [SerializeField] float _firingDistance = 2f;
 
+    // For water vfx
+    private float _maxDistance = 20; // 20 for now
+    private float _currentDistance = 0;
+    private float _placement = 0;// public for vfx
+
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
     [SerializeField] float _damageFrequency = 2f;
@@ -39,14 +42,18 @@ public class WaterGun : MonoBehaviour
     RaycastHit hit; // DEBUG
 
     #region Main
+    private void Awake()
+    {
+        InitMyself();
+    }
 
     private void Start()
     {
-        // link inputs
-        PlayerController.OnReload += OnReload;
+        InitWithOthers();
 
-        //
+        // move in ui manager
         HideMouseCursor();
+
     }
 
     private void Update()
@@ -55,6 +62,21 @@ public class WaterGun : MonoBehaviour
     }
     #endregion
 
+    #region Init
+
+    private void InitMyself()
+    {
+        _maxDistance = _firingDistance; //Init Water Vfx ( _maxDistance useless but for test)
+    }
+    private void InitWithOthers()
+    {
+        // link inputs
+        PlayerController.OnReload += OnReload;
+    }
+
+    #endregion
+
+    // move to ui manager script ?
     void HideMouseCursor()
     {
         Cursor.visible = false;
@@ -174,6 +196,11 @@ public class WaterGun : MonoBehaviour
         _ballisticLine.SetPosition(0, _barrel.position);
         _ballisticLine.SetPosition(_ballisticLine.positionCount - 1, destination);
 
+        // Update Water Vfx Placement 
+        //UpdateWaterVfxPlacement();
+        _currentDistance = (_barrel.position - destination).magnitude;
+        _placement = Mathf.Clamp(_currentDistance / _maxDistance, 0,1); // current distance between start and end pos, percent
+
         // Visuals
         ShowTrajectory(true);
     }
@@ -182,6 +209,13 @@ public class WaterGun : MonoBehaviour
     {
         _ballisticLine.enabled = show;
     }
+
+    
+    //private void UpdateWaterVfxPlacement()
+    //{
+
+        
+    //}
 
     private float[] CheckDeadZones(float yaw, float pitch)
     {
