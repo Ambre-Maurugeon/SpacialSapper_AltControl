@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 93306ce5b5380f64d83ef35437a7ff5d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _T_dentelle: {fileID: 2800000, guid: 41a0c5ace07c4b9438320c61e3e8deb9, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
