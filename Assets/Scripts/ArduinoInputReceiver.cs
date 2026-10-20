@@ -4,13 +4,19 @@ using static UnityEngine.Mathf;
 
 public class ArduinoInputReceiver : MonoBehaviour
 {
+#region Fields
     public static ArduinoInputReceiver Instance {get; private set;}
-
     public float _yaw {get; private set;}
     public float _pitch {get; private set;}
-    
-    public ENCODERTYPE EncoderValue {get; private set;}
-    
+    public ENCODERTYPE Encoder1Value {get; private set;}
+    public ENCODERTYPE Encoder2Value {get; private set;}
+#endregion
+
+#region DebugTools
+
+    public bool UseKeyboard;
+
+#endregion
     private void Awake() 
     { 
         if (Instance != null && Instance != this) 
@@ -28,27 +34,44 @@ public class ArduinoInputReceiver : MonoBehaviour
     public void OnMessageArrived(string message)
     {
         var splitMessage = message.Split(':');
-        if (splitMessage.Length != 3) return;
+        if (splitMessage.Length < 2) return;
         _yaw = int.Parse(splitMessage[0]);
         _pitch = int.Parse(splitMessage[1]);
         if (_yaw >= 180) _yaw = 0f;
         _yaw -= 45;
         _pitch -= 15;
+        if (splitMessage.Length != 4) return;
         switch (splitMessage[2])
         {
             case "+":
-                EncoderValue = ENCODERTYPE.POSITIVE;
+                Encoder1Value = ENCODERTYPE.POSITIVE;
                 break;
             case "-":
-                EncoderValue = ENCODERTYPE.NEGATIVE;
+                Debug.Log("Encoder 1 Negative");
+                Encoder1Value = ENCODERTYPE.NEGATIVE;
                 break;
             case "=":
-                EncoderValue = ENCODERTYPE.NEUTRAL;
+                Encoder1Value = ENCODERTYPE.NEUTRAL;
                 break;
             default:
-                EncoderValue = ENCODERTYPE.NEUTRAL;
+                Encoder1Value = ENCODERTYPE.NEUTRAL;
                 break;
-         }
+        }
+        switch (splitMessage[3])
+        {
+            case "+":
+                Encoder2Value = ENCODERTYPE.POSITIVE;
+                break;
+            case "-":
+                Encoder2Value = ENCODERTYPE.NEGATIVE;
+                break;
+            case "=":
+                Encoder2Value = ENCODERTYPE.NEUTRAL;
+                break;
+            default:
+                Encoder2Value = ENCODERTYPE.NEUTRAL;
+                break;
+        }
 
     }
     

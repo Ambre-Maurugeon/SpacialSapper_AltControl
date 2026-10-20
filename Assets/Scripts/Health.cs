@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,10 +9,13 @@ public class Health : MonoBehaviour
 
     [SerializeField] int _initHealth = 100;
     [SerializeField] TYPE _weakness = TYPE.NONE;
-    [SerializeField] UnityEvent _onDie;
 
     private int _health;
     public TYPE Weakness => _weakness;
+    public int MyHealth => _health;
+
+    public event Action<int> OnDamage;
+    public event Action OnDie;
 
     #endregion Fields
 
@@ -38,8 +42,10 @@ public class Health : MonoBehaviour
         if (_health == 0)
         {
             Debug.Log("He t'es mort tdc");
-            _onDie?.Invoke();
+            OnDie?.Invoke();
         }
+
+        OnDamage?.Invoke(dmg);
     }
 
     public void Heal(int heal)
@@ -53,8 +59,8 @@ public class Health : MonoBehaviour
         // UpdateVisuals();
     }
 
-    private void UpdateVisuals()
-    {
+    //private void UpdateVisuals()
+    //{
 
-    }
+    //}
 }

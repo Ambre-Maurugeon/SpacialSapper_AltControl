@@ -12,3 +12,10 @@ public enum ENCODERTYPE
     NEUTRAL = 0,
     POSITIVE = 1,
 }
+
+public enum OBSTACLE
+{
+    NONE = 0,
+    DRAGON = 1,
+    METEORITE = 2,
+}
