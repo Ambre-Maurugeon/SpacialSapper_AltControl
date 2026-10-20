@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineAnimate
   m_Target: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_LoopMode: 1
   m_Method: 0
   m_Duration: 5
@@ -130,6 +130,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   _initHealth: 100
+  _weakness: 1
+  _onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6696157471731975525}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6696157471731975525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +161,7 @@ MonoBehaviour:
   _dragonMouth: {fileID: 0}
   _layerToBreathOn:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _lapDuration: 10
   _breathingDelay: 7
   _breathingDuration: 4

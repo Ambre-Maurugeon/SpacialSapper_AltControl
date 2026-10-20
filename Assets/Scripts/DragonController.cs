@@ -25,26 +25,47 @@ public class DragonController : MonoBehaviour
     private bool _canBreath = false;
     GameObject _planet;
 
+    // splines
+    SplineAnimate splineAnimate;
+
     #endregion
 
+    #region Main
     private void Awake()
     {
-        Init();
+        InitMySelf();
     }
     private void Start()
     {
-        _planet = GameObject.FindGameObjectWithTag("Planet");
+        InitWithOthers();
 
         // launch dragon breathing loop at start
         StartCoroutine("StartBreathingBehaviour");
     }
+    #endregion
 
-    private void Init()
+    #region Init
+    private void InitMySelf()
     {
         if (!_dragonMouth) _dragonMouth = GetComponent<Transform>();
 
-        GetComponent<SplineAnimate>().Duration = _lapDuration;
+        splineAnimate = GetComponent<SplineAnimate>();
     }
+
+    private void InitWithOthers()
+    {
+        // planet
+        _planet = GameObject.FindGameObjectWithTag("Planet");
+
+        // spline
+        splineAnimate.Duration = _lapDuration;
+
+        // health
+        GetComponent<Health>().OnDie += OnDie;
+        GetComponent<Health>().OnDamage += OnDamage;
+    }
+    #endregion
+
 
     private IEnumerator StartBreathingBehaviour()
     {
@@ -92,4 +113,21 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
+    public void FollowSpline(SplineContainer spline)
+    {
+        splineAnimate.Container = spline;
+        splineAnimate.Play();
+    }
+
+    // broadcast in health component
+    private void OnDamage(int dmg)
+    {
+       
+    }
+
+    // broadcast in health component
+    private void OnDie()
+    {
+        Destroy(gameObject);
+    }
 }

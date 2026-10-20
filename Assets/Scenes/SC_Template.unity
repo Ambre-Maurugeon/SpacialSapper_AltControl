@@ -354,6 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eefed5d0938c4f93762e64cc7554c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonManager
+  _dragonSplines: {fileID: 1417225233}
+  _dragonParent: {fileID: 1265868242}
+  _dragonPrefab: {fileID: 3268471348325051146, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
 --- !u!1 &400445273
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,11 +545,13 @@ Transform:
   m_GameObject: {fileID: 637986523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.82116, y: -0.13579, z: -0.54289}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1387911855}
+  - {fileID: 1265868242}
+  - {fileID: 1417225233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &812930792
@@ -914,6 +919,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1265868241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1265868242}
+  m_Layer: 0
+  m_Name: P_Dragons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1265868242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265868241}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.82116, y: 0.13579, z: 0.54289}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 637986524}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1387911850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,9 +1188,40 @@ Transform:
   m_GameObject: {fileID: 1387911850}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.82116, y: 0.13579, z: 0.54289}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 637986524}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1417225232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1417225233}
+  m_Layer: 0
+  m_Name: P_DragonSplines
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1417225233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417225232}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 637986524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1269,6 +1336,10 @@ MonoBehaviour:
     m_Bits: 128
   _clampPosX: 600
   _clampPosY: 400
+  _cursorHorizontalSpeed: 0
+  _cursorVerticalSpeed: 0
+  _deadZoneAngleVertical: 0
+  _deadZoneAngleHorizontal: 0
   _firingDelay: 3
   _firingDuration: 20
   _waterRadius: 0.1
@@ -1337,9 +1408,6 @@ MonoBehaviour:
   _planetMesh: {fileID: 4042261169236928297}
   _firePrefab: {fileID: 3586437821756696723, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
   _fireParent: {fileID: 441884914}
-  _fireDamageable:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &2119650450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,6 +1708,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   _initHealth: 100
+  _weakness: 0
+  _onDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!33 &4042261169236928297
 MeshFilter:
   m_ObjectHideFlags: 0

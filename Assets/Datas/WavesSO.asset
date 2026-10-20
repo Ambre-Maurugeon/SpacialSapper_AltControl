@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e0c6e3e3d7c58409cd83c34b98c367, type: 3}
+  m_Name: WavesSO
+  m_EditorClassIdentifier: Assembly-CSharp::WavesSO
+  waves:
+  - name: Wave 01
+    id: 
+    obstacles:
+    - type: 1
+      id: 
+      time: 0
+    - type: 2
+      id: M_A
+      time: 10
+  - name: Wave 02
+    id: 
+    obstacles:
+    - type: 2
+      id: M_B
+      time: 0
+    - type: 2
+      id: M_C
+      time: 5

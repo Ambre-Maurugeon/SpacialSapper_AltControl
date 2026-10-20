@@ -8,10 +8,12 @@ public class FireManager : MonoBehaviour
 {
     #region Fields
 
-    [Header("References")]
-    [SerializeField] MeshFilter _planetMesh;
-    [SerializeField] GameObject _firePrefab;
-    [SerializeField] Transform _fireParent;
+    [Header("Planet")]
+    [Foldout("References")][SerializeField] MeshFilter _planetMesh;
+
+    [Header("Fire")]
+    [Foldout("References")][SerializeField] GameObject _firePrefab;
+    [Foldout("References")][SerializeField] Transform _fireParent;
 
     Transform _planet;
     Vector3[] _vertices;
@@ -22,6 +24,7 @@ public class FireManager : MonoBehaviour
 
     private void Awake()
     {
+        // -- INSTANCE --
         if (Instance != null && Instance != this)
         {
             Destroy(Instance);
@@ -29,6 +32,7 @@ public class FireManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        // -- INIT myself --
         Init();
     }
 
@@ -56,7 +60,7 @@ public class FireManager : MonoBehaviour
         SpawnFire(position);
     }
 
-    public void SpawnFire(Vector3 position)
+    private void SpawnFire(Vector3 position)
     {
         // spawn fire on planet at an accurate rotation
         Quaternion lookRot = GetLookRotation(position);
@@ -88,6 +92,7 @@ public class FireManager : MonoBehaviour
         SpawnFire(nearbyPos);
     }
 
+    // call in global geometry/maths script
     private Quaternion GetLookRotation(Vector3 position)
     {
         Vector3 dir = (position - _planet.position).normalized;
