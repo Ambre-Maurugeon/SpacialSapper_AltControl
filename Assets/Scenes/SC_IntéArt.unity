@@ -1677,6 +1677,10 @@ PrefabInstance:
       propertyPath: _fireParent
       value: 
       objectReference: {fileID: 2064916417}
+    - target: {fileID: 8666257277069196598, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: baudRate
+      value: 115200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
