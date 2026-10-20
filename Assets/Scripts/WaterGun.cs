@@ -17,8 +17,10 @@ public class WaterGun : MonoBehaviour
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
+    [Space(5)]
     [SerializeField] float _cursorHorizontalSpeed;
     [SerializeField] float _cursorVerticalSpeed;
+    [Space(5)]
     [SerializeField] float _deadZoneAngleVertical;
     [SerializeField] float _deadZoneAngleHorizontal;
 

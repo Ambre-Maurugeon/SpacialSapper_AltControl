@@ -9,19 +9,21 @@ public class Controls : MonoBehaviour
     [SerializeField] Transform _horizontalTransform;
     [SerializeField] Transform _verticalTransform;
 
-    [SerializeField] Transform _planet;
     [SerializeField] GameObject _player;
     [SerializeField] Transform _ancre;
 
     [Header("Values")]
     [SerializeField] float _horizontalSpeed = 50f;
     [SerializeField] float _verticalSpeed = 50f;
+
+    Transform _planet;
     #endregion
 
     #region Main
 
-    private void Awake()
+    private void Start()
     {
+        InitWithOthers();
         InitAxisPos();
     }
 
@@ -32,6 +34,10 @@ public class Controls : MonoBehaviour
     }
     #endregion
 
+    private void InitWithOthers()
+    {
+        _planet = GameObject.FindGameObjectWithTag("Planet").transform;
+    }
     private void InitAxisPos()
     {
         _horizontalTransform.position = _planet.position;
@@ -84,19 +90,11 @@ public class Controls : MonoBehaviour
 
         _player.transform.position = _ancre.position;
 
-        // look at planet
-        Quaternion lookRot = GetLookRotation();
+        // player looks planet
+        Quaternion lookRot = GeometryUtils.GetLookRotation(_player.transform.position, _planet.position);
         //Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
         //_player.transform.rotation = Quaternion.Euler(test);
         _player.transform.rotation = lookRot;
-    }
-
-    private Quaternion GetLookRotation()
-    {
-        Vector3 dir = _planet.position - _player.transform.position ;
-        Quaternion lookRot = Quaternion.LookRotation(dir);
-
-        return lookRot;
     }
 
 }

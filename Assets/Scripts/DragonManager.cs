@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
@@ -40,13 +40,16 @@ public class DragonManager : MonoBehaviour
     {
         // assign all splines in children to splines field
         splines = _dragonSplines.GetComponentsInChildren<SplineContainer>();
+
+        if (splines == null)
+            Debug.LogError("No spline in dragonSplines children found.");
     }
 
     [Button]
     public void SpawnDragonOnRdSpline()
     {
         // get random spline in dragon splines
-        int r = Random.Range(0, splines.Count()-1);
+        int r = UnityEngine.Random.Range(0, splines.Count()-1);
         SplineContainer mySpline = splines[r];
 
         // spawn dragon at first knot pos of my spline

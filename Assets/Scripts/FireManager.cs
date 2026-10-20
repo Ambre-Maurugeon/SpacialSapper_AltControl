@@ -8,9 +8,6 @@ public class FireManager : MonoBehaviour
 {
     #region Fields
 
-    [Header("Planet")]
-    [Foldout("References")][SerializeField] MeshFilter _planetMesh;
-
     [Header("Fire")]
     [Foldout("References")][SerializeField] GameObject _firePrefab;
     [Foldout("References")][SerializeField] Transform _fireParent;
@@ -31,15 +28,18 @@ public class FireManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        // -- INIT myself --
-        Init();
     }
 
-    private void Init()
+    private void Start()
     {
-        _planet = _planetMesh.transform;
-        _vertices = _planetMesh.mesh.vertices;
+        InitWithOthers();
+    }
+
+    private void InitWithOthers()
+    {
+        // register planet vertices
+        _planet = GameObject.FindGameObjectWithTag("Planet").transform;
+        _vertices = _planet.GetComponent<MeshFilter>()?.mesh.vertices;
     }
 
     [Button]
@@ -63,7 +63,7 @@ public class FireManager : MonoBehaviour
     private void SpawnFire(Vector3 position)
     {
         // spawn fire on planet at an accurate rotation
-        Quaternion lookRot = GetLookRotation(position);
+        Quaternion lookRot = GeometryUtils.GetLookRotation(_planet.position,position);
 
         Instantiate(_firePrefab, position, lookRot, _fireParent);
     }
@@ -79,9 +79,6 @@ public class FireManager : MonoBehaviour
         var posQuery = _vertices.Select(pos => _planet.TransformPoint(pos)) // convert vertice local transform to world transform (pos / rot / scale)
                                 .Where(pos => (pos - target).sqrMagnitude <= radius * radius); // select if new world pos is in a X-radius sphere
 
-        // -- DEBUG --
-        //Debug.Log(posQuery.Count() + " count pos");
-
         // update nearbyPos with a rd vertices in the sphere
         if (posQuery.Count() > 0)
         {
@@ -90,14 +87,5 @@ public class FireManager : MonoBehaviour
         }
             
         SpawnFire(nearbyPos);
-    }
-
-    // call in global geometry/maths script
-    private Quaternion GetLookRotation(Vector3 position)
-    {
-        Vector3 dir = (position - _planet.position).normalized;
-        Quaternion lookRot = Quaternion.LookRotation(dir);
-
-        return lookRot;
     }
 }
