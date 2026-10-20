@@ -16,12 +16,12 @@ MonoBehaviour:
   - name: Wave 01
     id: 
     obstacles:
-    - type: 1
-      id: 
-      time: 0
     - type: 2
       id: M_A
-      time: 10
+      time: 0
+    - type: 1
+      id: 
+      time: 6
   - name: Wave 02
     id: 
     obstacles:

@@ -16,9 +16,9 @@ MonoBehaviour:
   - name: Meteorite A
     id: M_A
     prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
-    speed: 5
+    speed: 30
     flames: 3
-    radius: 0.5
+    radius: 6
   - name: Meteorite B
     id: M_B
     prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
