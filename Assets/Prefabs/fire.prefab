@@ -146,6 +146,6 @@ MonoBehaviour:
   _fireDamageable:
     serializedVersion: 2
     m_Bits: 768
-  _dmgRadius: 0.075
+  _dmgRadius: 0.8
   _yellowMat: {fileID: -6478536213147159724, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
   _redMat: {fileID: 4874126678125670354, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
