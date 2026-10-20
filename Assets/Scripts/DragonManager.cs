@@ -51,6 +51,7 @@ public class DragonManager : MonoBehaviour
         // get random spline in dragon splines
         int r = UnityEngine.Random.Range(0, splines.Count()-1);
         SplineContainer mySpline = splines[r];
+        DragonSplineController splineController = mySpline.gameObject.GetComponent<DragonSplineController>();
 
         // spawn dragon at first knot pos of my spline
         Vector3 firstKnotPos = mySpline.Spline.ToArray()[0].Position;
@@ -58,7 +59,7 @@ public class DragonManager : MonoBehaviour
 
         // dragon starts follow my spline 
         if(dragon.TryGetComponent<DragonController>(out var controller))
-            controller.FollowSpline(mySpline);
+            controller.FollowSpline(mySpline,splineController.lapDuration);
     }
 
     private void SpawnDragon(Vector3 position, out GameObject dragon)

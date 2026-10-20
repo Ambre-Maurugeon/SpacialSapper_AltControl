@@ -15,7 +15,11 @@ public class ArduinoListener : MonoBehaviour
     [SerializeField] Slider _sliderPitch;
     [SerializeField] Slider _sliderEncoder1;
     [SerializeField] Slider _sliderEncoder2;
+    [SerializeField] Slider _sliderBtn;
 
+    private bool IsButtonOn = false;
+    private bool WasButtonOn = false;
+    
     
     private bool IsInDeadZone = false;
     private void Start()
@@ -79,8 +83,10 @@ public class ArduinoListener : MonoBehaviour
     }
     public void OnMessageArrived(string message)
     {
+        Debug.Log(message);
         var splitMessage = message.Split(':');
         if (splitMessage.Length is < 2) return;
+        IsButtonOn = splitMessage[^1] == "1";
         //Debug.Log(splitMessage[0]); // se clamp entre 230 et 320 ???
         float yawValue = int.Parse(splitMessage[0]);
         float pitchValue = int.Parse(splitMessage[1]);
@@ -89,7 +95,7 @@ public class ArduinoListener : MonoBehaviour
         pitchValue = CheckForDeadZone(yawValue, pitchValue)[1];
         yawValue = Clamp(yawValue, _sliderYaw.minValue, _sliderYaw.maxValue);
         pitchValue = Clamp(pitchValue, _sliderPitch.minValue, _sliderPitch.maxValue);
-        Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
+        //Debug.Log("yaw : " + yawValue + "  |  pitch : " + pitchValue);
         _sliderYaw.value = yawValue;
         _sliderPitch.value = pitchValue;
         if (splitMessage.Length > 2)
@@ -103,6 +109,15 @@ public class ArduinoListener : MonoBehaviour
             else if (Encoder2ValueModifier == "-") _sliderEncoder2.value--; 
             //Debug.Log("EncoderValueModifier : " + Encoder1ValueModifier);
         }
+
+        if (IsButtonOn && !WasButtonOn)
+        {
+            _sliderBtn.value = 1;
+            Debug.Log("button on");
+        }
+        
+        
+        WasButtonOn = IsButtonOn;
     }
     
     
