@@ -11,6 +11,9 @@ public class Controls : MonoBehaviour
 
     [SerializeField] GameObject _player;
     [SerializeField] Transform _ancre;
+    [SerializeField] Transform _playerTest;
+
+    [SerializeField] Transform _ancreTest;
 
     [Header("Values")]
     [SerializeField] float _horizontalSpeed = 50f;
@@ -69,6 +72,20 @@ public class Controls : MonoBehaviour
             float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
             _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
             _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
+
+            ////
+            //float y1 = PlayerController.MoveVector.x * _horizontalSpeed * Time.deltaTime;
+            //float z1 =  PlayerController.MoveVector.y * _verticalSpeed * Time.deltaTime;
+            ////_playerTest.localEulerAngles = r(_playerTest.rotation.x, y1, z1);
+            _playerTest.Rotate(Vector3.right, PlayerController.MoveVector.y * 2 , Space.Self);
+            _playerTest.Rotate(Vector3.up, PlayerController.MoveVector.x * 2 * -1, Space.Self);
+
+            //float myAngle = Mathf.Atan2(y1, z1) * Mathf.Rad2Deg;
+            //float bodyRotation = myAngle + _playerTest.transform.eulerAngles.y;
+
+            ////apply the change to the gameObject
+            ////_playerTest.localEulerAngles = new Vector3(_playerTest.localEulerAngles.x, y1, z1);
+            //_playerTest.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, bodyRotation, z1);
         }
         else
         {
