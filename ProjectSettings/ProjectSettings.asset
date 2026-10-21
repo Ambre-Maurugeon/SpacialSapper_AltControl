@@ -827,7 +827,11 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Standalone: AMPLIFY_SHADER_EDITOR
+    Android: CROSS_PLATFORM_INPUT;MOBILE_INPUT
+    Standalone: AMPLIFY_SHADER_EDITOR;CROSS_PLATFORM_INPUT
+    WebGL: CROSS_PLATFORM_INPUT
+    Windows Store Apps: CROSS_PLATFORM_INPUT;MOBILE_INPUT
+    iPhone: CROSS_PLATFORM_INPUT;MOBILE_INPUT
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
