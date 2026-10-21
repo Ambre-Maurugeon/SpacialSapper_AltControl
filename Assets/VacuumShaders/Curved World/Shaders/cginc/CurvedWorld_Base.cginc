@@ -4,7 +4,7 @@
 #include "UnityCG.cginc"
  
 
-/*DO NOT DELETE - CURVED WORLD BEND TYPE*/ #define BENDTYPE_CLASSIC_RUNNER_AXIS_Z_POSITIVE
+/*DO NOT DELETE - CURVED WORLD BEND TYPE*/ #define BENDTYPE_LITTLE_PLANET
 
 ////////////////////////////////////////////////////////////////////////////
 //																		  //
