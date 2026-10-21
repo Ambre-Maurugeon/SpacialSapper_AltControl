@@ -16,18 +16,96 @@ MonoBehaviour:
   - name: Wave 01
     id: 
     obstacles:
+    - type: 2
+      id: M_A
+      time: 3
+    - type: 2
+      id: M_B
+      time: 15
+    - type: 2
+      id: M_C
+      time: 23
+  - name: Wave 02
+    id: 
+    obstacles:
     - type: 1
       id: 
       time: 0
     - type: 2
-      id: M_A
-      time: 10
-  - name: Wave 02
+      id: M_B
+      time: 20
+    - type: 2
+      id: M_B
+      time: 20
+  - name: Wave 03
     id: 
     obstacles:
     - type: 2
-      id: M_B
+      id: M_C
+      time: 0
+    - type: 2
+      id: M_A
+      time: 12
+    - type: 2
+      id: M_A
+      time: 20
+    - type: 2
+      id: M_A
+      time: 28
+    - type: 2
+      id: M_A
+      time: 36
+  - name: Wave 04
+    id: 
+    obstacles:
+    - type: 1
+      id: 
+      time: 2
+    - type: 1
+      id: 
+      time: 17
+    - type: 1
+      id: 
+      time: 32
+  - name: Wave End
+    id: 
+    obstacles:
+    - type: 1
+      id: 
       time: 0
     - type: 2
       id: M_C
-      time: 5
+      time: 6
+    - type: 2
+      id: M_C
+      time: 6
+    - type: 1
+      id: 
+      time: 12
+    - type: 2
+      id: M_B
+      time: 18
+    - type: 2
+      id: M_B
+      time: 18
+    - type: 2
+      id: M_B
+      time: 18
+    - type: 1
+      id: 
+      time: 24
+    - type: 2
+      id: M_A
+      time: 30
+    - type: 2
+      id: M_A
+      time: 30
+    - type: 2
+      id: M_A
+      time: 30
+    - type: 2
+      id: M_A
+      time: 30
+    - type: 2
+      id: M_A
+      time: 30
