@@ -28,6 +28,11 @@ public class FireController : MonoBehaviour
     [SerializeField] private Material _redMat;
     MeshRenderer myMesh; // only change mat for now when switching when changing the fire type
 
+    [Header("Art")]
+    [SerializeField] private ParticleSystem _deathPS;
+    [SerializeField] private ParticleSystem _damagePS;
+    [SerializeField] private GameObject _fireVFX;
+
     #endregion
 
     #region Main
@@ -120,13 +125,18 @@ public class FireController : MonoBehaviour
         }
     }
 
+
     private void OnDie()
     {
-        Destroy(gameObject);
+        //_deathVFX.SetActive(true);
+        _fireVFX.SetActive(false);
+        _deathPS?.Play();
+        Destroy(gameObject,2); // hard code time for now
     }
 
     private void OnDamage(int dmg)
     {
+        _damagePS?.Play();
     }
 
     #region Debug
