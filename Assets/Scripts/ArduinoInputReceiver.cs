@@ -40,14 +40,13 @@ public class ArduinoInputReceiver : MonoBehaviour
         if (_yaw >= 180) _yaw = 0f;
         _yaw -= 45;
         _pitch -= 15;
-        if (splitMessage.Length != 4) return;
+        if (splitMessage.Length != 5) return;
         switch (splitMessage[2])
         {
             case "+":
                 Encoder1Value = ENCODERTYPE.POSITIVE;
                 break;
             case "-":
-                Debug.Log("Encoder 1 Negative");
                 Encoder1Value = ENCODERTYPE.NEGATIVE;
                 break;
             case "=":
@@ -72,6 +71,7 @@ public class ArduinoInputReceiver : MonoBehaviour
                 Encoder2Value = ENCODERTYPE.NEUTRAL;
                 break;
         }
+        Debug.Log(splitMessage[4] == "1" ? "Button pressed" : "");
 
     }
     
