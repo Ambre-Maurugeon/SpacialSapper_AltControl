@@ -15,7 +15,7 @@ public class Controls : MonoBehaviour
 
     [Header("Speed")]
 
-    [SerializeField] float _maxSpeed = 5; // for both axes
+    [SerializeField] float _maxSpeed = 2; // for both axes
     [SerializeField] float _acceleration = 1f;
     [SerializeField] float _deceleration = 1f;
 

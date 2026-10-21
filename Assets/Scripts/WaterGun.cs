@@ -283,9 +283,12 @@ public class WaterGun : MonoBehaviour
     {
         Gizmos.color = Color.green;
 
-        Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
-        Vector3 destination = ray.GetPoint(_firingDistance);
-        Gizmos.DrawSphere(destination, _waterRadius);
+        if (_cursor != null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
+            Vector3 destination = ray.GetPoint(_firingDistance);
+            Gizmos.DrawSphere(destination, _waterRadius);
+        }
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(_hit.point, _waterRadius);
