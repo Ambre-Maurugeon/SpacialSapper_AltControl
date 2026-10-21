@@ -211,7 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6587899465772882989}
   m_Layer: 0
-  m_Name: Barrel
+  m_Name: BarrelAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ Transform:
   m_GameObject: {fileID: 1356330685770406790}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.54}
+  m_LocalPosition: {x: 0, y: -1.55, z: 3.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305491bbca528bc488b8c58bbc70af48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Controls
-  _horizontalTransform: {fileID: 3779024579896472852}
+  _horizontalTransform: {fileID: 815876417387711162}
   _verticalTransform: {fileID: 9206921165455544182}
   _player: {fileID: 1859797442456142450}
   _ancre: {fileID: 7631764672880786041}
@@ -1094,8 +1094,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986870750455528387}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.08329, y: 0.35753, z: -0.93018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1114,10 +1114,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterGun
   _cursor: {fileID: 0}
-  _barrelAnchor: {fileID: 0}
-  _barrel: {fileID: 6587899465772882989}
+  _barrelAnchor: {fileID: 6587899465772882989}
+  _barrel: {fileID: 7440848651717610638}
   _ballisticLine: {fileID: 8018762882676379109}
-  _waterRenderer: {fileID: 0}
+  _waterRenderer: {fileID: 908668131522182944}
   _waterDamageable:
     serializedVersion: 2
     m_Bits: 192
@@ -1129,10 +1129,10 @@ MonoBehaviour:
   _deadZoneAngleHorizontal: 0
   _firingDelay: 3
   _firingDuration: 20
-  _waterRadius: 1
-  _firingDistance: 2
+  _waterRadius: 2
+  _firingDistance: 100
   _waterDamage: 10
-  _damageFrequency: 2
+  _damageFrequency: 0.5
 --- !u!1 &7272715865509011125
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,6 +1496,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7eb1d4335d23b344b0820ebc864a900, type: 3}
+--- !u!23 &908668131522182944 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: f7eb1d4335d23b344b0820ebc864a900, type: 3}
+  m_PrefabInstance: {fileID: 1971918545738163108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2078147367823410255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f7eb1d4335d23b344b0820ebc864a900, type: 3}
