@@ -47,6 +47,7 @@ MonoBehaviour:
   _meteoriteDbMgr: {fileID: 11400000, guid: e74558f27d55dc84eba91813d4e3d769, type: 2}
   _meteoriteParent: {fileID: 0}
   _meteoriteDistance: 100
+  _safeAngle: 40
   _idMeteoriteX: M_A
 --- !u!1 &2938327394333405023
 GameObject:
@@ -92,7 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b883fd203e0e1e42800e4e3b125d55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireManager
-  _planetMesh: {fileID: 0}
   _firePrefab: {fileID: 3586437821756696723, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
   _fireParent: {fileID: 0}
 --- !u!1 &3257719193012462265
@@ -142,6 +142,56 @@ MonoBehaviour:
   _dragonSplines: {fileID: 0}
   _dragonParent: {fileID: 0}
   _dragonPrefab: {fileID: 3268471348325051146, guid: 826e8f22b6bb60943824f858dfa2be99, type: 3}
+--- !u!1 &5049467110069953027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4177969163833751664}
+  - component: {fileID: 5218302637916061037}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4177969163833751664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049467110069953027}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8088520491964758915}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5218302637916061037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049467110069953027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f12b38dadb5be14e96dc547b833bd35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  sfxSource: {fileID: 0}
+  musicSource: {fileID: 0}
+  sounds:
+  - soundType: 0
+    clip: {fileID: 0}
+    volume: 0
 --- !u!1 &5054888964830415694
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +226,7 @@ Transform:
   - {fileID: 5591134835017126517}
   - {fileID: 8348723766714635781}
   - {fileID: 2495248639440406926}
+  - {fileID: 4177969163833751664}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5659689064336388905
