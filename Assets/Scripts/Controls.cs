@@ -105,13 +105,13 @@ public class Controls : MonoBehaviour
         //_verticalTransform.Rotate(new Vector3(_verticalTransform.rotation.x, y, z), Space.World);
 
 
-        _player.transform.position = _ancre.position;
+        //_player.transform.position = _ancre.position;
 
-        // player looks planet
-        Quaternion lookRot = GeometryUtils.GetLookRotation(_player.transform.position, _planet.position);
-        //Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
-        //_player.transform.rotation = Quaternion.Euler(test);
-        _player.transform.rotation = lookRot;
+        //// player looks planet
+        //Quaternion lookRot = GeometryUtils.GetLookRotation(_player.transform.position, _planet.position);
+        ////Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
+        ////_player.transform.rotation = Quaternion.Euler(test);
+        //_player.transform.rotation = _ancre.rotation ;
     }
 
 }
