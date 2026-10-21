@@ -89,9 +89,9 @@ MonoBehaviour:
   _layerToBreathOn:
     serializedVersion: 2
     m_Bits: 256
-  _breathingDelay: 10
-  _breathingDuration: 4
-  _breathingDistance: 140
+  _breathingDelay: 12
+  _breathingDuration: 2.7
+  _breathingDistance: 100
   _breathingRadius: 6
   _flames: 8
 --- !u!135 &8261719244564430748
