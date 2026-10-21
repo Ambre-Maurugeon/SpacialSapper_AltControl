@@ -182,12 +182,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 724299328}
     - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _waterRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _firingDistance
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _firingDuration
-      value: 200
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5595351933257983140, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: m_Name
@@ -424,6 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587602126}
   - component: {fileID: 587602127}
+  - component: {fileID: 587602128}
   m_Layer: 0
   m_Name: Spline
   m_TagString: Untagged
@@ -485,7 +490,7 @@ MonoBehaviour:
       TangentOut:
         x: 0
         y: 0
-        z: 0.27614236
+        z: 0.18576534
       Rotation:
         value:
           x: 0
@@ -493,13 +498,31 @@ MonoBehaviour:
           z: 0
           w: 1
     - Position:
+        x: -0.24831481
+        y: 0
+        z: 0.43407932
+      TangentIn:
+        x: -0.000000007450581
+        y: 0
+        z: -0.17333797
+      TangentOut:
+        x: -0.000000007450581
+        y: 0
+        z: 0.08433095
+      Rotation:
+        value:
+          x: -0
+          y: 0.5013223
+          z: -0
+          w: 0.86526054
+    - Position:
         x: -0.000000029802322
         y: 0
         z: 0.49999997
       TangentIn:
-        x: -0
-        y: -0
-        z: -0.27614236
+        x: 0.000000014901161
+        y: 0
+        z: -0.09037703
       TangentOut:
         x: 0
         y: 0
@@ -555,6 +578,8 @@ MonoBehaviour:
       Tension: 0.5
     - Mode: 4
       Tension: 0.5
+    - Mode: 4
+      Tension: 0.5
     m_Closed: 1
     m_IntData:
       m_Data: []
@@ -566,6 +591,19 @@ MonoBehaviour:
       m_Data: []
   m_Knots:
     m_KnotsLink: []
+--- !u!114 &587602128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587602125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
+  _lapDuration: 6
 --- !u!1001 &724299326
 PrefabInstance:
   m_ObjectHideFlags: 0

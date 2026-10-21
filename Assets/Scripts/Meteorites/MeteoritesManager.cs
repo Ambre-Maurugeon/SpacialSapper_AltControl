@@ -10,6 +10,7 @@ public class MeteoritesManager : MonoBehaviour
 
     [Header("Spawn")]
     [SerializeField] float _meteoriteDistance = 100;
+    [SerializeField, Range(0f, 179f)] float _safeAngle = 40; // 180 deg is enough to compare two dir, can't be more
 
     [Header("Debug")]
     [SerializeField] string _idMeteoriteX = "M_A";
@@ -56,9 +57,14 @@ public class MeteoritesManager : MonoBehaviour
     {
         MeteoriteData data = _meteoriteDbMgr.GetData(id);
 
-        // at the stric opposite for now
-        Vector3 dir = (_planet.position - _player.position).normalized; // dir from player to planet
-        SpawnMeteorite(dir*_meteoriteDistance, data.prefab, out GameObject meteorite); // spawn X met at the opposite of player at x distance from planet
+        // at the stric opposite
+        //Vector3 dir = (_planet.position - _player.position).normalized; // dir from player to planet
+
+        // random with safe angle
+        Vector3 playerDir = (_player.position - _planet.position).normalized; // dir from planet to player to compare with dot product
+        Vector3 meteoriteDir = GetRandomSpawnDirection(playerDir); 
+
+        SpawnMeteorite(meteoriteDir * _meteoriteDistance, data.prefab, out GameObject meteorite); // spawn X met at the opposite of player at x distance from planet
 
         meteorite.GetComponent<MeteoriteController>()?.OnSpawn(data);  // to edit rename method
 
@@ -72,6 +78,23 @@ public class MeteoritesManager : MonoBehaviour
 
         // create meteorite instance 
         meteorite = Instantiate(prefab, position, lookRot, _meteoriteParent); 
+    }
+
+    private Vector3 GetRandomSpawnDirection(Vector3 playerDir)
+    {
+        float minDot = Mathf.Cos(_safeAngle * Mathf.Deg2Rad);
+
+        float dot;
+        Vector3 spawnDir;
+
+        do
+        {
+            spawnDir = UnityEngine.Random.onUnitSphere; // Returns a random point on the surface of a sphere with radius 1.0
+            dot = Vector3.Dot(spawnDir, playerDir);
+        }
+        while (dot > minDot); // dot = 1  same dir ; dot = 0 perpendicular ; dot = -1 opposite
+
+        return spawnDir;
     }
 
     #region Debug

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -11,9 +12,6 @@ public class DragonController : MonoBehaviour
     #region Fields
     [Foldout("References")] [SerializeField] private Transform _dragonMouth;
     [Foldout("References")] [SerializeField] private LayerMask _layerToBreathOn;
-
-    [Header("Dragon Path")]
-    [SerializeField] private float _lapDuration = 5f;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -56,9 +54,6 @@ public class DragonController : MonoBehaviour
     {
         // planet
         _planet = GameObject.FindGameObjectWithTag("Planet");
-
-        // spline
-        splineAnimate.Duration = _lapDuration;
 
         // health
         GetComponent<Health>().OnDie += OnDie;
@@ -113,9 +108,10 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
-    public void FollowSpline(SplineContainer spline)
+    public void FollowSpline(SplineContainer spline, float lapDuration)
     {
         splineAnimate.Container = spline;
+        splineAnimate.Duration = lapDuration;
         splineAnimate.Play();
     }
 
