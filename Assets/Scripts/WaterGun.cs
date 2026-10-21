@@ -47,6 +47,12 @@ public class WaterGun : MonoBehaviour
     //[SerializeField] float _damageDuration = 1f;
 
     private bool _isShooting = false;
+    
+    // For Arduino reload Timer
+    [Header("Arduino Reload")]
+    [SerializeField] float _arduinoReloadTimer;
+    private float _lastArduinoReload;
+    private bool _canArduinoReload;
 
     RaycastHit _hit; // DEBUG
 
@@ -71,7 +77,8 @@ public class WaterGun : MonoBehaviour
     private void InitWithOthers()
     {
         // link inputs
-        PlayerController.OnReload += OnReload;
+        PlayerController.OnKeyboardReload += OnReload;
+        PlayerController.OnArduinoReload += OnArduinoReload;
 
         // water jet
         _waterRenderer.GetMaterials(_waterJetMaterials); // init material list
@@ -89,7 +96,7 @@ public class WaterGun : MonoBehaviour
 
     void CalculateCursorPos()
     {
-        if (ArduinoInputReceiver.Instance.UseKeyboard){
+        if (ArduinoInputReceiver.Instance._useKeyboard){
             Vector3 mousePos = Mouse.current.position.ReadValue();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, mousePos, null, out Vector2 localPos);
             localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
@@ -125,6 +132,13 @@ public class WaterGun : MonoBehaviour
     void OnReload()
     {
         Debug.Log("delay, reload in " + _firingDelay + " seconds.");
+        Invoke("StartShooting",_firingDelay);
+    }
+    
+    void OnArduinoReload()
+    {
+        if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
+        _lastArduinoReload = Time.time;
         Invoke("StartShooting",_firingDelay);
     }
 

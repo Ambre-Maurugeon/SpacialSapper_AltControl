@@ -63,7 +63,7 @@ public class Controls : MonoBehaviour
         // -- PLAYER POS--
         // Input result
         // invert to link rotation direction to accurate move direction 
-        if (ArduinoInputReceiver.Instance.UseKeyboard)
+        if (ArduinoInputReceiver.Instance._useKeyboard)
         {
             float y = _horizontalTransform.eulerAngles.y +  PlayerController.MoveVector.x * _horizontalSpeed * -1 * Time.deltaTime;
             float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
@@ -72,8 +72,8 @@ public class Controls : MonoBehaviour
         }
         else
         {
-            float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance.Encoder1Value * _horizontalSpeed * -1 * Time.deltaTime;
-            float z = _verticalTransform.eulerAngles.z + (int)ArduinoInputReceiver.Instance.Encoder2Value * _verticalSpeed * -1 * Time.deltaTime;
+            float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance._encoder1Value * _horizontalSpeed * -1 * Time.deltaTime;
+            float z = _verticalTransform.eulerAngles.z + (int)ArduinoInputReceiver.Instance._encoder2Value * _verticalSpeed * -1 * Time.deltaTime;
             _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
             _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
         }

@@ -182,12 +182,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 724299328}
     - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _clampPosY
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _firingDistance
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _firingDuration
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423678748391351327, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _arduinoReloadTimer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5595351933257983140, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: m_Name
@@ -1617,6 +1625,14 @@ PrefabInstance:
       propertyPath: UseKeyboard
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4273806058513117055, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: _useKeyboard
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273806058513117055, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: _bUseKeyboard
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5054888964830415694, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: m_Name
       value: -- MANAGERS --
@@ -1679,7 +1695,7 @@ PrefabInstance:
       objectReference: {fileID: 2064916417}
     - target: {fileID: 8666257277069196598, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: baudRate
-      value: 115200
+      value: 19200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
