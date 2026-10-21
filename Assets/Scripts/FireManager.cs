@@ -98,10 +98,7 @@ public class FireManager : MonoBehaviour
     {
         // check collision with a sphere at the position of future fire
         if (Physics.CheckSphere(position, _collisionDetectionRadius, _fireDamageable))
-        {
-            Debug.Log("spawn under another object");
             return true;
-        }
 
         return false;
            

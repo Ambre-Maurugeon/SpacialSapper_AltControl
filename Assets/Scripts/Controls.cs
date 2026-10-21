@@ -6,18 +6,18 @@ public class Controls : MonoBehaviour
 {
     #region Fields
     [Header("References")]
-    [SerializeField] Transform _horizontalTransform;
-    [SerializeField] Transform _verticalTransform;
+    [SerializeField] Transform _horizontalTransform; // to remove when arduino rotation is updated with new fixed rotation
+    [SerializeField] Transform _verticalTransform; // to remove when arduino rotation is updated with new fixed rotation
 
     [SerializeField] GameObject _player;
-    [SerializeField] Transform _ancre;
-    [SerializeField] Transform _playerTest;
+    [SerializeField] Transform _ancre; // to remove when arduino rotation is updated with new fixed rotation
+    [SerializeField] Transform _playerParent;
 
     [Header("Speed")]
 
-    [SerializeField] float _maxSpeed = 50f; // for both axes
-    [SerializeField] float _acceleration = 10f;
-    [SerializeField] float _deceleration = 10f;
+    [SerializeField] float _maxSpeed = 5; // for both axes
+    [SerializeField] float _acceleration = 1f;
+    [SerializeField] float _deceleration = 1f;
 
     float _horizontalSpeed = 0f;
     float _verticalSpeed = 0f;
@@ -33,7 +33,7 @@ public class Controls : MonoBehaviour
     private void Start()
     {
         InitWithOthers();
-        InitAxisPos();
+        InitAxisPos(); // to remove when arduino rotation is updated with new fixed rotation
     }
 
     // Update is called once per frame
@@ -51,7 +51,7 @@ public class Controls : MonoBehaviour
     {
         _planet = GameObject.FindGameObjectWithTag("Planet").transform;
     }
-    private void InitAxisPos()
+    private void InitAxisPos() // to remove when arduino rotation is updated with new fixed rotation
     {
         _horizontalTransform.position = _planet.position;
         _verticalTransform.position = _planet.position;
@@ -76,16 +76,10 @@ public class Controls : MonoBehaviour
 
         // -- PLAYER POS--
         // Input result
-        // invert to link rotation direction to accurate move direction 
         if (ArduinoInputReceiver.Instance.UseKeyboard)
         {
-            //float y = _horizontalTransform.eulerAngles.y +  PlayerController.MoveVector.x * _horizontalSpeed * -1 * Time.deltaTime;
-            //float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
-            // _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
-           // _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
-
-            _playerTest.Rotate(Vector3.right, PlayerController.MoveVector.y * 2 , Space.Self);
-            _playerTest.Rotate(Vector3.up, PlayerController.MoveVector.x * 2 * -1, Space.Self);
+            _playerParent.Rotate(Vector3.right, _dirY * _verticalSpeed , Space.Self);
+            _playerParent.Rotate(Vector3.up, _dirX * _horizontalSpeed* -1, Space.Self); // invert to link rotation direction to accurate move direction 
 
         }
         else
@@ -98,15 +92,7 @@ public class Controls : MonoBehaviour
         }
 
 
-        //_verticalTransform.Rotate(new Vector3(_verticalTransform.rotation.x, y, z), Space.World);
-
-
         //_player.transform.position = _ancre.position;
-
-        //// player looks planet
-        //Quaternion lookRot = GeometryUtils.GetLookRotation(_player.transform.position, _planet.position);
-        ////Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
-        ////_player.transform.rotation = Quaternion.Euler(test);
         //_player.transform.rotation = _ancre.rotation ;
     }
 
@@ -142,7 +128,7 @@ public class Controls : MonoBehaviour
     private void Accelerate(ref float speed)
     {
         speed += _acceleration * Time.deltaTime;
-        if (speed > _maxSpeed)
+        if (speed >= _maxSpeed)
         {
             speed = _maxSpeed;
         }

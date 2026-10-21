@@ -194,6 +194,10 @@ PrefabInstance:
       value: -- PLAYER --
       objectReference: {fileID: 0}
     - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _maxSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _ancreTest
       value: 
       objectReference: {fileID: 365804861}
@@ -201,6 +205,14 @@ PrefabInstance:
       propertyPath: _playerTest
       value: 
       objectReference: {fileID: 508390254}
+    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _acceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: _deceleration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7631764672880786041, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
@@ -584,7 +596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508390254}
   m_Layer: 0
-  m_Name: TestPlayer2
+  m_Name: Parent_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
