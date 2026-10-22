@@ -13,7 +13,7 @@ public class FireController : MonoBehaviour
         RED = 2,
     }
 
-    STATE myState = STATE.YELLOW; // useless for now, but can be used later
+    STATE _state = STATE.YELLOW; // useless for now, but can be used later
 
     [Header("Damage")]
     [SerializeField] private float _harmlessTime = 10;
@@ -64,15 +64,18 @@ public class FireController : MonoBehaviour
 
     private IEnumerator StartFireBehaviour()
     {
+        // don't make dmg until game isn't launched
+        yield return new WaitUntil(() => GameManager.State == GAME_STATE.PLAYING);
+
         // wait X sec until the fire becomes harmful
         yield return new WaitForSeconds(_harmlessTime);
 
         // becomes a damaging fire
-        ChangeType(STATE.RED);
+        ChangeState(STATE.RED);
         StartCoroutine("DamageBehaviour"); // launch dmg loop
     }
 
-    private IEnumerator DamageBehaviour() // to edit change method name ?
+    private IEnumerator DamageBehaviour() 
     {
         float frequencyTime = 0;
 
@@ -93,9 +96,9 @@ public class FireController : MonoBehaviour
         }
     }
 
-    private void ChangeType(STATE state)
+    private void ChangeState(STATE state)
     {
-        myState = state;
+        _state = state;
 
         switch (state)
         {
@@ -128,16 +131,24 @@ public class FireController : MonoBehaviour
 
     private void OnDie()
     {
+        // TUTO/FIRST FIRE CONTROLLER DESTROY => launch game
+        if (GameManager.State == GAME_STATE.TUTO)
+            GameManager.Instance.LaunchGame();
+
+        // -- VISUALS --
         //_deathVFX.SetActive(true);
         _fireVFX.SetActive(false);
         _deathPS?.Play();
+
+        // -- DESTROY --
         Destroy(gameObject,2); // hard code time for now
     }
 
     private void OnDamage(int dmg)
     {
-        _damagePS?.Play();
+        _damagePS?.Play(); // play dmg particle system
     }
+
 
     #region Debug
     private void OnDrawGizmosSelected()

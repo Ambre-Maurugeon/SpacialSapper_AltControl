@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,7 +68,8 @@ public class PlanetController : MonoBehaviour
 
     private void OnDie()
     {
-        //
+        if (GameManager.State == GAME_STATE.PLAYING)
+            GameManager.Instance.LaunchDefeat();
     }
     #endregion
 
