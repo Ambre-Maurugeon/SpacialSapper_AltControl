@@ -1,15 +1,9 @@
 using System.Collections;
-using Unity.Cinemachine;
-
 //using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class MeteoriteController : MonoBehaviour
 {
-    [Header("Shake Settings")]
-    [SerializeField] private float _shakeIntensity = 1.5f;
-    [SerializeField] private float _shakeDuration = 0.5f;
-
     private MeteoriteData _myData ; // { get; set; }
     private bool _hasCollided = false;
 
@@ -66,13 +60,8 @@ public class MeteoriteController : MonoBehaviour
             FireManager.Instance.SpawnFireNear(_contactPoint, _myData.radius);
         }
 
-        // Camera shake
-        //CinemachineBrain.GetActiveBrain(0).GetComponent<CameraShake>().Shake(_shakeIntensity, _shakeDuration);
-        CinemachineCamera cam = FindFirstObjectByType<CinemachineCamera>();
-        cam.GetComponent<CameraShake>().Shake(_shakeIntensity, _shakeDuration);
-
         // destroy meteorite 
-        Destroy(gameObject); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision collision)

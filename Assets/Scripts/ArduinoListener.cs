@@ -20,6 +20,8 @@ public class ArduinoListener : MonoBehaviour
     private bool IsButtonOn = false;
     private bool WasButtonOn = false;
     
+    
+    private bool IsInDeadZone = false;
     private void Start()
     {
         _sliderYaw.minValue = 0;
@@ -30,12 +32,14 @@ public class ArduinoListener : MonoBehaviour
     
     private float[] CheckForDeadZone(float yaw, float pitch)
     {
+        IsInDeadZone = false;
         // Center Vertical Zone
         if (((_sliderYaw.maxValue / 2 - _centerVerticalDeadZoneRange / 2) < yaw) 
             && (yaw < (_sliderYaw.maxValue / 2 + _centerVerticalDeadZoneRange / 2)))
         {
             //Debug.Log("Center vertical");
             yaw = _sliderYaw.maxValue / 2;
+            IsInDeadZone = true;
         }
         
         // Center Horizontal Zone
@@ -45,17 +49,20 @@ public class ArduinoListener : MonoBehaviour
             //Debug.Log("Center horizontal");
             //pitch = Lerp(pitch, _sliderPitch.maxValue / 2, .5f);
             pitch = _sliderPitch.maxValue / 2;
+            IsInDeadZone = true;
         }
         
         // Border Vertical Zone
         if ((_sliderYaw.maxValue - _borderVerticalDeadZoneRange) < yaw)
         {
             //Debug.Log("Border vertical");
+            IsInDeadZone = true;
             yaw = _sliderYaw.maxValue;
         }
         if ((_sliderYaw.minValue + _borderVerticalDeadZoneRange) > yaw)
         {
             //Debug.Log("Border vertical");
+            IsInDeadZone = true;
             yaw = _sliderYaw.minValue;
         }
         
@@ -63,11 +70,13 @@ public class ArduinoListener : MonoBehaviour
         if ((_sliderPitch.maxValue - _borderHorizontalDeadZoneRange) < pitch)
         {
             //Debug.Log("Border horizontal");
+            IsInDeadZone = true;
             pitch = _sliderPitch.maxValue;
         }
         if ((_sliderPitch.minValue + _borderHorizontalDeadZoneRange) > pitch)
         {
             //Debug.Log("Border horizontal");
+            IsInDeadZone = true;
             pitch = _sliderPitch.minValue;
         }
         return new float[] { yaw, pitch };

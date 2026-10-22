@@ -49,7 +49,7 @@ public class DragonManager : MonoBehaviour
     public void SpawnDragonOnRdSpline()
     {
         // get random spline in dragon splines
-        int r = UnityEngine.Random.Range(0, splines.Count());
+        int r = UnityEngine.Random.Range(0, splines.Count()-1);
         SplineContainer mySpline = splines[r];
         DragonSplineController splineController = mySpline.gameObject.GetComponent<DragonSplineController>();
 
