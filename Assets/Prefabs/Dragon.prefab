@@ -89,12 +89,11 @@ MonoBehaviour:
   _layerToBreathOn:
     serializedVersion: 2
     m_Bits: 256
-  _lapDuration: 10
-  _breathingDelay: 7
-  _breathingDuration: 4
+  _breathingDelay: 12
+  _breathingDuration: 2.7
   _breathingDistance: 100
-  _breathingRadius: 5
-  _flames: 20
+  _breathingRadius: 6
+  _flames: 8
 --- !u!135 &8261719244564430748
 SphereCollider:
   m_ObjectHideFlags: 0

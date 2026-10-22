@@ -1,18 +1,22 @@
-using System;
+
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FireDamageableObject : MonoBehaviour
 {
+    // FOR GA
+    // for mask offset
     private float _initHealth;
     private float _currentHealth;
-    private float _currentHealthPercent = 1;
+    private float _maskOffsetAdvance = 1;
 
-    private float _speed = 40;
+    [SerializeField] private float _speed = 40; // to edit if time => calculate speed using frequency
     private bool _isDead = false;
     private bool _isDecreasing = false;
 
+    private List<Material> _materials = new();
+    
     #region Main
     private void Start()
     {
@@ -29,6 +33,12 @@ public class FireDamageableObject : MonoBehaviour
 
         _initHealth = GetComponent<Health>().MyHealth;
         _currentHealth = _initHealth;
+
+        // damageable behaviour
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.GetMaterials(_materials);
+
+        ResetMaskOffsetAdvance();
     }
     #endregion
 
@@ -55,7 +65,8 @@ public class FireDamageableObject : MonoBehaviour
         {
             _currentHealth -= Time.deltaTime * _speed; 
 
-            _currentHealthPercent = _currentHealth / _initHealth; // get percent for GA use
+            _maskOffsetAdvance = 1 - (_currentHealth / _initHealth); // get percent for GA use
+            ApplyMaskOffsetOnMat();
 
             yield return new WaitForEndOfFrame();
         }
@@ -68,6 +79,22 @@ public class FireDamageableObject : MonoBehaviour
 
     }
 
+    private void ResetMaskOffsetAdvance() // doesn't work ? why
+    {
+        _currentHealth = 0;
+        _maskOffsetAdvance = 0; // to edit => do it progressively 
+        ApplyMaskOffsetOnMat();
+    }
+
+    private void ApplyMaskOffsetOnMat()
+    {
+        // apply advance value in mats
+        for (int i = 0; i < _materials.Count; i++)
+        {
+            _materials[i].SetFloat("_maskoffset", _maskOffsetAdvance);
+        }
+    }
+
     private void OnDie()
     {
         StartCoroutine("Die");
@@ -75,6 +102,11 @@ public class FireDamageableObject : MonoBehaviour
 
     private IEnumerator Die()
     {
+        // decrease until death
+        if (!_isDecreasing)
+            StartCoroutine("DecreaseHealthProgressively");
+
+        // wait until death
         yield return new WaitUntil(() => _isDead);
 
         // activate cendres object
