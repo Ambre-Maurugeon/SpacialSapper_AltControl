@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class WaterGun : MonoBehaviour
 {
+    #region Fields
     [Foldout("References"),SerializeField] RectTransform _cursor;
     [Header("Barrel")]
     [Foldout("References"), SerializeField] Transform _barrelAnchor;
@@ -17,9 +19,21 @@ public class WaterGun : MonoBehaviour
     [Foldout("References"), SerializeField] LineRenderer _ballisticLine;
     [Foldout("References"), SerializeField] Renderer _waterRenderer;
     // Transform _ImpactAnchor;
+
     List<Material> _waterJetMaterials = new();
+    private float _currentDistance = 0;
+    private float _waterAdvance = 0;
 
     [Foldout("References"), SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
+
+    [Header("VFX")]
+    [Foldout("Art References"),SerializeField] GameObject _waterImpactVFX;
+
+    [Header("Water Reload")]
+    [Foldout("Art References"), SerializeField] float _reloadSpeed = 1;
+    [Foldout("Art References"),SerializeField] Renderer _waterReloadRenderer;
+    List<Material> _waterReloadMaterials = new();
+    private float _reloadAdvance = 0;
 
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
@@ -37,38 +51,39 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _waterRadius = 0.1f;
     [SerializeField] float _firingDistance = 2f;
 
-    // For water vfx
-    private float _currentDistance = 0;
-    private float _waterAdvance = 0;// public for vfx
-
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
     [SerializeField] float _damageFrequency = 2f;
-    //[SerializeField] float _damageDuration = 1f;
 
     private bool _isShooting = false;
-    
+
     // For Arduino reload Timer
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer;
     private float _lastArduinoReload;
     private bool _canArduinoReload;
 
-    RaycastHit _hit; // DEBUG
+    RaycastHit _hit; // in test
+
+    // sound
+    AudioSource _audioSource;
+    #endregion
 
     #region Main
     private void Start()
     {
         InitWithOthers();
-
-        // move in ui manager
-        HideMouseCursor();
-
     }
 
     private void Update()
     {
         CalculateCursorPos();
+
+        //test
+        // Impact VFX
+        _waterImpactVFX.SetActive(_hit.collider!=null);
+        if(_hit.collider != null)
+            _waterImpactVFX.transform.position = _hit.point;
     }
     #endregion
 
@@ -84,16 +99,15 @@ public class WaterGun : MonoBehaviour
         _waterRenderer.GetMaterials(_waterJetMaterials); // init material list
         ResetWaterJet(); // start without water jet
 
+        //// water reload visuals
+        //_waterReloadRenderer.GetMaterials(_waterReloadMaterials);
+        //ResetWaterReload();
+
     }
 
     #endregion
 
-    // move to ui manager script ?
-    void HideMouseCursor()  
-    {
-        UnityEngine.Cursor.visible = false;
-    }
-
+   
     void CalculateCursorPos()
     {
         if (ArduinoInputReceiver.Instance._useKeyboard){
@@ -131,8 +145,13 @@ public class WaterGun : MonoBehaviour
 
     void OnReload()
     {
+        if (GameManager.State == GAME_STATE.DEFEAT) return;
+
         Debug.Log("delay, reload in " + _firingDelay + " seconds.");
         Invoke("StartShooting",_firingDelay);
+
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource); // just on reload
     }
     
     void OnArduinoReload()
@@ -140,10 +159,26 @@ public class WaterGun : MonoBehaviour
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
         Invoke("StartShooting",_firingDelay);
+
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource); // just on reload
     }
+
+    //IEnumerator IncreaseWaterInRecipe()
+    //{
+    //    float time = 0;
+    //    float speed = 
+    //    while (true)
+    //    {
+    //        time += Time.deltaTime;
+    //    }
+    //}
 
     void StartShooting()
     {
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.WaterFullReload, _audioSource); // water full reload it's time to shoot
+
         Debug.Log("Start shooting");
 
         _isShooting = true;
@@ -198,7 +233,13 @@ public class WaterGun : MonoBehaviour
         // -- STOP SHOOTING --
         ShowTrajectory(false); // pink line, debug for now
         ResetWaterJet();
+        _hit = new RaycastHit();
         Debug.Log("Shooting ended");
+
+        // feedbacks
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.EmptyBarrel, _audioSource);
+
     }
 
 
@@ -219,6 +260,7 @@ public class WaterGun : MonoBehaviour
         {
             // update end pos at contact
             destination = _hit.point;
+            
         }
 
 
@@ -238,6 +280,7 @@ public class WaterGun : MonoBehaviour
         ShowTrajectory(true); // pink line, debug for now
     }
 
+    #region WaterJet
     private void ShowTrajectory(bool show)
     {
         _ballisticLine.enabled = show;
@@ -262,7 +305,7 @@ public class WaterGun : MonoBehaviour
     //    _ImpactAnchor.position = _barrelAnchor.position + dir * _currentDistance;
     //}
 
-    private void ResetWaterJet() // doesn't work ? why
+    private void ResetWaterJet() 
     {
         _currentDistance = 0;
         _waterAdvance = 0; // to edit => do it progressively 
@@ -276,6 +319,42 @@ public class WaterGun : MonoBehaviour
 
         ApplyAdvanceOnWaterJet();
     }
+    #endregion
+
+    #region WaterReload
+
+    private void ResetWaterReload()
+    {
+        _reloadAdvance = 0;
+        ApplyAdvanceOnWaterJet();
+    }
+
+    private IEnumerator IncreaseReloadWaterLevel(float from, float to)
+    {
+        float time = 0;
+        while (time <1)
+        {
+            time += Time.deltaTime * _reloadSpeed;
+
+            _reloadAdvance = Mathf.Lerp(from, to, time);
+            yield return new WaitForEndOfFrame();
+        }
+
+    }
+
+    private void ApplyAdvanceOnWaterReload()
+    {
+        // apply advance value in mats
+        for (int i = 0; i < _waterJetMaterials.Count; i++)
+        {
+            _waterJetMaterials[i].SetFloat("_Advance", _waterAdvance);
+        }
+
+        //// deplace impact collider
+        //GetImpactPosition(); // for impact vfx
+    }
+
+    #endregion
 
     private float[] CheckDeadZones(float yaw, float pitch)
     {

@@ -10,8 +10,9 @@ using UnityEngine.UIElements;
 public class DragonController : MonoBehaviour
 {
     #region Fields
-    [Foldout("References")] [SerializeField] private Transform _dragonMouth;
-    [Foldout("References")] [SerializeField] private LayerMask _layerToBreathOn;
+    [Foldout("References"),SerializeField] private Transform _dragonMouth;
+    [Foldout("References"),SerializeField] private LayerMask _layerToBreathOn;
+    [Foldout("References"),SerializeField] private Animator _dragonAnimator;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -26,6 +27,9 @@ public class DragonController : MonoBehaviour
     // splines
     SplineAnimate splineAnimate;
 
+    //SOUND
+    AudioSource _audioSource;
+
     #endregion
 
     #region Main
@@ -36,6 +40,9 @@ public class DragonController : MonoBehaviour
     private void Start()
     {
         InitWithOthers();
+
+        // fly sfx
+        //LoopFlySFX(); // in test
 
         // launch dragon breathing loop at start
         StartCoroutine("StartBreathingBehaviour");
@@ -78,6 +85,8 @@ public class DragonController : MonoBehaviour
 
     private IEnumerator BreathFire()
     {
+        PlayBreathFeedbacks();
+
         float flameFrequency = _breathingDuration/_flames; // get flame frequency for each breath (thx to breathing duration & flames nb)
 
         float time = 0;
@@ -108,6 +117,14 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
+    private void PlayBreathFeedbacks()
+    {
+        // Sound
+        AudioManager.Instance.PlaySFX(SoundType.DragonBreath, _audioSource); // breath
+        // Anim
+        _dragonAnimator.SetTrigger("BreathFire");
+    }
+
     public void FollowSpline(SplineContainer spline, float lapDuration)
     {
         splineAnimate.Container = spline;
@@ -126,4 +143,16 @@ public class DragonController : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    #region Sound
+
+    // IN TEST
+    private void LoopFlySFX() 
+    {
+        _audioSource.loop = true;
+        AudioManager.Instance.PlaySFX(SoundType.DragonFly, _audioSource); // fly
+
+        //yield return new WaitUntil
+    }
+    #endregion
 }

@@ -10,10 +10,23 @@ public class MeteoriteController : MonoBehaviour
     [SerializeField] private float _shakeIntensity = 1.5f;
     [SerializeField] private float _shakeDuration = 0.5f;
 
-    private MeteoriteData _myData ; // { get; set; }
-    private bool _hasCollided = false;
+    [Header("VFX")]
+    [SerializeField] private GameObject _meteoriteRIG;
+    [SerializeField] private GameObject _explosionVFX;
 
+    private MeteoriteData _myData ; // { get; set; }
+
+    // collision
+    private bool _hasCollided = false;
     private Vector3 _contactPoint;
+
+    // Audio
+    AudioSource _audioSource ;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     public void OnSpawn(MeteoriteData data)
     {
@@ -33,6 +46,10 @@ public class MeteoriteController : MonoBehaviour
 
     private IEnumerator RushPlanet()
     {
+        // -- SOUND --
+        AudioManager.Instance.PlaySFX(SoundType.DragonKamimazeAnnonce, _audioSource); // Annonce
+        AudioManager.Instance.PlaySFX(SoundType.DragonKamimazeFonce, _audioSource); // start rushing
+
         // rush towards planet until collide with it
         while (!_hasCollided)
         {
@@ -66,13 +83,19 @@ public class MeteoriteController : MonoBehaviour
             FireManager.Instance.SpawnFireNear(_contactPoint, _myData.radius);
         }
 
-        // Camera shake
-        //CinemachineBrain.GetActiveBrain(0).GetComponent<CameraShake>().Shake(_shakeIntensity, _shakeDuration);
+        // -- CAMERA SHAKE --
         CinemachineCamera cam = FindFirstObjectByType<CinemachineCamera>();
         cam.GetComponent<CameraShake>().Shake(_shakeIntensity, _shakeDuration);
 
+        // -- SOUND --
+        AudioManager.Instance.PlaySFX(SoundType.DragonKamimazeExplosion, _audioSource);
+
+        // vfx
+        _meteoriteRIG.SetActive(false);
+        _explosionVFX.SetActive(true);
+
         // destroy meteorite 
-        Destroy(gameObject); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
+        Destroy(gameObject,4); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
     }
 
     void OnCollisionEnter(Collision collision)
