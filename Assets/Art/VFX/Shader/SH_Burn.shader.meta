@@ -2,8 +2,7 @@ fileFormatVersion: 2
 guid: 3643aa1de46a289409728c42d74cbd0a
 ShaderImporter:
   externalObjects: {}
-  defaultTextures:
-  - _SM_Tree_DefaultMaterial_BaseMap: {fileID: 2800000, guid: d7d0c24e7a3ff694880eaa6396844ab6, type: 3}
+  defaultTextures: []
   nonModifiableTextures: []
   userData: 
   assetBundleName: 
