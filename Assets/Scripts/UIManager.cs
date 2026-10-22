@@ -23,6 +23,9 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
         //DontDestroyOnLoad(this.gameObject); // can be edit later
+        
+        // -- CANVAS -- 
+        InitCanvas();
     }
 
     private void Start()
@@ -34,7 +37,13 @@ public class UIManager : MonoBehaviour
 
     void HideMouseCursor()
     {
-        UnityEngine.Cursor.visible = false;
+        Cursor.visible = false;
+    }
+
+    private void InitCanvas()
+    {
+        _startScreen.SetActive(true);
+        _defeatScreen.SetActive(false);
     }
 
     public void RemoveStartScreen()
@@ -46,4 +55,5 @@ public class UIManager : MonoBehaviour
     {
         _defeatScreen.SetActive(true);
     }
+
 }
