@@ -4,7 +4,7 @@ Shader "SH_PlanetLife"
 {
 	Properties
 	{
-		_level( "level", Range( 0, 1 ) ) = 1
+		_advance( "advance", Range( 0, 1 ) ) = 1
 
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
@@ -274,7 +274,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -467,7 +467,7 @@ Shader "SH_PlanetLife"
 				float2 break39_g2 = temp_output_34_0_g2;
 				float2 appendResult50_g2 = (float2(( 1.0 * ( length( temp_output_34_0_g2 ) * 2.0 ) ) , ( ( atan2( break39_g2.x , break39_g2.y ) * ( 1.0 / TWO_PI ) ) * 1.0 )));
 				float2 break53_g2 = appendResult50_g2;
-				float3 temp_cast_0 = (step( break53_g2.y ,  (-0.25 + ( _level - 0.0 ) * ( 0.25 - -0.25 ) / ( 1.0 - 0.0 ) ) )).xxx;
+				float3 temp_cast_0 = (step( break53_g2.y ,  (-0.25 + ( _advance - 0.0 ) * ( 0.25 - -0.25 ) / ( 1.0 - 0.0 ) ) )).xxx;
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
@@ -614,7 +614,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -872,7 +872,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -1095,7 +1095,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -1313,7 +1313,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -1547,7 +1547,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -1830,7 +1830,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -2053,7 +2053,7 @@ Shader "SH_PlanetLife"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float _level;
+			float _advance;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TESSELLATION
@@ -2239,7 +2239,7 @@ Shader "SH_PlanetLife"
 				float2 break39_g2 = temp_output_34_0_g2;
 				float2 appendResult50_g2 = (float2(( 1.0 * ( length( temp_output_34_0_g2 ) * 2.0 ) ) , ( ( atan2( break39_g2.x , break39_g2.y ) * ( 1.0 / TWO_PI ) ) * 1.0 )));
 				float2 break53_g2 = appendResult50_g2;
-				float3 temp_cast_0 = (step( break53_g2.y ,  (-0.25 + ( _level - 0.0 ) * ( 0.25 - -0.25 ) / ( 1.0 - 0.0 ) ) )).xxx;
+				float3 temp_cast_0 = (step( break53_g2.y ,  (-0.25 + ( _advance - 0.0 ) * ( 0.25 - -0.25 ) / ( 1.0 - 0.0 ) ) )).xxx;
 				
 
 				float3 Color = temp_cast_0;
@@ -2306,7 +2306,7 @@ Shader "SH_PlanetLife"
 }
 /*ASEBEGIN
 Version=19909
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-976,96;Inherit;False;Property;_level;level;0;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-976,96;Inherit;False;Property;_advance;advance;0;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;18;-720,-192;Inherit;False;Polar Coordinates;-1;;2;7dab8e02884cf104ebefaa2e788e4162;0;4;1;FLOAT2;0,0;False;2;FLOAT2;0.5,0.5;False;3;FLOAT;1;False;4;FLOAT;1;False;3;FLOAT2;0;FLOAT;55;FLOAT;56
 Node;AmplifyShaderEditor.TFHCRemapNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;21;-656,96;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-0.25;False;4;FLOAT;0.25;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StepOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;16;-432,16;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -2329,4 +2329,4 @@ WireConnection;16;0;18;56
 WireConnection;16;1;21;0
 WireConnection;1;2;16;0
 ASEEND*/
-//CHKSM=682983B6CF9A0F4191340827839D16E1701677A4
+//CHKSM=230E3B9550975E54D48E58AF531A7CF51A13C94B
