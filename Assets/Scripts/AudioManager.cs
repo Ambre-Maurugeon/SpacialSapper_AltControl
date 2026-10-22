@@ -5,17 +5,22 @@ using UnityEngine;
 // Add all your sound identifiers here
 public enum SoundType
 {
-    AudioCardDeselect,
-    AudioCardDraw,
-    AudioCardSelect,
-    CarteEmpilee,
-    LevelWin,
-    LiaisonCarte,
-    MainTheme,
-    MiniJeu,
-    MonsterGrowl,
-    PointsGagnes,
-    PointsPerdus
+    None = 0,
+    DragonDie = 1,
+    DragonFly = 2,
+    RedFire = 3, 
+    YellowFire = 4,
+    DragonKamimazeAnnonce = 5,
+    DragonKamimazeExplosion = 6,
+    DragonKamimazeFonce = 7,
+    HorizontalMovement = 8,
+    VertiicalMovement = 9,
+    FireExtinct = 10,
+    EmptyBarrel = 11,
+    ReloadWater = 12,
+    WaterFullReload = 13,
+    BarrelShotWater = 14,
+    WaterHitFire = 15,
 }
 
 [Serializable]

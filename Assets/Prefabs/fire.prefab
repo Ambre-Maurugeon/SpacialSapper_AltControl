@@ -118,13 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434ab90997ccf574e9f10d12ce3a130c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireController
-  _harmlessTime: 10
-  _redDmg: 10
+  _harmlessTime: 13
+  _redDmg: 2
   _dmgFrequency: 3
   _fireDamageable:
     serializedVersion: 2
     m_Bits: 768
-  _dmgRadius: 0.8
+  _dmgRadius: 1
   _yellowMat: {fileID: -6478536213147159724, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
   _redMat: {fileID: 4874126678125670354, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
   _deathPS: {fileID: 1797837218212157620}
