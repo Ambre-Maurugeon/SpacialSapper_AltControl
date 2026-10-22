@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
@@ -40,25 +40,29 @@ public class DragonManager : MonoBehaviour
     {
         // assign all splines in children to splines field
         splines = _dragonSplines.GetComponentsInChildren<SplineContainer>();
+
+        if (splines == null)
+            Debug.LogError("No spline in dragonSplines children found.");
     }
 
     [Button]
-    public void SpawnDragonOnSpline()
+    public void SpawnDragonOnRdSpline()
     {
         // get random spline in dragon splines
-        int r = Random.Range(0, splines.Count()-1);
+        int r = UnityEngine.Random.Range(0, splines.Count());
         SplineContainer mySpline = splines[r];
+        DragonSplineController splineController = mySpline.gameObject.GetComponent<DragonSplineController>();
 
         // spawn dragon at first knot pos of my spline
         Vector3 firstKnotPos = mySpline.Spline.ToArray()[0].Position;
-        SpawnDrag(firstKnotPos, out GameObject dragon);
+        SpawnDragon(firstKnotPos, out GameObject dragon);
 
         // dragon starts follow my spline 
         if(dragon.TryGetComponent<DragonController>(out var controller))
-            controller.FollowSpline(mySpline);
+            controller.FollowSpline(mySpline,splineController.lapDuration);
     }
 
-    private void SpawnDrag(Vector3 position, out GameObject dragon)
+    private void SpawnDragon(Vector3 position, out GameObject dragon)
     {
         dragon = Instantiate(_dragonPrefab, position, Quaternion.identity, _dragonParent); // default rot for now
     }

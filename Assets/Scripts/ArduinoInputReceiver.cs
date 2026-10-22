@@ -4,13 +4,24 @@ using static UnityEngine.Mathf;
 
 public class ArduinoInputReceiver : MonoBehaviour
 {
+#region Fields
     public static ArduinoInputReceiver Instance {get; private set;}
-
     public float _yaw {get; private set;}
     public float _pitch {get; private set;}
+    public ENCODERTYPE _encoder1Value {get; private set;}
+    public ENCODERTYPE _encoder2Value {get; private set;}
     
-    public ENCODERTYPE EncoderValue {get; private set;}
+    private bool _isButtonOn = false;
+    private bool _wasButtonOn = false;
     
+    
+#endregion
+
+#region DebugTools
+
+    public bool _useKeyboard;
+
+#endregion
     private void Awake() 
     { 
         if (Instance != null && Instance != this) 
@@ -28,28 +39,52 @@ public class ArduinoInputReceiver : MonoBehaviour
     public void OnMessageArrived(string message)
     {
         var splitMessage = message.Split(':');
-        if (splitMessage.Length != 3) return;
+        if (splitMessage.Length < 2) return;
+        _isButtonOn = splitMessage[^1] == "1";
         _yaw = int.Parse(splitMessage[0]);
         _pitch = int.Parse(splitMessage[1]);
         if (_yaw >= 180) _yaw = 0f;
         _yaw -= 45;
         _pitch -= 15;
+        if (splitMessage.Length != 5) return;
         switch (splitMessage[2])
         {
             case "+":
-                EncoderValue = ENCODERTYPE.POSITIVE;
+                _encoder1Value = ENCODERTYPE.POSITIVE;
                 break;
             case "-":
-                EncoderValue = ENCODERTYPE.NEGATIVE;
+                _encoder1Value = ENCODERTYPE.NEGATIVE;
                 break;
             case "=":
-                EncoderValue = ENCODERTYPE.NEUTRAL;
+                _encoder1Value = ENCODERTYPE.NEUTRAL;
                 break;
             default:
-                EncoderValue = ENCODERTYPE.NEUTRAL;
+                _encoder1Value = ENCODERTYPE.NEUTRAL;
                 break;
-         }
+        }
+        switch (splitMessage[3])
+        {
+            case "+":
+                _encoder2Value = ENCODERTYPE.POSITIVE;
+                break;
+            case "-":
+                _encoder2Value = ENCODERTYPE.NEGATIVE;
+                break;
+            case "=":
+                _encoder2Value = ENCODERTYPE.NEUTRAL;
+                break;
+            default:
+                _encoder2Value = ENCODERTYPE.NEUTRAL;
+                break;
+        }
 
+        if (_isButtonOn && !_wasButtonOn)
+        {
+            Debug.Log("Reloading from Arduino");
+            PlayerController.ReloadFromArduino();
+        }
+
+        _wasButtonOn = _isButtonOn;
     }
     
     public void OnConnectionEvent(bool useless) {}

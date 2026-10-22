@@ -1,24 +1,33 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class WaterGun : MonoBehaviour
 {
     [Foldout("References"),SerializeField] RectTransform _cursor;
+    [Header("Barrel")]
+    [Foldout("References"), SerializeField] Transform _barrelAnchor;
     [Foldout("References"), SerializeField] Transform _barrel;
+
+    [Header("Water jet")]
     [Foldout("References"), SerializeField] LineRenderer _ballisticLine;
+    [Foldout("References"), SerializeField] Renderer _waterRenderer;
+    // Transform _ImpactAnchor;
+    List<Material> _waterJetMaterials = new();
 
     [Foldout("References"), SerializeField] LayerMask _waterDamageable; // change to enum in weakness health => use in dragon controller
 
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
+    [Space(5)]
     [SerializeField] float _cursorHorizontalSpeed;
     [SerializeField] float _cursorVerticalSpeed;
+    [Space(5)]
     [SerializeField] float _deadZoneAngleVertical;
     [SerializeField] float _deadZoneAngleHorizontal;
 
@@ -28,23 +37,33 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _waterRadius = 0.1f;
     [SerializeField] float _firingDistance = 2f;
 
+    // For water vfx
+    private float _currentDistance = 0;
+    private float _waterAdvance = 0;// public for vfx
+
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
     [SerializeField] float _damageFrequency = 2f;
+    //[SerializeField] float _damageDuration = 1f;
 
     private bool _isShooting = false;
+    
+    // For Arduino reload Timer
+    [Header("Arduino Reload")]
+    [SerializeField] float _arduinoReloadTimer;
+    private float _lastArduinoReload;
+    private bool _canArduinoReload;
 
-    RaycastHit hit; // DEBUG
+    RaycastHit _hit; // DEBUG
 
     #region Main
-
     private void Start()
     {
-        // link inputs
-        PlayerController.OnReload += OnReload;
+        InitWithOthers();
 
-        //
+        // move in ui manager
         HideMouseCursor();
+
     }
 
     private void Update()
@@ -53,32 +72,73 @@ public class WaterGun : MonoBehaviour
     }
     #endregion
 
-    void HideMouseCursor()
+    #region Init
+
+    private void InitWithOthers()
     {
-        Cursor.visible = false;
+        // link inputs
+        PlayerController.OnKeyboardReload += OnReload;
+        PlayerController.OnArduinoReload += OnArduinoReload;
+
+        // water jet
+        _waterRenderer.GetMaterials(_waterJetMaterials); // init material list
+        ResetWaterJet(); // start without water jet
+
+    }
+
+    #endregion
+
+    // move to ui manager script ?
+    void HideMouseCursor()  
+    {
+        UnityEngine.Cursor.visible = false;
     }
 
     void CalculateCursorPos()
     {
-        Vector3 cursorPos = _cursor.position;
-        float yaw = ArduinoInputReceiver.Instance._yaw;
-        float pitch = ArduinoInputReceiver.Instance._pitch;
-        yaw = CheckDeadZones(yaw, pitch)[0];
-        pitch = CheckDeadZones(yaw, pitch)[1];
-        cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
-        cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
+        if (ArduinoInputReceiver.Instance._useKeyboard){
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, mousePos, null, out Vector2 localPos);
+            localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
+            localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
+            _cursor.localPosition = localPos;
+        }
+        else
+        {
+            Vector3 cursorPos = _cursor.position;
+            float yaw = ArduinoInputReceiver.Instance._yaw;
+            float pitch = ArduinoInputReceiver.Instance._pitch;
+            yaw = CheckDeadZones(yaw, pitch)[0];
+            pitch = CheckDeadZones(yaw, pitch)[1];
+            cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
+            cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, cursorPos, null, out Vector2 localPos);
+            localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
+            localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
+
+            _cursor.localPosition = localPos;
+            
+        }
         // clamp
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform,cursorPos, null, out Vector2 localPos);
-        localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
-        localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
-        _cursor.localPosition = localPos;
+        // -- TO EDIT/ CLEAN jsuis fatiguee --
+        // barrel roation, move barrel look at rot
+        Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
+        Vector3 destination = ray.GetPoint(_firingDistance);
+        _barrel.transform.rotation = GeometryUtils.GetLookRotation(_barrel.transform.position, destination);
     }
 
     void OnReload()
     {
         Debug.Log("delay, reload in " + _firingDelay + " seconds.");
+        Invoke("StartShooting",_firingDelay);
+    }
+    
+    void OnArduinoReload()
+    {
+        if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
+        _lastArduinoReload = Time.time;
         Invoke("StartShooting",_firingDelay);
     }
 
@@ -112,24 +172,23 @@ public class WaterGun : MonoBehaviour
             }
 
             // shoot Trajectory
-            UpdateBallisticTrajectory(out hit);
+            UpdateBallisticTrajectory(out RaycastHit[] hits);
 
             // it's dmg time !
             if (frequencyTime >= _damageFrequency) 
             {
-                if (hit.collider != null)
+                foreach (RaycastHit hit in hits)
                 {
-                    // if object is waterdmgeable && has health component => make dmg 
-                    if ((_waterDamageable & (1 << hit.collider.gameObject.layer)) != 0 // check if layer of the hit "is found in" layerMask _waterDamageable
-                        && hit.collider.gameObject.TryGetComponent<Health>(out var h))
-                        h.TakeDamage(_waterDamage);
+                    if (hit.collider != null)
+                    {
+                        // if object is waterdmgeable && has health component => make dmg 
+                        if ((_waterDamageable & (1 << hit.collider.gameObject.layer)) != 0 // check if layer of the hit is found among _waterDamageable layerMasks
+                            && hit.collider.gameObject.TryGetComponent<Health>(out var h))
+                            h.TakeDamage(_waterDamage);
+                    }
                 }
-                //else
-                //{
-                //    Debug.Log("no hit");
-                //}
-
-                // Reset timer 
+                
+                // Reset timer
                 frequencyTime = 0;
             }
             yield return new WaitForEndOfFrame();
@@ -137,36 +196,85 @@ public class WaterGun : MonoBehaviour
         }
 
         // -- STOP SHOOTING --
-        ShowTrajectory(false);
+        ShowTrajectory(false); // pink line, debug for now
+        ResetWaterJet();
         Debug.Log("Shooting ended");
     }
 
-    private void UpdateBallisticTrajectory(out RaycastHit hit)
+
+    private void UpdateBallisticTrajectory(out RaycastHit[] hits)
     {
         // ray from barrel to X distance
         Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
         Vector3 destination = ray.GetPoint(_firingDistance); // default end pos
 
-        Vector3 dir = (destination - _barrel.position).normalized;
+        Vector3 dir = (destination - _barrelAnchor.position).normalized;
 
-        // raycast
-        if (Physics.SphereCast(_barrel.position, _waterRadius, dir, out hit, _firingDistance)) // layerMask  to debug
+        // Get all touched objects
+        hits = Physics.SphereCastAll(_barrelAnchor.position, _waterRadius, dir, _firingDistance); // layerMask  to edit
+
+        // -- TO EDIT/ CLEAN jsuis fatiguee --
+        // raycast when firing to get end pos of water jet, by impact point
+        if (Physics.Raycast(_barrelAnchor.position, dir, out _hit, _firingDistance)) // layerMask  to debug
         {
             // update end pos at contact
-            destination = hit.point;
+            destination = _hit.point;
         }
 
+
         // line from start to end
-        _ballisticLine.SetPosition(0, _barrel.position);
+        _ballisticLine.SetPosition(0, _barrelAnchor.position);
         _ballisticLine.SetPosition(_ballisticLine.positionCount - 1, destination);
 
+        // Update Water Vfx Placement 
+        UpdateWaterJetAdvance(destination);
+
+        // move barrel look at rot
+        _barrel.transform.rotation = GeometryUtils.GetLookRotation(_barrel.transform.position,destination); // to call in calculate mouse pos => which destination
+
+        // TO EDIT scale y of water jet = firingDistance => does't work ?
+
         // Visuals
-        ShowTrajectory(true);
+        ShowTrajectory(true); // pink line, debug for now
     }
 
     private void ShowTrajectory(bool show)
     {
         _ballisticLine.enabled = show;
+    }
+
+    private void ApplyAdvanceOnWaterJet()
+    {
+        // apply advance value in mats
+        for (int i = 0; i < _waterJetMaterials.Count; i++)
+        {
+            _waterJetMaterials[i].SetFloat("_Advance", _waterAdvance);
+        }
+
+        //// deplace impact collider
+        //GetImpactPosition(); // for impact vfx
+    }
+
+    //private void GetImpactPosition() // for impact vfx
+    //{
+    //    // deplace collider
+    //    Vector3 dir = _barrel.forward;
+    //    _ImpactAnchor.position = _barrelAnchor.position + dir * _currentDistance;
+    //}
+
+    private void ResetWaterJet() // doesn't work ? why
+    {
+        _currentDistance = 0;
+        _waterAdvance = 0; // to edit => do it progressively 
+        ApplyAdvanceOnWaterJet();
+    }
+
+    private void UpdateWaterJetAdvance(Vector3 target)
+    {
+        _currentDistance = (_barrelAnchor.position - target).magnitude;
+        _waterAdvance = Mathf.Clamp(_currentDistance / _firingDistance, 0, 1); // current distance between start and end pos, percent
+
+        ApplyAdvanceOnWaterJet();
     }
 
     private float[] CheckDeadZones(float yaw, float pitch)
@@ -187,14 +295,19 @@ public class WaterGun : MonoBehaviour
     #region Debug
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying) return; 
+
         Gizmos.color = Color.green;
 
-        Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
-        Vector3 destination = ray.GetPoint(_firingDistance);
-        Gizmos.DrawSphere(destination, _waterRadius);
+        if (_cursor != null)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
+            Vector3 destination = ray.GetPoint(_firingDistance);
+            Gizmos.DrawSphere(destination, _waterRadius);
+        }
 
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(hit.point, _waterRadius);
+        Gizmos.DrawSphere(_hit.point, _waterRadius);
 
     }
     #endregion

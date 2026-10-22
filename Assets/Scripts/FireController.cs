@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -27,18 +28,39 @@ public class FireController : MonoBehaviour
     [SerializeField] private Material _redMat;
     MeshRenderer myMesh; // only change mat for now when switching when changing the fire type
 
+    [Header("Art")]
+    [SerializeField] private ParticleSystem _deathPS;
+    [SerializeField] private ParticleSystem _damagePS;
+    [SerializeField] private GameObject _fireVFX;
+
     #endregion
 
+    #region Main
     private void Awake()
     {
-        Init();
-        StartCoroutine("StartFireBehaviour");
+        InitMyself();
     }
 
-    private void Init()
+    private void Start()
+    {
+        InitWithOthers();
+        StartCoroutine("StartFireBehaviour");
+    }
+    #endregion
+
+    #region Init
+    private void InitMyself()
     {
         myMesh = GetComponent<MeshRenderer>();
     }
+
+    private void InitWithOthers()
+    {
+        GetComponent<Health>().OnDie += OnDie;
+        GetComponent<Health>().OnDamage += OnDamage;
+    }
+    #endregion
+
 
     private IEnumerator StartFireBehaviour()
     {
@@ -103,9 +125,18 @@ public class FireController : MonoBehaviour
         }
     }
 
-    public void Die()
+
+    private void OnDie()
     {
-        Destroy(gameObject);
+        //_deathVFX.SetActive(true);
+        _fireVFX.SetActive(false);
+        _deathPS?.Play();
+        Destroy(gameObject,2); // hard code time for now
+    }
+
+    private void OnDamage(int dmg)
+    {
+        _damagePS?.Play();
     }
 
     #region Debug

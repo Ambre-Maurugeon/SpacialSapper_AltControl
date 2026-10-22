@@ -6,33 +6,52 @@ public class Controls : MonoBehaviour
 {
     #region Fields
     [Header("References")]
-    [SerializeField] Transform _horizontalTransform;
-    [SerializeField] Transform _verticalTransform;
+    [SerializeField] Transform _horizontalTransform; // to remove when arduino rotation is updated with new fixed rotation
+    [SerializeField] Transform _verticalTransform; // to remove when arduino rotation is updated with new fixed rotation
 
-    [SerializeField] Transform _planet;
     [SerializeField] GameObject _player;
-    [SerializeField] Transform _ancre;
+    [SerializeField] Transform _ancre; // to remove when arduino rotation is updated with new fixed rotation
+    [SerializeField] Transform _playerParent;
 
-    [Header("Values")]
-    [SerializeField] float _horizontalSpeed = 50f;
-    [SerializeField] float _verticalSpeed = 50f;
+    [Header("Speed")]
+
+    [SerializeField] float _maxSpeed = 2; // for both axes
+    [SerializeField] float _acceleration = 1f;
+    [SerializeField] float _deceleration = 1f;
+
+    float _horizontalSpeed = 0f;
+    float _verticalSpeed = 0f;
+
+    float _dirX;
+    float _dirY;
+
+    Transform _planet;
     #endregion
 
     #region Main
 
-    private void Awake()
+    private void Start()
     {
-        InitAxisPos();
+        InitWithOthers();
+        InitAxisPos(); // to remove when arduino rotation is updated with new fixed rotation
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateDir();
+        UpdateSpeed();
+
         CalculatePos();
     }
     #endregion
 
-    private void InitAxisPos()
+    #region Init
+    private void InitWithOthers()
+    {
+        _planet = GameObject.FindGameObjectWithTag("Planet").transform;
+    }
+    private void InitAxisPos() // to remove when arduino rotation is updated with new fixed rotation
     {
         _horizontalTransform.position = _planet.position;
         _verticalTransform.position = _planet.position;
@@ -49,43 +68,81 @@ public class Controls : MonoBehaviour
         //_ancre.position = _planet.position + _horizontalTransform.localScale / 2;
         //}
     }
+    #endregion
 
-    // TO DEBUG VERTICAL ROTATION WITH QUAT
+    
     void CalculatePos()
     {
 
         // -- PLAYER POS--
         // Input result
         // invert to link rotation direction to accurate move direction 
-        float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance.EncoderValue * _horizontalSpeed * -1 * Time.deltaTime; 
-        //float y = _horizontalTransform.rotation.y + PlayerController.MoveVector.x * -1 * _horizontalSpeed * Time.deltaTime;
+        if (ArduinoInputReceiver.Instance._useKeyboard)
+        {
+            _playerParent.Rotate(Vector3.right, _dirY * _verticalSpeed , Space.Self);
+            _playerParent.Rotate(Vector3.up, _dirX * _horizontalSpeed* -1, Space.Self); // invert to link rotation direction to accurate move direction 
 
-        float z = _verticalTransform.eulerAngles.z + PlayerController.MoveVector.y * _verticalSpeed * -1 * Time.deltaTime;
-        //float z = _verticalTransform.rotation.z + PlayerController.MoveVector.y * -1 *_verticalSpeed  * Time.deltaTime;
+        }
+        else
+        {
+            float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance._encoder1Value * _horizontalSpeed * -1 * Time.deltaTime;
+            float z = _verticalTransform.eulerAngles.z + (int)ArduinoInputReceiver.Instance._encoder2Value * _verticalSpeed * -1 * Time.deltaTime;
+            _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
+            _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
+        }
 
-        _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
-        _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
 
-
-
-        //_verticalTransform.Rotate(new Vector3(_verticalTransform.rotation.x, y, z), Space.World);
-
-
-        _player.transform.position = _ancre.position;
-
-        // look at planet
-        Quaternion lookRot = GetLookRotation();
-        //Vector3 test = new Vector3(lookRot.x, lookRot.y, 0);
-        //_player.transform.rotation = Quaternion.Euler(test);
-        _player.transform.rotation = lookRot;
+        //_player.transform.position = _ancre.position;
+        //_player.transform.rotation = _ancre.rotation ;
     }
 
-    private Quaternion GetLookRotation()
+    private void UpdateDir()
     {
-        Vector3 dir = _planet.position - _player.transform.position ;
-        Quaternion lookRot = Quaternion.LookRotation(dir);
+        if(Mathf.Abs(PlayerController.MoveVector.x) > 0.01f) // if XInput != 0 => update dirX
+            _dirX = PlayerController.MoveVector.x;
 
-        return lookRot;
+        if (Mathf.Abs(PlayerController.MoveVector.y) > 0.01f) // if YInput != 0 => update dirY
+            _dirY = PlayerController.MoveVector.y;
     }
+
+    #region Speed
+
+    private bool IsHorizontalMoving => Mathf.Abs(PlayerController.MoveVector.x) >= 0.1f; // x tolerance
+    private bool IsVerticalMoving => Mathf.Abs(PlayerController.MoveVector.y) >= 0.1f; // y tolerance
+
+    private void UpdateSpeed()
+    {
+        // Horizontal speed
+        if (IsHorizontalMoving)
+            Accelerate(ref _horizontalSpeed);
+        else
+            Decelerate(ref _horizontalSpeed);
+
+        // Vertical Speed
+        if (IsVerticalMoving)
+            Accelerate(ref _verticalSpeed);
+        else
+            Decelerate(ref _verticalSpeed);
+    }
+
+    private void Accelerate(ref float speed)
+    {
+        speed += _acceleration * Time.deltaTime;
+        if (speed >= _maxSpeed)
+        {
+            speed = _maxSpeed;
+        }
+    }
+
+    private void Decelerate(ref float speed)
+    {
+        speed -= _deceleration * Time.deltaTime;
+        if (speed < 0f)
+        {
+            speed = 0f;
+        }
+    }
+
+    #endregion
 
 }

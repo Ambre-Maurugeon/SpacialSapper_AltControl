@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -11,9 +12,6 @@ public class DragonController : MonoBehaviour
     #region Fields
     [Foldout("References")] [SerializeField] private Transform _dragonMouth;
     [Foldout("References")] [SerializeField] private LayerMask _layerToBreathOn;
-
-    [Header("Dragon Path")]
-    [SerializeField] private float _lapDuration = 5f;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -30,25 +28,39 @@ public class DragonController : MonoBehaviour
 
     #endregion
 
+    #region Main
     private void Awake()
     {
-        Init();
+        InitMySelf();
     }
     private void Start()
     {
-        _planet = GameObject.FindGameObjectWithTag("Planet");
+        InitWithOthers();
 
         // launch dragon breathing loop at start
         StartCoroutine("StartBreathingBehaviour");
     }
+    #endregion
 
-    private void Init()
+    #region Init
+    private void InitMySelf()
     {
         if (!_dragonMouth) _dragonMouth = GetComponent<Transform>();
 
         splineAnimate = GetComponent<SplineAnimate>();
-        splineAnimate.Duration = _lapDuration;
     }
+
+    private void InitWithOthers()
+    {
+        // planet
+        _planet = GameObject.FindGameObjectWithTag("Planet");
+
+        // health
+        GetComponent<Health>().OnDie += OnDie;
+        GetComponent<Health>().OnDamage += OnDamage;
+    }
+    #endregion
+
 
     private IEnumerator StartBreathingBehaviour()
     {
@@ -96,14 +108,21 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
-    public void FollowSpline(SplineContainer spline)
+    public void FollowSpline(SplineContainer spline, float lapDuration)
     {
         splineAnimate.Container = spline;
+        splineAnimate.Duration = lapDuration;
         splineAnimate.Play();
     }
 
-    // called by unity event on health component
-    public void Die()
+    // broadcast in health component
+    private void OnDamage(int dmg)
+    {
+       
+    }
+
+    // broadcast in health component
+    private void OnDie()
     {
         Destroy(gameObject);
     }

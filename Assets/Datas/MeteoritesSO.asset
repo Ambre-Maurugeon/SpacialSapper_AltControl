@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78c095a781a2764799880116c2e9054, type: 3}
+  m_Name: MeteoritesSO
+  m_EditorClassIdentifier: Assembly-CSharp::MeteoritesSO
+  meteorites:
+  - name: Meteorite A
+    id: M_A
+    prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
+    speed: 50
+    flames: 4
+    radius: 5
+  - name: Meteorite B
+    id: M_B
+    prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
+    speed: 65
+    flames: 6
+    radius: 8
+  - name: Meteorite C
+    id: M_C
+    prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
+    speed: 70
+    flames: 9
+    radius: 8
