@@ -24,8 +24,18 @@ public class UIManager : MonoBehaviour
         }
         //DontDestroyOnLoad(this.gameObject); // can be edit later
     }
+
+    private void Start()
+    {
+        HideMouseCursor();
+    }
+
     #endregion
 
+    void HideMouseCursor()
+    {
+        UnityEngine.Cursor.visible = false;
+    }
 
     public void RemoveStartScreen()
     {

@@ -7,20 +7,21 @@ public enum SoundType
 {
     None = 0,
     DragonDie = 1,
-    DragonFly = 2,
+    DragonFly = 2, // 
     RedFire = 3, 
     YellowFire = 4,
-    DragonKamimazeAnnonce = 5,
-    DragonKamimazeExplosion = 6,
-    DragonKamimazeFonce = 7,
+    DragonKamimazeAnnonce = 5, // done
+    DragonKamimazeExplosion = 6, // done
+    DragonKamimazeFonce = 7, // done
     HorizontalMovement = 8,
     VertiicalMovement = 9,
-    FireExtinct = 10,
+    FireExtinct = 10, //done
     EmptyBarrel = 11,
     ReloadWater = 12,
     WaterFullReload = 13,
     BarrelShotWater = 14,
-    WaterHitFire = 15,
+    WaterHitFire = 15, //done => to edit ig
+    DragonBreath = 16, // done
 }
 
 [Serializable]
@@ -68,8 +69,10 @@ public class AudioManager : MonoBehaviour
     }
 
     // Play a single sound effect once without cutting other sounds
-    public void PlaySFX(SoundType type)
+    public void PlaySFX(SoundType type, AudioSource source = null)
     {
+        if (!source) source = sfxSource;
+
         if (_soundDict.TryGetValue(type, out SoundData data))
         {
             if (data.clip != null)
@@ -82,6 +85,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"Sound {type} not found in AudioManager!");
         }
     }
+
 
     // Play background music (loops continuously)
     public void PlayMusic(SoundType type)

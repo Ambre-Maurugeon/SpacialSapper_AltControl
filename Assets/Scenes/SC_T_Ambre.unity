@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: fire
       objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7858954653656371725, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.676796
@@ -2003,6 +2011,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4273806058513117055, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: _useKeyboard
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049467110069953027, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5054888964830415694, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}

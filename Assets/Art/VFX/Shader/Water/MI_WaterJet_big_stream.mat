@@ -53,7 +53,7 @@ Material:
     m_Colors:
     - _Noisesize: {r: 10, g: 10, b: 0, a: 0}
     - _couleurdentelle: {r: 0.39217508, g: 0.6930343, b: 0.9320754, a: 0}
-    - _dentellesize: {r: 15, g: 2, b: 0, a: 0}
+    - _dentellesize: {r: 24.1, g: 2, b: 0, a: 0}
     - _speed: {r: -1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

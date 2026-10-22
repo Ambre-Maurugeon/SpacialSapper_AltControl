@@ -23,14 +23,16 @@ public class FireController : MonoBehaviour
 
     [SerializeField] private float _dmgRadius = 0.075f;
 
-    [Header("Art")]
+    [Header("VFX")]
     [SerializeField] private ParticleSystem _offensivePS;
     [SerializeField] private ParticleSystem _flamePS;
 
-    [Header("Art")]
     [SerializeField] private ParticleSystem _deathPS;
     [SerializeField] private ParticleSystem _damagePS;
     [SerializeField] private GameObject _fireVFX;
+
+    // -- SOUND --
+    AudioSource _audioSource;
 
     #endregion
 
@@ -128,9 +130,11 @@ public class FireController : MonoBehaviour
             GameManager.Instance.LaunchGame();
 
         // -- VISUALS --
-        //_deathVFX.SetActive(true);
         _fireVFX.SetActive(false);
         _deathPS?.Play();
+
+        // -- SOUNDS --
+        AudioManager.Instance.PlaySFX(SoundType.FireExtinct, _audioSource); // water dmg
 
         // -- DESTROY --
         Destroy(gameObject,2); // hard code time for now
@@ -139,6 +143,10 @@ public class FireController : MonoBehaviour
     private void OnDamage(int dmg)
     {
         _damagePS?.Play(); // play dmg particle system
+
+        // -- SOUND --
+        AudioManager.Instance.PlaySFX(SoundType.WaterHitFire, _audioSource); // water dmg
+        
     }
 
 

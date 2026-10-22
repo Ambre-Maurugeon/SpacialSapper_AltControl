@@ -44,31 +44,38 @@ public class WaterGun : MonoBehaviour
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
     [SerializeField] float _damageFrequency = 2f;
-    //[SerializeField] float _damageDuration = 1f;
 
     private bool _isShooting = false;
-    
+
+    [Header("VFX")]
+    [SerializeField] GameObject _waterImpactVFX;
+
     // For Arduino reload Timer
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer;
     private float _lastArduinoReload;
     private bool _canArduinoReload;
 
-    RaycastHit _hit; // DEBUG
+    RaycastHit _hit; // in test
+
+    // sound
+    AudioSource _audioSource;
 
     #region Main
     private void Start()
     {
         InitWithOthers();
-
-        // move in ui manager
-        HideMouseCursor();
-
     }
 
     private void Update()
     {
         CalculateCursorPos();
+
+        //test
+        // Impact VFX
+        _waterImpactVFX.SetActive(_hit.collider!=null);
+        if(_hit.collider != null)
+            _waterImpactVFX.transform.position = _hit.point;
     }
     #endregion
 
@@ -88,12 +95,7 @@ public class WaterGun : MonoBehaviour
 
     #endregion
 
-    // move to ui manager script ?
-    void HideMouseCursor()  
-    {
-        UnityEngine.Cursor.visible = false;
-    }
-
+   
     void CalculateCursorPos()
     {
         if (ArduinoInputReceiver.Instance._useKeyboard){
@@ -133,6 +135,9 @@ public class WaterGun : MonoBehaviour
     {
         Debug.Log("delay, reload in " + _firingDelay + " seconds.");
         Invoke("StartShooting",_firingDelay);
+
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource);
     }
     
     void OnArduinoReload()
@@ -140,6 +145,9 @@ public class WaterGun : MonoBehaviour
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
         Invoke("StartShooting",_firingDelay);
+
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource);
     }
 
     void StartShooting()
@@ -198,6 +206,7 @@ public class WaterGun : MonoBehaviour
         // -- STOP SHOOTING --
         ShowTrajectory(false); // pink line, debug for now
         ResetWaterJet();
+        _hit = new RaycastHit();
         Debug.Log("Shooting ended");
     }
 
@@ -219,6 +228,7 @@ public class WaterGun : MonoBehaviour
         {
             // update end pos at contact
             destination = _hit.point;
+            
         }
 
 
