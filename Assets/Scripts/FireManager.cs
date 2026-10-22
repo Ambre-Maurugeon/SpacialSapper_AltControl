@@ -11,6 +11,10 @@ public class FireManager : MonoBehaviour
     [Header("Fire")]
     [Foldout("References")][SerializeField] GameObject _firePrefab;
     [Foldout("References")][SerializeField] Transform _fireParent;
+    [Foldout("References")][SerializeField] LayerMask _fireDamageable;
+
+    [Header("Spawn")]
+    [SerializeField] float _collisionDetectionRadius = 0.5f;
 
     Transform _planet;
     Vector3[] _vertices;
@@ -85,7 +89,18 @@ public class FireManager : MonoBehaviour
             int r = UnityEngine.Random.Range(0, posQuery.Count() - 1);
             nearbyPos = posQuery.ElementAt(r);
         }
-            
-        SpawnFire(nearbyPos);
+        
+        if(!CollisionDetected(nearbyPos)) // check collision with object, if collision => don't spawn for now
+            SpawnFire(nearbyPos);
+    }
+
+    private bool CollisionDetected(Vector3 position)
+    {
+        // check collision with a sphere at the position of future fire
+        if (Physics.CheckSphere(position, _collisionDetectionRadius, _fireDamageable))
+            return true;
+
+        return false;
+           
     }
 }

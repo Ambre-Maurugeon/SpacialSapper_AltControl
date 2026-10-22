@@ -39,13 +39,14 @@ public class Health : MonoBehaviour
 
         // UpdateVisuals();
 
+        OnDamage?.Invoke(dmg);
+
         if (_health == 0)
         {
             Debug.Log("He t'es mort tdc");
             OnDie?.Invoke();
         }
 
-        OnDamage?.Invoke(dmg);
     }
 
     public void Heal(int heal)
