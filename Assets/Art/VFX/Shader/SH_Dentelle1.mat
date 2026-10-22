@@ -43,9 +43,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Advance: 0.1
+    - _Advance: 1
     - _AlphaClip: 1
-    - _Cutoff: 0.2
+    - _Cutoff: 0.248
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
