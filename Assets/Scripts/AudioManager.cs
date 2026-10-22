@@ -13,11 +13,11 @@ public enum SoundType
     DragonKamimazeAnnonce = 5, // done
     DragonKamimazeExplosion = 6, // done
     DragonKamimazeFonce = 7, // done
-    HorizontalMovement = 8,
-    VertiicalMovement = 9,
+    HorizontalMovement = 8, // done
+    VertiicalMovement = 9, // done
     FireExtinct = 10, //done
-    EmptyBarrel = 11,
-    ReloadWater = 12,
+    EmptyBarrel = 11, // done
+    ReloadWater = 12, // done
     WaterFullReload = 13,
     BarrelShotWater = 14,
     WaterHitFire = 15, //done => to edit ig

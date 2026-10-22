@@ -95,7 +95,7 @@ public class MeteoriteController : MonoBehaviour
         _explosionVFX.SetActive(true);
 
         // destroy meteorite 
-        Destroy(gameObject,2); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
+        Destroy(gameObject,4); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
     }
 
     void OnCollisionEnter(Collision collision)

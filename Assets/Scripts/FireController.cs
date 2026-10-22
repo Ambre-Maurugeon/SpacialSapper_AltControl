@@ -32,7 +32,7 @@ public class FireController : MonoBehaviour
     [SerializeField] private GameObject _fireVFX;
 
     // -- SOUND --
-    AudioSource _audioSource;
+    //AudioSource _audioSource;
 
     #endregion
 
@@ -134,7 +134,7 @@ public class FireController : MonoBehaviour
         _deathPS?.Play();
 
         // -- SOUNDS --
-        AudioManager.Instance.PlaySFX(SoundType.FireExtinct, _audioSource); // water dmg
+        AudioManager.Instance.PlaySFX(SoundType.FireExtinct); // water dmg
 
         // -- DESTROY --
         Destroy(gameObject,2); // hard code time for now
@@ -145,7 +145,7 @@ public class FireController : MonoBehaviour
         _damagePS?.Play(); // play dmg particle system
 
         // -- SOUND --
-        AudioManager.Instance.PlaySFX(SoundType.WaterHitFire, _audioSource); // water dmg
+        AudioManager.Instance.PlaySFX(SoundType.WaterHitFire); // water dmg
         
     }
 

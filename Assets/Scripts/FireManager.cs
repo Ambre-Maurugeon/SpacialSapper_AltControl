@@ -31,7 +31,7 @@ public class FireManager : MonoBehaviour
             Destroy(Instance);
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

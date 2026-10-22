@@ -159,7 +159,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: 95069489dfd19b74988a61c0be08f7e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.181
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: 95069489dfd19b74988a61c0be08f7e5, type: 3}
       propertyPath: m_LocalRotation.w

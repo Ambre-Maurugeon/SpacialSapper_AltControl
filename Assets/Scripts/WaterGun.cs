@@ -151,7 +151,7 @@ public class WaterGun : MonoBehaviour
         Invoke("StartShooting",_firingDelay);
 
         // sound
-        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource);
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource); // just on reload
     }
     
     void OnArduinoReload()
@@ -161,11 +161,24 @@ public class WaterGun : MonoBehaviour
         Invoke("StartShooting",_firingDelay);
 
         // sound
-        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource);
+        AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource); // just on reload
     }
+
+    //IEnumerator IncreaseWaterInRecipe()
+    //{
+    //    float time = 0;
+    //    float speed = 
+    //    while (true)
+    //    {
+    //        time += Time.deltaTime;
+    //    }
+    //}
 
     void StartShooting()
     {
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.WaterFullReload, _audioSource); // water full reload it's time to shoot
+
         Debug.Log("Start shooting");
 
         _isShooting = true;
@@ -222,6 +235,11 @@ public class WaterGun : MonoBehaviour
         ResetWaterJet();
         _hit = new RaycastHit();
         Debug.Log("Shooting ended");
+
+        // feedbacks
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.EmptyBarrel, _audioSource);
+
     }
 
 

@@ -132,11 +132,31 @@ PrefabInstance:
       value: fire
       objectReference: {fileID: 0}
     - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 1851829d7a6f19a48b43ea17adc38ee2, type: 3}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: MaxDistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
       propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141520867153541537, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7858954653656371725, guid: 0bffef5f544f4e44682e07ba14e3c92e, type: 3}
@@ -1134,6 +1154,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 567104281}
   m_SourcePrefab: {fileID: 100100000, guid: 296cc9bc0ff435841bccc0c738cae8bf, type: 3}
+--- !u!82 &1475241164 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4707858705554875859, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+  m_PrefabInstance: {fileID: 7268286099587354082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1475241165 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5330738796864970951, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+  m_PrefabInstance: {fileID: 7268286099587354082}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1520843604 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4762007320146078151, guid: 6cfc554bd85c96e43936531f1c13d977, type: 3}
@@ -1989,6 +2019,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- MANAGERS --
       objectReference: {fileID: 0}
+    - target: {fileID: 5218302637916061037, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: sounds.Array.data[15].volume
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218302637916061037, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: sounds.Array.data[16].volume
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7261394433368719048, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: _dragonParent
       value: 
@@ -2122,6 +2160,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _audioSourceVertical
+      value: 
+      objectReference: {fileID: 1475241164}
+    - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _audioSourceHorizontal
+      value: 
+      objectReference: {fileID: 1475241165}
     - target: {fileID: 6681134221454344774, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_Name
       value: Planet
