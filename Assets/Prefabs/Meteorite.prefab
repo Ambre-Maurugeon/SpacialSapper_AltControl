@@ -68,6 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd46fc220268f34a8b1945f414607f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteoriteController
+  _shakeIntensity: 1.5
+  _shakeDuration: 0.5
 --- !u!54 &1342815086686045620
 Rigidbody:
   m_ObjectHideFlags: 0
