@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_tree_test
+  m_Name: M_Burning_mat
   m_Shader: {fileID: 4800000, guid: 3643aa1de46a289409728c42d74cbd0a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -23,6 +23,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseColor_Map:
+        m_Texture: {fileID: 2800000, guid: d7d0c24e7a3ff694880eaa6396844ab6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SM_Tree_DefaultMaterial_BaseMap:
         m_Texture: {fileID: 2800000, guid: d7d0c24e7a3ff694880eaa6396844ab6, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -45,17 +57,19 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Smoothness: 0
+    - _Specular: 0
     - _SpecularHighlights: 1
     - _baseinfluence: 0.1
     - _flamenoisescale: 1.88
     - _flammeinfluence: 0.3
     - _gradientsize: -0.06
     - _maskhardness: 1.5
-    - _maskoffset: 0.002
+    - _maskoffset: 0
     - _maskradius: 10
     - _noisescale: 3.42
     - _timespeed: -0.16
     m_Colors:
-    - _Timespeed: {r: -0.1, g: -0.1, b: -0.1, a: 1}
+    - _Timespeed: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
