@@ -125,8 +125,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   _dmgRadius: 1
-  _yellowMat: {fileID: -6478536213147159724, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
-  _redMat: {fileID: 4874126678125670354, guid: a319b61d19f6d194ca3fc4e0bfa5bda7, type: 3}
+  _offensivePS: {fileID: 2439796103568606335}
+  _flamePS: {fileID: 2200409990642673413}
   _deathPS: {fileID: 1797837218212157620}
   _damagePS: {fileID: 3968987975214871249}
   _fireVFX: {fileID: 8752286013265857037}
@@ -393,13 +393,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7858954653656371725}
     m_Modifications:
+    - target: {fileID: 312931579454355892, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: m_Name
+      value: InoffensiveSmoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032910409755712390, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: m_Name
+      value: OffensiveSmoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687672743348887473, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4362305010484131504, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_Name
       value: FireVFX
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.03093
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -407,7 +419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.95532
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -437,11 +449,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6590232663565458360, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216944923001632962, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+--- !u!198 &2200409990642673413 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6590232663565458360, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+  m_PrefabInstance: {fileID: 5043003034867924157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2439796103568606335 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7216944923001632962, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+  m_PrefabInstance: {fileID: 5043003034867924157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8752286013265857037 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4362305010484131504, guid: f38072633702bad4fa7248926a8f69f4, type: 3}

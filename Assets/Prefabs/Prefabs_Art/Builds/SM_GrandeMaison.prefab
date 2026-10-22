@@ -82,6 +82,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ab56ce730cce474ba54d67a13211a58, type: 3}
       insertIndex: -1
       addedObject: {fileID: 811039170989173999}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ab56ce730cce474ba54d67a13211a58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7536257854943211256}
   m_SourcePrefab: {fileID: 100100000, guid: 6ab56ce730cce474ba54d67a13211a58, type: 3}
 --- !u!1 &207915676161584680 stripped
 GameObject:
@@ -122,3 +125,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireDamageableObject
   _speed: 40
+--- !u!114 &7536257854943211256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207915676161584680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b43463d2392384409a1db1e4ae10eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  _initHealth: 100
+  _weakness: 2

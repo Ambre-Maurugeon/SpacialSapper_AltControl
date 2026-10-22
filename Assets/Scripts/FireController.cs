@@ -24,9 +24,8 @@ public class FireController : MonoBehaviour
     [SerializeField] private float _dmgRadius = 0.075f;
 
     [Header("Art")]
-    [SerializeField] private Material _yellowMat;
-    [SerializeField] private Material _redMat;
-    MeshRenderer myMesh; // only change mat for now when switching when changing the fire type
+    [SerializeField] private ParticleSystem _offensivePS;
+    [SerializeField] private ParticleSystem _flamePS;
 
     [Header("Art")]
     [SerializeField] private ParticleSystem _deathPS;
@@ -36,10 +35,6 @@ public class FireController : MonoBehaviour
     #endregion
 
     #region Main
-    private void Awake()
-    {
-        InitMyself();
-    }
 
     private void Start()
     {
@@ -49,10 +44,6 @@ public class FireController : MonoBehaviour
     #endregion
 
     #region Init
-    private void InitMyself()
-    {
-        myMesh = GetComponent<MeshRenderer>();
-    }
 
     private void InitWithOthers()
     {
@@ -103,10 +94,11 @@ public class FireController : MonoBehaviour
         switch (state)
         {
             case STATE.YELLOW:
-                myMesh.material = _yellowMat; // change first mat by default, to edit if multiple mat ?
+                //
                 break;
             case STATE.RED:
-                myMesh.material = _redMat; // change first mat by default, to edit if multiple mat ?
+                _offensivePS.Play();
+                _flamePS.Play();
                 break ;
             default:
                 return;
