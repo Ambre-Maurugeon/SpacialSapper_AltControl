@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1481247176261201291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2062491539398990340}
+  m_Layer: 0
+  m_Name: Advance up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2062491539398990340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481247176261201291}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00018}
+  m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8652303580903796353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6632427064699931204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4572716107326608790}
+  m_Layer: 0
+  m_Name: Advance down
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4572716107326608790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6632427064699931204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00583}
+  m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8652303580903796353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &421599677321490663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,11 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2afe71d29a5789a48ad94a9d58634651, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2afe71d29a5789a48ad94a9d58634651, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0003259724
+      value: -0.00018
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2afe71d29a5789a48ad94a9d58634651, type: 3}
       propertyPath: m_LocalRotation.w
@@ -140,6 +202,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97f8481ce7bfc7b49b25ae3f52df464e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 167596157652424460}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97f8481ce7bfc7b49b25ae3f52df464e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4572716107326608790}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97f8481ce7bfc7b49b25ae3f52df464e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2062491539398990340}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97f8481ce7bfc7b49b25ae3f52df464e, type: 3}
 --- !u!4 &8652303580903796353 stripped
