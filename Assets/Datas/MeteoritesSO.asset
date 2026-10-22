@@ -29,5 +29,5 @@ MonoBehaviour:
     id: M_C
     prefab: {fileID: 7654748344988356505, guid: f181aec6dd2aa2c488496ad30514a336, type: 3}
     speed: 70
-    flames: 9
+    flames: 8
     radius: 8

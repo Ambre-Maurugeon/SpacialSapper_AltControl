@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 20
+  _lapDuration: 25
 --- !u!114 &387647914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 23
+  _lapDuration: 29
 --- !u!1001 &724299326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1160,7 +1160,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.8861201, y: -0, z: -0, w: 0.46345574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 95.64, y: 95.64, z: 95.64}
+  m_LocalScale: {x: 90, y: 90, z: 90}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2064916416}
@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 32
+  _lapDuration: 39
 --- !u!114 &1958165856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2197,6 +2197,26 @@ PrefabInstance:
       propertyPath: _cursor
       value: 
       objectReference: {fileID: 724299328}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _clampPosX
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _clampPosY
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _firingDelay
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _waterRadius
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _firingDuration
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 2294734615536852007, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _healthSlider
       value: 
@@ -2240,6 +2260,18 @@ PrefabInstance:
     - target: {fileID: 2971000670184787475, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _maxSpeed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _acceleration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _deceleration
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6681134221454344774, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_Name

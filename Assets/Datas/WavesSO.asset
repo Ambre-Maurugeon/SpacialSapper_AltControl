@@ -18,13 +18,13 @@ MonoBehaviour:
     obstacles:
     - type: 2
       id: M_A
-      time: 3
+      time: 6
     - type: 2
       id: M_B
-      time: 15
+      time: 18
     - type: 2
-      id: M_C
-      time: 23
+      id: M_A
+      time: 24
   - name: Wave 02
     id: 
     obstacles:
@@ -33,10 +33,10 @@ MonoBehaviour:
       time: 0
     - type: 2
       id: M_B
-      time: 20
+      time: 30
     - type: 2
       id: M_B
-      time: 20
+      time: 30
   - name: Wave 03
     id: 
     obstacles:
@@ -61,12 +61,12 @@ MonoBehaviour:
     - type: 1
       id: 
       time: 2
+    - type: 2
+      id: M_B
+      time: 22
     - type: 1
       id: 
-      time: 17
-    - type: 1
-      id: 
-      time: 32
+      time: 40
   - name: Wave End
     id: 
     obstacles:
