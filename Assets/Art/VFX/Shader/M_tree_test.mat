@@ -51,7 +51,7 @@ Material:
     - _flammeinfluence: 0.3
     - _gradientsize: -0.06
     - _maskhardness: 1.5
-    - _maskoffset: 1
+    - _maskoffset: 0.002
     - _maskradius: 10
     - _noisescale: 3.42
     - _timespeed: -0.16

@@ -295,6 +295,8 @@ public class WaterGun : MonoBehaviour
     #region Debug
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying) return; 
+
         Gizmos.color = Color.green;
 
         if (_cursor != null)
