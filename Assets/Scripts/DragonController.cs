@@ -10,8 +10,9 @@ using UnityEngine.UIElements;
 public class DragonController : MonoBehaviour
 {
     #region Fields
-    [Foldout("References")] [SerializeField] private Transform _dragonMouth;
-    [Foldout("References")] [SerializeField] private LayerMask _layerToBreathOn;
+    [Foldout("References"),SerializeField] private Transform _dragonMouth;
+    [Foldout("References"),SerializeField] private LayerMask _layerToBreathOn;
+    [Foldout("References"),SerializeField] private Animator _dragonAnimator;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -84,8 +85,7 @@ public class DragonController : MonoBehaviour
 
     private IEnumerator BreathFire()
     {
-        // Sound
-        AudioManager.Instance.PlaySFX(SoundType.DragonBreath, _audioSource); // fly
+        PlayBreathFeedbacks();
 
         float flameFrequency = _breathingDuration/_flames; // get flame frequency for each breath (thx to breathing duration & flames nb)
 
@@ -115,6 +115,14 @@ public class DragonController : MonoBehaviour
         }
 
         _canBreath = true;
+    }
+
+    private void PlayBreathFeedbacks()
+    {
+        // Sound
+        AudioManager.Instance.PlaySFX(SoundType.DragonBreath, _audioSource); // breath
+        // Anim
+        _dragonAnimator.SetTrigger("BreathFire");
     }
 
     public void FollowSpline(SplineContainer spline, float lapDuration)

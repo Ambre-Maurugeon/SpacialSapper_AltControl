@@ -10,6 +10,10 @@ public class MeteoriteController : MonoBehaviour
     [SerializeField] private float _shakeIntensity = 1.5f;
     [SerializeField] private float _shakeDuration = 0.5f;
 
+    [Header("VFX")]
+    [SerializeField] private GameObject _meteoriteRIG;
+    [SerializeField] private GameObject _explosionVFX;
+
     private MeteoriteData _myData ; // { get; set; }
 
     // collision
@@ -86,8 +90,12 @@ public class MeteoriteController : MonoBehaviour
         // -- SOUND --
         AudioManager.Instance.PlaySFX(SoundType.DragonKamimazeExplosion, _audioSource);
 
+        // vfx
+        _meteoriteRIG.SetActive(false);
+        _explosionVFX.SetActive(true);
+
         // destroy meteorite 
-        Destroy(gameObject); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
+        Destroy(gameObject,2); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
     }
 
     void OnCollisionEnter(Collision collision)

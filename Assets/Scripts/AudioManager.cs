@@ -22,6 +22,7 @@ public enum SoundType
     BarrelShotWater = 14,
     WaterHitFire = 15, //done => to edit ig
     DragonBreath = 16, // done
+    Music = 17,
 }
 
 [Serializable]
@@ -52,7 +53,7 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         // Ensure AudioSources exist
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();

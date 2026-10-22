@@ -30,7 +30,7 @@ public class DragonManager : MonoBehaviour
         {
             Instance = this;
         }
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
 
         // -- INIT myself --
         Init();

@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer; // values re
     private float _lastArduinoReload;
 
     public static GAME_STATE State => _state;
     private static GAME_STATE _state = GAME_STATE.HUB;
-
-    public static GameManager Instance { get; private set; }
 
 
     #region Main
@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitWithOthers();
+
+        AudioManager.Instance.PlayMusic(SoundType.Music);
     }
 
     // Update is called once per frame

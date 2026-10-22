@@ -90,6 +90,7 @@ MonoBehaviour:
   _layerToBreathOn:
     serializedVersion: 2
     m_Bits: 256
+  _dragonAnimator: {fileID: 7848433572582716183}
   _breathingDelay: 12
   _breathingDuration: 2.7
   _breathingDistance: 100

@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434ab90997ccf574e9f10d12ce3a130c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireController
-  _harmlessTime: 13
+  _harmlessTime: 10
   _redDmg: 2
   _dmgFrequency: 3
   _fireDamageable:
@@ -434,11 +434,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 312931579454355892, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_Name
-      value: InoffensiveSmoke
+      value: WhiteSmoke
       objectReference: {fileID: 0}
     - target: {fileID: 2032910409755712390, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_Name
-      value: OffensiveSmoke
+      value: BlackSmoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687672743348887473, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
+      propertyPath: m_Name
+      value: FireOffensive
       objectReference: {fileID: 0}
     - target: {fileID: 2687672743348887473, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_IsActive
@@ -490,7 +494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6590232663565458360, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7216944923001632962, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: playOnAwake

@@ -2001,6 +2001,14 @@ PrefabInstance:
       propertyPath: _meteoriteParent
       value: 
       objectReference: {fileID: 2064916415}
+    - target: {fileID: 7893777812732764508, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7893777812732764508, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8088520491964758915, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
