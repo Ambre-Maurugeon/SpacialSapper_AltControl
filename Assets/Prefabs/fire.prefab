@@ -397,10 +397,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireVFX
       objectReference: {fileID: 0}
-    - target: {fileID: 4362305010484131504, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: f38072633702bad4fa7248926a8f69f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.03093
