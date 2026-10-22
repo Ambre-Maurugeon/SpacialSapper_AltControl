@@ -74,44 +74,53 @@ public class Controls : MonoBehaviour
     void CalculatePos()
     {
 
-        // -- PLAYER POS--
-        // Input result
-        // invert to link rotation direction to accurate move direction 
-        if (ArduinoInputReceiver.Instance._useKeyboard)
-        {
             _playerParent.Rotate(Vector3.right, _dirY * _verticalSpeed , Space.Self);
             _playerParent.Rotate(Vector3.up, _dirX * _horizontalSpeed* -1, Space.Self); // invert to link rotation direction to accurate move direction 
 
-        }
-        else
-        {
-            float y = _horizontalTransform.eulerAngles.y +  (int)ArduinoInputReceiver.Instance._encoder1Value * _horizontalSpeed * -1 * Time.deltaTime;
-            float z = _verticalTransform.eulerAngles.z + (int)ArduinoInputReceiver.Instance._encoder2Value * _verticalSpeed * -1 * Time.deltaTime;
-            _verticalTransform.rotation = Quaternion.Euler(_verticalTransform.rotation.x, y, z);
-            _horizontalTransform.rotation = Quaternion.Euler(_horizontalTransform.rotation.x, y, z);
-        }
-
-
-        //_player.transform.position = _ancre.position;
-        //_player.transform.rotation = _ancre.rotation ;
     }
 
     private void UpdateDir()
     {
-        if(Mathf.Abs(PlayerController.MoveVector.x) > 0.01f) // if XInput != 0 => update dirX
-            _dirX = PlayerController.MoveVector.x;
+        if (ArduinoInputReceiver.Instance._useKeyboard)
+        {
+            if(Mathf.Abs(PlayerController.MoveVector.x) > 0.01f) // if XInput != 0 => update dirX
+                _dirX = PlayerController.MoveVector.x;
 
-        if (Mathf.Abs(PlayerController.MoveVector.y) > 0.01f) // if YInput != 0 => update dirY
-            _dirY = PlayerController.MoveVector.y;
+            if (Mathf.Abs(PlayerController.MoveVector.y) > 0.01f) // if YInput != 0 => update dirY
+                _dirY = PlayerController.MoveVector.y;
+        }
+        else
+        {
+            if(Mathf.Abs(PlayerController.ArduinoMoveVector.x) > 0.01f) // if XInput != 0 => update dirX
+                _dirX = PlayerController.ArduinoMoveVector.x;
+
+            if (Mathf.Abs(PlayerController.ArduinoMoveVector.y) > 0.01f) // if YInput != 0 => update dirY
+                _dirY = PlayerController.ArduinoMoveVector.y;
+        }
     }
 
     #region Speed
 
-    private bool IsHorizontalMoving => Mathf.Abs(PlayerController.MoveVector.x) >= 0.1f; // x tolerance
-    private bool IsVerticalMoving => Mathf.Abs(PlayerController.MoveVector.y) >= 0.1f; // y tolerance
+    private bool IsHorizontalMoving;
+    private bool IsVerticalMoving;
 
+    private void GetMovements()
+    {
+        if (ArduinoInputReceiver.Instance._useKeyboard)
+        {
+            IsHorizontalMoving = Mathf.Abs(PlayerController.MoveVector.x) >= 0.1f; // x tolerance
+            IsVerticalMoving = Mathf.Abs(PlayerController.MoveVector.y) >= 0.1f; // y tolerance
+        }
+        else
+        {
+            IsHorizontalMoving = Mathf.Abs(PlayerController.ArduinoMoveVector.x) >= 0.1f;
+            IsVerticalMoving = Mathf.Abs(PlayerController.ArduinoMoveVector.y) >= 0.1f;
+        }
+    }
+    
     private void UpdateSpeed()
     {
+        GetMovements();
         // Horizontal speed
         if (IsHorizontalMoving)
             Accelerate(ref _horizontalSpeed);

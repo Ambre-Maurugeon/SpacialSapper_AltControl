@@ -35,7 +35,7 @@ public class Health : MonoBehaviour
 
         _health = Mathf.Max(0, _health-dmg);
 
-        Debug.Log("takedmg, life : " + _health);
+        //Debug.Log("takedmg, life : " + _health);
 
         // UpdateVisuals();
 

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public static Vector2 MoveVector { get; private set; }
+    public static Vector2 ArduinoMoveVector { get; private set; }
     public static Vector2 LookVector { get; private set; }
     public static event Action OnKeyboardReload ;
     public static event Action OnArduinoReload ;
@@ -50,5 +51,10 @@ public class PlayerController : MonoBehaviour
     public static void ReloadFromArduino()
     {
         OnArduinoReload?.Invoke();
+    }
+
+    public static void ReadArduinoEncoderInput()
+    {
+        ArduinoMoveVector = new Vector2((int)ArduinoInputReceiver.Instance._encoder1Value,  (int)ArduinoInputReceiver.Instance._encoder2Value);
     }
 }

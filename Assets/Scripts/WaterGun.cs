@@ -52,7 +52,6 @@ public class WaterGun : MonoBehaviour
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer;
     private float _lastArduinoReload;
-    private bool _canArduinoReload;
 
     RaycastHit _hit; // DEBUG
 

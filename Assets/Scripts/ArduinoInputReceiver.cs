@@ -13,7 +13,9 @@ public class ArduinoInputReceiver : MonoBehaviour
     
     private bool _isButtonOn = false;
     private bool _wasButtonOn = false;
-    
+
+    [SerializeField] private float _encoderTimer; // same as Arduino ----------------------------------------------------------------------------
+    private float _lastEncoderTimer;
     
 #endregion
 
@@ -38,6 +40,7 @@ public class ArduinoInputReceiver : MonoBehaviour
     
     public void OnMessageArrived(string message)
     {
+        //Debug.Log(message);
         var splitMessage = message.Split(':');
         if (splitMessage.Length < 2) return;
         _isButtonOn = splitMessage[^1] == "1";
@@ -78,9 +81,16 @@ public class ArduinoInputReceiver : MonoBehaviour
                 break;
         }
 
+        if (Time.time - _lastEncoderTimer >= _encoderTimer)
+        {
+            //Debug.Log("Receiving Encoders : " + _encoder1Value + ":" + _encoder2Value);
+            _lastEncoderTimer = Time.time;
+            PlayerController.ReadArduinoEncoderInput();
+        }
+
         if (_isButtonOn && !_wasButtonOn)
         {
-            Debug.Log("Reloading from Arduino");
+            //Debug.Log("Reloading from Arduino");
             PlayerController.ReloadFromArduino();
         }
 
