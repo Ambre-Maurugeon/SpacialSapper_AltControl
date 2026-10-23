@@ -166,7 +166,7 @@ public class WaterGun : MonoBehaviour
     
     void OnArduinoReload()
     {
-        if (GameManager.Instance.State == GAME_STATE.DEFEAT) return;
+        if (GameManager.Instance.State == GAME_STATE.DEFEAT || _isShooting) return;
 
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
