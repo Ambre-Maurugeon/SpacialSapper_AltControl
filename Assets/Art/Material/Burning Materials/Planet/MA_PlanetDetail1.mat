@@ -45,14 +45,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Advance1: 1
     - _EnvironmentReflections: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SpecularHighlights: 1
     - _Taillenoise: 1
+    - _flamenoisescale1: 1
     - _normalscale: 0.1
     - _tailletexture: 2.4
+    - _timespeed1: -0.1
     m_Colors:
     - _Color0: {r: 0.7403243, g: 1, b: 0.19433957, a: 0}
     - _Color3: {r: 0.3231631, g: 1, b: 0.109803915, a: 0}

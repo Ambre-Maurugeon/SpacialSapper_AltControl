@@ -31,6 +31,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTex1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -53,6 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Advance1: 1
     - _EnvironmentReflections: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -62,6 +67,7 @@ Material:
     - _SpecularHighlights: 1
     - _baseinfluence: 0.1
     - _flamenoisescale: 1.88
+    - _flamenoisescale1: 1
     - _flammeinfluence: 0.3
     - _gradientsize: -0.06
     - _maskhardness: 1.5
@@ -69,6 +75,7 @@ Material:
     - _maskradius: 10
     - _noisescale: 3.42
     - _timespeed: -0.16
+    - _timespeed1: -0.1
     m_Colors:
     - _Timespeed: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
