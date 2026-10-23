@@ -696,6 +696,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4520055096255050646, guid: a2f2f4e5bb17cd34db03e814ce145b91, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 66688fe8e66bbdc48b9821dd298b3072, type: 3}
     - target: {fileID: 5114678643758748924, guid: a2f2f4e5bb17cd34db03e814ce145b91, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2034,6 +2038,10 @@ PrefabInstance:
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _arduinoReloadTimer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _cursorVerticalSpeed
       value: 12.5
       objectReference: {fileID: 0}
@@ -2111,7 +2119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4989057721629564402, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _maxSpeed
