@@ -754,6 +754,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 069f3e18dcdfa094290ad2a5e49a15bc, type: 3}
+--- !u!1001 &649495222
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.8724859
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000000510717
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 35.11149
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596953021080121902, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_Name
+      value: Trail_Dragon (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
 --- !u!1001 &775342745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2906,6 +2963,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c97af2573e96084593df79a254be939, type: 3}
+--- !u!1001 &9218738427518245032
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.89168
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.28456
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.43247
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449473577124407354, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3596953021080121902, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
+      propertyPath: m_Name
+      value: Trail_Dragon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6cc4ee9b0125014f8c436adedb951aa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2946,3 +3060,5 @@ SceneRoots:
   - {fileID: 141971161}
   - {fileID: 1542235644}
   - {fileID: 1941689622}
+  - {fileID: 9218738427518245032}
+  - {fileID: 649495222}
