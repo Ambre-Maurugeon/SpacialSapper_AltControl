@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _arduinoReloadTimer; // values re
     private float _lastArduinoReload;
 
-    public static GAME_STATE State => _state;
-    private static GAME_STATE _state = GAME_STATE.HUB;
+    public GAME_STATE State => _state;
+    private GAME_STATE _state = GAME_STATE.HUB;
 
 
     #region Main
@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     private void Restart()
     {
+        ChangeState(GAME_STATE.HUB);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

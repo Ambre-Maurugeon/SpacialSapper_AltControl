@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlanetController
   _healthSlider: {fileID: 0}
+  _lifeRenderer: {fileID: 1224309697848318231}
 --- !u!135 &4058222238886024224
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -413,5 +414,10 @@ PrefabInstance:
 --- !u!4 &1124832992812245006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1247483096830746633, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+  m_PrefabInstance: {fileID: 2221337714548015111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1224309697848318231 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1021852911631636752, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
   m_PrefabInstance: {fileID: 2221337714548015111}
   m_PrefabAsset: {fileID: 0}

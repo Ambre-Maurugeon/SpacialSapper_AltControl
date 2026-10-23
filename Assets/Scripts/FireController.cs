@@ -58,7 +58,7 @@ public class FireController : MonoBehaviour
     private IEnumerator StartFireBehaviour()
     {
         // don't make dmg until game isn't launched
-        yield return new WaitUntil(() => GameManager.State == GAME_STATE.PLAYING);
+        yield return new WaitUntil(() => GameManager.Instance.State == GAME_STATE.PLAYING);
 
         // wait X sec until the fire becomes harmful
         yield return new WaitForSeconds(_harmlessTime);
@@ -126,7 +126,7 @@ public class FireController : MonoBehaviour
     private void OnDie()
     {
         // TUTO/FIRST FIRE CONTROLLER DESTROY => launch game
-        if (GameManager.State == GAME_STATE.TUTO)
+        if (GameManager.Instance.State == GAME_STATE.TUTO)
             GameManager.Instance.LaunchGame();
 
         // -- VISUALS --

@@ -1,19 +1,23 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlanetController : MonoBehaviour
 {
-    [Header("Slider")]
-    [SerializeField] Slider _healthSlider; 
-    //[SerializeField] private float _speed = 20;// to edit 
+    [Header("Life")]
+    [SerializeField] Renderer _lifeRenderer;
 
+    // ui life advance
+    List<Material> _lifeMaterials= new();
+    private float _lifeAdvance = 0;
+
+    private bool _lifeIsDrecreasing = false;
+
+    // health
     Health _healthComponent;
-
     private float _initHealth;
 
-    private bool _isDrecreasing = false;
 
     #region Main
     private void Awake()
@@ -42,33 +46,63 @@ public class PlanetController : MonoBehaviour
         _healthComponent.OnDamage += OnDamage;
 
         _initHealth = _healthComponent.MyHealth;
-        _healthSlider.value = _initHealth;
+
+        // water jet
+        _lifeRenderer.GetMaterials(_lifeMaterials); // init material list
+        ResetLifeAdvance(); // start without water jet
     }
    
-    private void OnDamage(int dmg)
-    {
-        if (!_isDrecreasing)
-            StartCoroutine("DecreaseSliderValueProgressively");
-    }
 
-    private IEnumerator DecreaseSliderValueProgressively()
+    private IEnumerator DecreaseAdvanceProgressively()
     {
-        _isDrecreasing = true;
+        _lifeIsDrecreasing = true;
 
-        // -- TO EDIT --
-        // slider value progressively reaches the health value
-        while (_healthSlider.value > _healthComponent.MyHealth / _initHealth)
+        while (_lifeAdvance > Mathf.Clamp01(_healthComponent.MyHealth / _initHealth))
         {
-            _healthSlider.value -= Time.deltaTime ;
-            yield return new WaitForEndOfFrame();
+            float targetAdvance = Mathf.Clamp01(_healthComponent.MyHealth / _initHealth);
+
+            _lifeAdvance = Mathf.MoveTowards(
+                _lifeAdvance,
+                targetAdvance,
+                Time.deltaTime / 2f
+            );
+
+            ApplyAdvanceOnLife();
+
+            yield return null;
         }
 
-        _isDrecreasing = false;
+        _lifeAdvance = Mathf.Clamp01(_healthComponent.MyHealth / _initHealth);
+        ApplyAdvanceOnLife();
+
+        _lifeIsDrecreasing = false;
+    }
+
+
+    private void ResetLifeAdvance()
+    {
+        _lifeAdvance = 1; 
+        ApplyAdvanceOnLife();
+    }
+    private void ApplyAdvanceOnLife()
+    {
+        // apply advance value in mats
+        for (int i = 0; i < _lifeMaterials.Count; i++)
+        {
+            _lifeMaterials[i].SetFloat("_advance", _lifeAdvance);
+        }
+    }
+
+
+    private void OnDamage(int dmg)
+    {
+        if (!_lifeIsDrecreasing)
+            StartCoroutine("DecreaseAdvanceProgressively");
     }
 
     private void OnDie()
     {
-        if (GameManager.State == GAME_STATE.PLAYING)
+        if (GameManager.Instance.State == GAME_STATE.PLAYING)
             GameManager.Instance.LaunchDefeat();
     }
     #endregion

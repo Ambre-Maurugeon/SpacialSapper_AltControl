@@ -30,10 +30,9 @@ public class WaterGun : MonoBehaviour
     [Foldout("Art References"),SerializeField] GameObject _waterImpactVFX;
 
     [Header("Water Reload")]
-    [Foldout("Art References"), SerializeField] float _reloadSpeed = 1;
-    [Foldout("Art References"),SerializeField] Renderer _waterReloadRenderer;
-    List<Material> _waterReloadMaterials = new();
-    private float _reloadAdvance = 0;
+    [Foldout("Art References"), SerializeField] Transform _uiWaterLevel;
+    [Foldout("Art References"), SerializeField] Transform _waterReloadUp;
+    [Foldout("Art References"), SerializeField] Transform _waterReloadDown;
 
     [Header("Cursor Values")]
     [SerializeField] float _clampPosX = 300 ;
@@ -99,9 +98,8 @@ public class WaterGun : MonoBehaviour
         _waterRenderer.GetMaterials(_waterJetMaterials); // init material list
         ResetWaterJet(); // start without water jet
 
-        //// water reload visuals
-        //_waterReloadRenderer.GetMaterials(_waterReloadMaterials);
-        //ResetWaterReload();
+        // water reload
+        StartCoroutine(UpdateReloadWaterLevel(_waterReloadUp, _waterReloadDown, 1));
 
     }
 
@@ -145,9 +143,12 @@ public class WaterGun : MonoBehaviour
 
     void OnReload()
     {
-        if (GameManager.State == GAME_STATE.DEFEAT) return;
+        if (GameManager.Instance.State == GAME_STATE.DEFEAT) return;
 
-        Debug.Log("delay, reload in " + _firingDelay + " seconds.");
+        // debug
+        //Debug.Log("delay, reload in " + _firingDelay + " seconds.");
+
+        StartCoroutine(UpdateReloadWaterLevel(_waterReloadDown, _waterReloadUp, _firingDelay));
         Invoke("StartShooting",_firingDelay);
 
         // sound
@@ -156,39 +157,37 @@ public class WaterGun : MonoBehaviour
     
     void OnArduinoReload()
     {
+        if (GameManager.Instance.State == GAME_STATE.DEFEAT) return;
+
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
+
+        StartCoroutine(UpdateReloadWaterLevel(_waterReloadDown, _waterReloadUp, _firingDelay));
         Invoke("StartShooting",_firingDelay);
 
         // sound
         AudioManager.Instance.PlaySFX(SoundType.ReloadWater, _audioSource); // just on reload
     }
 
-    //IEnumerator IncreaseWaterInRecipe()
-    //{
-    //    float time = 0;
-    //    float speed = 
-    //    while (true)
-    //    {
-    //        time += Time.deltaTime;
-    //    }
-    //}
 
     void StartShooting()
     {
         // sound
         AudioManager.Instance.PlaySFX(SoundType.WaterFullReload, _audioSource); // water full reload it's time to shoot
 
-        Debug.Log("Start shooting");
+        // debug
+        //Debug.Log("Start shooting");
 
         _isShooting = true;
 
         StartCoroutine("Shoot");
+        StartCoroutine(UpdateReloadWaterLevel(_waterReloadUp, _waterReloadDown, _firingDuration));
     }
 
     IEnumerator Shoot()
     {
-        Debug.Log("je shoot");
+        // debug
+        //Debug.Log("je shoot");
 
         float time = 0;
         float frequencyTime = _damageFrequency;
@@ -231,10 +230,12 @@ public class WaterGun : MonoBehaviour
         }
 
         // -- STOP SHOOTING --
-        ShowTrajectory(false); // pink line, debug for now
+        //ShowTrajectory(false); // pink line, debug for now
         ResetWaterJet();
         _hit = new RaycastHit();
-        Debug.Log("Shooting ended");
+
+        //debug
+        //Debug.Log("Shooting ended");
 
         // feedbacks
         // sound
@@ -273,18 +274,9 @@ public class WaterGun : MonoBehaviour
 
         // move barrel look at rot
         _barrel.transform.rotation = GeometryUtils.GetLookRotation(_barrel.transform.position,destination); // to call in calculate mouse pos => which destination
-
-        // TO EDIT scale y of water jet = firingDistance => does't work ?
-
-        // Visuals
-        ShowTrajectory(true); // pink line, debug for now
     }
 
     #region WaterJet
-    private void ShowTrajectory(bool show)
-    {
-        _ballisticLine.enabled = show;
-    }
 
     private void ApplyAdvanceOnWaterJet()
     {
@@ -323,35 +315,19 @@ public class WaterGun : MonoBehaviour
 
     #region WaterReload
 
-    private void ResetWaterReload()
-    {
-        _reloadAdvance = 0;
-        ApplyAdvanceOnWaterJet();
-    }
-
-    private IEnumerator IncreaseReloadWaterLevel(float from, float to)
+    IEnumerator UpdateReloadWaterLevel(Transform from, Transform to, float duration)
     {
         float time = 0;
-        while (time <1)
+        while (time < duration)
         {
-            time += Time.deltaTime * _reloadSpeed;
+            time += Time.deltaTime;
+            float t = time / duration;
 
-            _reloadAdvance = Mathf.Lerp(from, to, time);
+            _uiWaterLevel.localPosition = Vector3.Lerp(from.localPosition, to.localPosition, t);
             yield return new WaitForEndOfFrame();
         }
 
-    }
-
-    private void ApplyAdvanceOnWaterReload()
-    {
-        // apply advance value in mats
-        for (int i = 0; i < _waterJetMaterials.Count; i++)
-        {
-            _waterJetMaterials[i].SetFloat("_Advance", _waterAdvance);
-        }
-
-        //// deplace impact collider
-        //GetImpactPosition(); // for impact vfx
+        _uiWaterLevel.localPosition = to.localPosition;
     }
 
     #endregion

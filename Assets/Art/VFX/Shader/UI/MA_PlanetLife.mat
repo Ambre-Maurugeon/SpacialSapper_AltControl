@@ -40,6 +40,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _advance: 0
     - _level: 0.628
     m_Colors: []
   m_BuildTextureStacks: []

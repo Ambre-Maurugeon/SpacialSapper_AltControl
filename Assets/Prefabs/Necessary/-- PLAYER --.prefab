@@ -102,6 +102,7 @@ Transform:
   - {fileID: 6587899465772882989}
   - {fileID: 558773376142438570}
   - {fileID: 7440848651717610638}
+  - {fileID: 6652479495169772109}
   m_Father: {fileID: 1247483096830746633}
   m_LocalEulerAnglesHint: {x: 0, y: -120.294, z: 131.4}
 --- !u!33 &5655687199166039781
@@ -830,7 +831,6 @@ Transform:
   - {fileID: 3274579154989188179}
   - {fileID: 1405181536915091582}
   - {fileID: 5442094081298534201}
-  - {fileID: 6652479495169772109}
   - {fileID: 2190285520643252863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1157,8 +1157,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   _waterImpactVFX: {fileID: 6726699913044831653}
-  _reloadSpeed: 1
-  _waterReloadRenderer: {fileID: 0}
+  _uiWaterLevel: {fileID: 0}
+  _waterReloadUp: {fileID: 0}
+  _waterReloadDown: {fileID: 0}
   _clampPosX: 600
   _clampPosY: 600
   _cursorHorizontalSpeed: 1
@@ -1171,7 +1172,7 @@ MonoBehaviour:
   _firingDistance: 100
   _waterDamage: 10
   _damageFrequency: 0.5
-  _arduinoReloadTimer: 0
+  _arduinoReloadTimer: 1
 --- !u!82 &751682142558210619
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1731,7 +1732,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1247483096830746633}
+    m_TransformParent: {fileID: 8753966461171419091}
     m_Modifications:
     - target: {fileID: 8311666819004642363, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_Name
@@ -1751,7 +1752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -68.284
+      value: 0.59700006
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1759,23 +1760,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.597
+      value: 0.985985
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.67655706
+      value: 0.53706586
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7310317
+      value: -0.49478802
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.082968764
+      value: -0.4197303
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.03129575
+      value: -0.5390469
       objectReference: {fileID: 0}
     - target: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
