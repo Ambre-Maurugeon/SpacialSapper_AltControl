@@ -6,21 +6,23 @@ using UnityEngine;
 public enum SoundType
 {
     None = 0,
-    DragonDie = 1,
-    DragonFly = 2,
+    DragonDie = 1, // done
+    DragonFly = 2, // 
     RedFire = 3, 
-    YellowFire = 4,
-    DragonKamimazeAnnonce = 5,
-    DragonKamimazeExplosion = 6,
-    DragonKamimazeFonce = 7,
-    HorizontalMovement = 8,
-    VertiicalMovement = 9,
-    FireExtinct = 10,
-    EmptyBarrel = 11,
-    ReloadWater = 12,
-    WaterFullReload = 13,
+    YellowFire = 4, // done
+    DragonKamimazeAnnonce = 5, // done
+    DragonKamimazeExplosion = 6, // done
+    DragonKamimazeFonce = 7, // done
+    HorizontalMovement = 8, // done
+    VertiicalMovement = 9, // done
+    FireExtinct = 10, //done
+    EmptyBarrel = 11, // done
+    ReloadWater = 12, // done
+    WaterFullReload = 13, // done
     BarrelShotWater = 14,
-    WaterHitFire = 15,
+    WaterHitFire = 15, //done => to edit ig
+    DragonBreath = 16, // done
+    Music = 17,
 }
 
 [Serializable]
@@ -51,7 +53,7 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         // Ensure AudioSources exist
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
@@ -68,8 +70,10 @@ public class AudioManager : MonoBehaviour
     }
 
     // Play a single sound effect once without cutting other sounds
-    public void PlaySFX(SoundType type)
+    public void PlaySFX(SoundType type, AudioSource source = null)
     {
+        if (!source) source = sfxSource;
+
         if (_soundDict.TryGetValue(type, out SoundData data))
         {
             if (data.clip != null)
@@ -82,6 +86,25 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"Sound {type} not found in AudioManager!");
         }
     }
+
+    //get data
+    public AudioClip GetAudioClip(SoundType type)
+    {
+
+        if (_soundDict.TryGetValue(type, out SoundData data))
+        {
+            if (data.clip != null)
+            {
+                return data.clip;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Sound {type} not found in AudioManager!");
+        }
+        return null;
+    }
+
 
     // Play background music (loops continuously)
     public void PlayMusic(SoundType type)

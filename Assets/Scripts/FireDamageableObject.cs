@@ -5,19 +5,33 @@ using UnityEngine;
 
 public class FireDamageableObject : MonoBehaviour
 {
-    // FOR GA
-    // for mask offset
-    private float _initHealth;
-    private float _currentHealth;
-    private float _maskOffsetAdvance = 1;
 
+    [Header("Values")]
     [SerializeField] private float _speed = 40; // to edit if time => calculate speed using frequency
     private bool _isDead = false;
     private bool _isDecreasing = false;
 
+    // FOR GA
+    // for mask offset
+
+    [Header("Art")]
+    [SerializeField] private GameObject _cenders;
+    private MeshRenderer _mesh;
+
+    private float _initHealth;
+    private float _currentHealth;
+    private float _maskOffsetAdvance = 1;
+
     private List<Material> _materials = new();
-    
+
     #region Main
+    private void Awake()
+    {
+        // init myself
+        if(_cenders) _cenders.SetActive(false);
+        _mesh = GetComponent<MeshRenderer>();
+    }
+
     private void Start()
     {
         InitMyselfWithOthers();
@@ -65,7 +79,7 @@ public class FireDamageableObject : MonoBehaviour
         {
             _currentHealth -= Time.deltaTime * _speed; 
 
-            _maskOffsetAdvance = 1 - (_currentHealth / _initHealth); // get percent for GA use
+            _maskOffsetAdvance = _currentHealth / _initHealth; // get percent for GA use
             ApplyMaskOffsetOnMat();
 
             yield return new WaitForEndOfFrame();
@@ -82,7 +96,7 @@ public class FireDamageableObject : MonoBehaviour
     private void ResetMaskOffsetAdvance() // doesn't work ? why
     {
         _currentHealth = 0;
-        _maskOffsetAdvance = 0; // to edit => do it progressively 
+        _maskOffsetAdvance = 1; // to edit => do it progressively 
         ApplyMaskOffsetOnMat();
     }
 
@@ -91,7 +105,7 @@ public class FireDamageableObject : MonoBehaviour
         // apply advance value in mats
         for (int i = 0; i < _materials.Count; i++)
         {
-            _materials[i].SetFloat("_maskoffset", _maskOffsetAdvance);
+            _materials[i].SetFloat("_Advance1", _maskOffsetAdvance);
         }
     }
 
@@ -110,6 +124,13 @@ public class FireDamageableObject : MonoBehaviour
         yield return new WaitUntil(() => _isDead);
 
         // activate cendres object
-        Destroy(gameObject); // for now
+        if (_cenders && _mesh)
+        {
+            _mesh.enabled = false;
+            _cenders.SetActive(true);
+            GetComponent<Health>().enabled = false;
+        }
+        else
+            Destroy(gameObject);
     }
 }

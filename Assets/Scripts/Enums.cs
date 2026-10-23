@@ -19,3 +19,12 @@ public enum OBSTACLE
     DRAGON = 1,
     METEORITE = 2,
 }
+
+public enum GAME_STATE
+{
+    NONE = 0,
+    HUB = 1,
+    TUTO = 2,
+    PLAYING = 3,
+    DEFEAT = 4,
+}

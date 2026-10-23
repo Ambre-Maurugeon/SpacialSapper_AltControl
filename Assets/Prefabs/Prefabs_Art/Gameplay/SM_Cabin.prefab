@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 85b9fc87e9c99784a8c671db0d04538d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2fa8463cfc99d724ea3b1603f5c92139, type: 2}
+      objectReference: {fileID: 2100000, guid: 69ae1ba760e3e9c46adb62733fbe299e, type: 2}
     - target: {fileID: 919132149155446097, guid: 85b9fc87e9c99784a8c671db0d04538d, type: 3}
       propertyPath: m_Name
       value: SM_Cabin

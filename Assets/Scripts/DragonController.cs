@@ -10,8 +10,12 @@ using UnityEngine.UIElements;
 public class DragonController : MonoBehaviour
 {
     #region Fields
-    [Foldout("References")] [SerializeField] private Transform _dragonMouth;
-    [Foldout("References")] [SerializeField] private LayerMask _layerToBreathOn;
+    [Foldout("References"),SerializeField] private Transform _dragonMouth;
+    [Foldout("References"),SerializeField] private LayerMask _layerToBreathOn;
+
+    [Header("Art")]
+    [Foldout("References"), SerializeField] private GameObject _breathVFX;
+    [Foldout("References"), SerializeField] private Animator _dragonAnimator;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -20,11 +24,21 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float _breathingRadius = 0.5f;
     [SerializeField] private int _flames = 5;
 
+    //SOUND
+    [Header("Sound")]
+    [SerializeField] private float _flyFrequency = 1f;
+    AudioSource _audioSource;
+
+    //
     private bool _canBreath = false;
+
+    //
     GameObject _planet;
 
     // splines
     SplineAnimate splineAnimate;
+
+    
 
     #endregion
 
@@ -37,6 +51,9 @@ public class DragonController : MonoBehaviour
     {
         InitWithOthers();
 
+        // fly sfx
+        StartCoroutine("LoopFlySFX"); // in test
+
         // launch dragon breathing loop at start
         StartCoroutine("StartBreathingBehaviour");
     }
@@ -45,9 +62,17 @@ public class DragonController : MonoBehaviour
     #region Init
     private void InitMySelf()
     {
+        //position
         if (!_dragonMouth) _dragonMouth = GetComponent<Transform>();
 
+        // spline
         splineAnimate = GetComponent<SplineAnimate>();
+
+        //vfx
+        _breathVFX.SetActive(false);
+
+        // sfx
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void InitWithOthers()
@@ -65,7 +90,9 @@ public class DragonController : MonoBehaviour
     private IEnumerator StartBreathingBehaviour()
     {
         while(true){
+            // reset for another breath
             _canBreath = false;
+            ResetBreathingFeedbacks();
 
             // delay before breathing 
             yield return new WaitForSeconds(_breathingDelay); 
@@ -78,6 +105,8 @@ public class DragonController : MonoBehaviour
 
     private IEnumerator BreathFire()
     {
+        PlayBreathFeedbacks();
+
         float flameFrequency = _breathingDuration/_flames; // get flame frequency for each breath (thx to breathing duration & flames nb)
 
         float time = 0;
@@ -108,6 +137,22 @@ public class DragonController : MonoBehaviour
         _canBreath = true;
     }
 
+    private void PlayBreathFeedbacks()
+    {
+        // Sound
+        AudioManager.Instance.PlaySFX(SoundType.DragonBreath, _audioSource); // breath
+        // Anim
+        _dragonAnimator.SetTrigger("BreathFire");
+        // vfx
+        _breathVFX.SetActive(true);
+    }
+
+    private void ResetBreathingFeedbacks()
+    {
+        // vfx
+        _breathVFX.SetActive(false);
+    }
+
     public void FollowSpline(SplineContainer spline, float lapDuration)
     {
         splineAnimate.Container = spline;
@@ -124,6 +169,26 @@ public class DragonController : MonoBehaviour
     // broadcast in health component
     private void OnDie()
     {
-        Destroy(gameObject);
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.DragonDie, _audioSource);  // die
+
+        Destroy(gameObject,1);
     }
+
+    #region Sound
+
+    // IN TEST
+    private IEnumerator LoopFlySFX() 
+    {
+
+        AudioClip clip = AudioManager.Instance.GetAudioClip(SoundType.DragonFly);
+
+        while (true)
+        {
+            _audioSource.PlayOneShot(clip);
+
+            yield return new WaitForSeconds(_flyFrequency);
+        }
+    }
+    #endregion
 }

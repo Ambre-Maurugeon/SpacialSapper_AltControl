@@ -1,17 +1,26 @@
 
+using System.Collections;
+using System.Drawing.Text;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Splines;
+using static Unity.VisualScripting.Member;
 
 public class Controls : MonoBehaviour
 {
     #region Fields
-    [Header("References")]
-    [SerializeField] Transform _horizontalTransform; // to remove when arduino rotation is updated with new fixed rotation
-    [SerializeField] Transform _verticalTransform; // to remove when arduino rotation is updated with new fixed rotation
+    [Header("Player")]
+    [Foldout("References"), SerializeField] Transform _horizontalTransform; // to remove when arduino rotation is updated with new fixed rotation
+    [Foldout("References"), SerializeField] Transform _verticalTransform; // to remove when arduino rotation is updated with new fixed rotation
 
-    [SerializeField] GameObject _player;
-    [SerializeField] Transform _ancre; // to remove when arduino rotation is updated with new fixed rotation
-    [SerializeField] Transform _playerParent;
+    [Foldout("References"), SerializeField] GameObject _player;
+    [Foldout("References"), SerializeField] Transform _ancre; // to remove when arduino rotation is updated with new fixed rotation
+    [Foldout("References"), SerializeField] Transform _playerParent;
+
+    [Header("Sounds")]
+    [Foldout("References"),SerializeField] AudioSource _audioSourceVertical;
+    [Foldout("References"), SerializeField] AudioSource _audioSourceHorizontal;
+
 
     [Header("Speed")]
 
@@ -22,10 +31,24 @@ public class Controls : MonoBehaviour
     float _horizontalSpeed = 0f;
     float _verticalSpeed = 0f;
 
+    [Header("Sound")]
+    [SerializeField] float _horizontalSoundFrequency = 0.75f;
+    [SerializeField] float _verticalSoundFrequency = 0.75f;
+
+    bool _isPlayingHorizontalSound = false;
+    bool _isPlayingVerticalSound = false;
+
+    [Header("Art")]
+    [SerializeField] Transform _verticalRoad;
+
+    // planet
+    Transform _planet;
+
+    // dir
     float _dirX;
     float _dirY;
 
-    Transform _planet;
+
     #endregion
 
     #region Main
@@ -43,10 +66,20 @@ public class Controls : MonoBehaviour
         UpdateSpeed();
 
         CalculatePos();
+
+        // sound
+        UpdateSound();
+
+        // visual effet, rotate road
+        if (Mathf.Abs(_verticalSpeed)>0)
+        {
+            _verticalRoad.Rotate(10 * Time.deltaTime , 0f, 0f, Space.Self);
+        }
     }
     #endregion
 
     #region Init
+
     private void InitWithOthers()
     {
         _planet = GameObject.FindGameObjectWithTag("Planet").transform;
@@ -135,7 +168,7 @@ public class Controls : MonoBehaviour
     }
 
     private void Accelerate(ref float speed)
-    {
+    { 
         speed += _acceleration * Time.deltaTime;
         if (speed >= _maxSpeed)
         {
@@ -153,5 +186,73 @@ public class Controls : MonoBehaviour
     }
 
     #endregion
+
+    #region Sound
+    private void UpdateSound()
+    {
+        // Horizontal sound
+        if (!_isPlayingHorizontalSound)
+        {
+            if (_horizontalSpeed > 0)
+                StartCoroutine("LoopHorizontalSound");
+            else
+                _isPlayingHorizontalSound = false;
+                
+        }
+
+        // Vertical sound
+        if (!_isPlayingVerticalSound)
+        {
+            if (_verticalSpeed > 0)
+                StartCoroutine("LoopVerticalSound");
+            else
+                _isPlayingVerticalSound = false;
+
+        }
+    }
+
+    private IEnumerator LoopHorizontalSound()
+    {
+        _isPlayingHorizontalSound = true;
+
+        // if is horizontal moving => play sound each x sec
+        float time = 0;
+        while (_horizontalSpeed>0)
+        {
+            time += Time.deltaTime; // * _horizontalSpeed; // sound frequency depends on player speed
+
+            if (time >= _horizontalSoundFrequency)// sound frequency
+            {
+                _audioSourceHorizontal.pitch = Random.Range(0.0f, 1.0f);
+                _audioSourceHorizontal.Play();
+                time = 0;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        _isPlayingHorizontalSound = false;
+    }
+
+    private IEnumerator LoopVerticalSound()
+    {
+        _isPlayingVerticalSound = true;
+
+        // if is horizontal moving => play sound each x sec
+        float time = 0;
+        while (_verticalSpeed > 0)
+        {
+            time += Time.deltaTime; // * _verticalSpeed;
+
+            if (time >= _verticalSoundFrequency)// sound frequency
+            {
+                _audioSourceVertical.pitch = Random.Range(0.0f, 1.0f);
+                _audioSourceVertical.Play();
+                time = 0;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        _isPlayingVerticalSound = false;
+    }
+    #endregion
+
 
 }

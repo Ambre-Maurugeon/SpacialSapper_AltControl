@@ -13,7 +13,7 @@ public class FireController : MonoBehaviour
         RED = 2,
     }
 
-    STATE myState = STATE.YELLOW; // useless for now, but can be used later
+    STATE _state = STATE.YELLOW; // useless for now, but can be used later
 
     [Header("Damage")]
     [SerializeField] private float _harmlessTime = 10;
@@ -23,23 +23,20 @@ public class FireController : MonoBehaviour
 
     [SerializeField] private float _dmgRadius = 0.075f;
 
-    [Header("Art")]
-    [SerializeField] private Material _yellowMat;
-    [SerializeField] private Material _redMat;
-    MeshRenderer myMesh; // only change mat for now when switching when changing the fire type
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem _offensivePS;
+    [SerializeField] private ParticleSystem _flamePS;
 
-    [Header("Art")]
     [SerializeField] private ParticleSystem _deathPS;
     [SerializeField] private ParticleSystem _damagePS;
     [SerializeField] private GameObject _fireVFX;
 
+    // -- SOUND --
+    //AudioSource _audioSource;
+
     #endregion
 
     #region Main
-    private void Awake()
-    {
-        InitMyself();
-    }
 
     private void Start()
     {
@@ -49,10 +46,6 @@ public class FireController : MonoBehaviour
     #endregion
 
     #region Init
-    private void InitMyself()
-    {
-        myMesh = GetComponent<MeshRenderer>();
-    }
 
     private void InitWithOthers()
     {
@@ -64,15 +57,18 @@ public class FireController : MonoBehaviour
 
     private IEnumerator StartFireBehaviour()
     {
+        // don't make dmg until game isn't launched
+        yield return new WaitUntil(() => GameManager.Instance.State == GAME_STATE.PLAYING);
+
         // wait X sec until the fire becomes harmful
         yield return new WaitForSeconds(_harmlessTime);
 
         // becomes a damaging fire
-        ChangeType(STATE.RED);
+        ChangeState(STATE.RED);
         StartCoroutine("DamageBehaviour"); // launch dmg loop
     }
 
-    private IEnumerator DamageBehaviour() // to edit change method name ?
+    private IEnumerator DamageBehaviour() 
     {
         float frequencyTime = 0;
 
@@ -93,17 +89,18 @@ public class FireController : MonoBehaviour
         }
     }
 
-    private void ChangeType(STATE state)
+    private void ChangeState(STATE state)
     {
-        myState = state;
+        _state = state;
 
         switch (state)
         {
             case STATE.YELLOW:
-                myMesh.material = _yellowMat; // change first mat by default, to edit if multiple mat ?
+                //
                 break;
             case STATE.RED:
-                myMesh.material = _redMat; // change first mat by default, to edit if multiple mat ?
+                _offensivePS.Play();
+                _flamePS.Play();
                 break ;
             default:
                 return;
@@ -128,16 +125,30 @@ public class FireController : MonoBehaviour
 
     private void OnDie()
     {
-        //_deathVFX.SetActive(true);
+        // TUTO/FIRST FIRE CONTROLLER DESTROY => launch game
+        if (GameManager.Instance.State == GAME_STATE.TUTO)
+            GameManager.Instance.LaunchGame();
+
+        // -- VISUALS --
         _fireVFX.SetActive(false);
         _deathPS?.Play();
+
+        // -- SOUNDS --
+        AudioManager.Instance.PlaySFX(SoundType.FireExtinct); // water dmg
+
+        // -- DESTROY --
         Destroy(gameObject,2); // hard code time for now
     }
 
     private void OnDamage(int dmg)
     {
-        _damagePS?.Play();
+        _damagePS?.Play(); // play dmg particle system
+
+        // -- SOUND --
+        AudioManager.Instance.PlaySFX(SoundType.WaterHitFire); // water dmg
+        
     }
+
 
     #region Debug
     private void OnDrawGizmosSelected()

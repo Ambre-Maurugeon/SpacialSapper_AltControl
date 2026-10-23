@@ -10,14 +10,33 @@ public class WavesManager : MonoBehaviour
     [SerializeField] private float _intervalTime = 15;
 
     private bool _wavesAchieved = false;
+    public static WavesManager Instance { get; private set; }
 
-   // Start is called once before the first execution of Update after the MonoBehaviour is created
-   void Start()
+
+    #region Main
+    private void Awake()
     {
-        StartCoroutine("StartWaves");
+        // -- INSTANCE --
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+        //DontDestroyOnLoad(this.gameObject); // can be edit later
     }
 
-    private IEnumerator StartWaves()
+    void Start()
+    {
+        //StartCoroutine("StartWaves");
+    }
+
+    #endregion
+
+    public IEnumerator StartWaves()
     {
         float time = 0;
 
@@ -90,6 +109,7 @@ public class WavesManager : MonoBehaviour
                     {
                         _wavesAchieved = true;
                         Debug.Log("Waves achieved");
+
                         yield return null;
                     }
 

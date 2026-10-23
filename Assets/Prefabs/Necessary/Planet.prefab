@@ -267,7 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8eca41de8f7b7745a8d1721e8335caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlanetController
-  _healthSlider: {fileID: 0}
+  _lifeRenderer: {fileID: 1224309697848318231}
+  _planetRenderer: {fileID: 3700111260611895023}
 --- !u!135 &4058222238886024224
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -377,6 +378,10 @@ PrefabInstance:
       propertyPath: _playerParent
       value: 
       objectReference: {fileID: 2073723653486024218}
+    - target: {fileID: 7049075101727464699, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d7dabe9e3773b14cb1c97b89e37b798, type: 3}
     - target: {fileID: 7440848651717610638, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.95
@@ -413,5 +418,10 @@ PrefabInstance:
 --- !u!4 &1124832992812245006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1247483096830746633, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
+  m_PrefabInstance: {fileID: 2221337714548015111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1224309697848318231 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1021852911631636752, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
   m_PrefabInstance: {fileID: 2221337714548015111}
   m_PrefabAsset: {fileID: 0}
