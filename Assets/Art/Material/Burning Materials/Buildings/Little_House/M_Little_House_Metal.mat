@@ -129,16 +129,20 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     - __dirty: 1
+    - _advance: 1
     - _baseinfluence: 0
-    - _flamenoisescale: 1
+    - _flamenoisescale: 2.8
     - _flamenoisescale1: 1
     - _flammeinfluence: 0
     - _gradientsize: 0
+    - _hardness: 0.7
     - _maskhardness: 0
+    - _masknoise: 3.5
     - _maskoffset: 0
     - _maskradius: 0
     - _noisescale: 1
-    - _timespeed: -0.1
+    - _step: 0.689
+    - _timespeed: -1.05
     - _timespeed1: -0.1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

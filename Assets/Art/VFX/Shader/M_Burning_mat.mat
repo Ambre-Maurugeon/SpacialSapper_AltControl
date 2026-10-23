@@ -57,7 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Advance1: 1
+    - _Advance1: 0.317
     - _EnvironmentReflections: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -65,15 +65,19 @@ Material:
     - _Smoothness: 0
     - _Specular: 0
     - _SpecularHighlights: 1
+    - _advance: 0
     - _baseinfluence: 0.1
     - _flamenoisescale: 1.88
     - _flamenoisescale1: 1
     - _flammeinfluence: 0.3
     - _gradientsize: -0.06
+    - _hardness: 0
     - _maskhardness: 1.5
+    - _masknoise: 1
     - _maskoffset: 0
     - _maskradius: 10
     - _noisescale: 3.42
+    - _step: 0
     - _timespeed: -0.16
     - _timespeed1: -0.1
     m_Colors:
