@@ -7,9 +7,8 @@ Shader "MA_Planet"
 		_TX_Papier( "TX_Papier", 2D ) = "white" {}
 		_Advance1( "Advance", Range( 0, 1 ) ) = 0
 		_Taillenoise( "Taille noise", Float ) = 1
-		_flamenoisescale1( "flame noise scale", Float ) = 1
 		_tailletexture( "taille texture", Float ) = 1
-		_timespeed1( "time speed", Float ) = -0.1
+		_timespeed1( "time speed", Float ) = -1.4
 		_Color0( "Color 0", Color ) = ( 0.2953007, 0.6065826, 0.8943396, 0 )
 		_Color3( "Color 3", Color ) = ( 0.1113207, 1, 0.291026, 0 )
 		_TX_PapierNORMAL( "TX_PapierNORMAL", 2D ) = "white" {}
@@ -297,9 +296,9 @@ Shader "MA_Planet"
 			#endif
 
 			#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 
 
@@ -356,7 +355,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -398,35 +396,6 @@ Shader "MA_Planet"
 			sampler2D _TX_PapierNORMAL;
 
 
-			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
-			float snoise( float2 v )
-			{
-				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
-				float2 i = floor( v + dot( v, C.yy ) );
-				float2 x0 = v - i + dot( i, C.xx );
-				float2 i1;
-				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
-				float4 x12 = x0.xyxy + C.xxzz;
-				x12.xy -= i1;
-				i = mod2D289( i );
-				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
-				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
-				m = m * m;
-				m = m * m;
-				float3 x = 2.0 * frac( p * C.www ) - 1.0;
-				float3 h = abs( x ) - 0.5;
-				float3 ox = floor( x + 0.5 );
-				float3 a0 = x - ox;
-				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
-				float3 g;
-				g.x = a0.x * x0.x + h.x * x0.y;
-				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-				return 130.0 * dot( m, g );
-			}
-			
-			
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
@@ -474,6 +443,7 @@ Shader "MA_Planet"
 				return 42.0 * dot( m, px);
 			}
 			
+			
 			float4 SampleGradient( Gradient gradient, float time )
 			{
 				float3 color = gradient.colors[0].rgb;
@@ -494,6 +464,34 @@ Shader "MA_Planet"
 				alpha = lerp(alpha, gradient.alphas[a].x, lerp(alphaPos, step(0.01, alphaPos), gradient.type));
 				}
 				return float4(color, alpha);
+			}
+			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
 			}
 			
 
@@ -713,14 +711,16 @@ Shader "MA_Planet"
 					BitangentWS = cross(NormalWS, -TangentWS);
 				#endif
 
-				float2 texCoord47 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D48 = snoise( texCoord47*_flamenoisescale1 );
-				simplePerlin2D48 = simplePerlin2D48*0.5 + 0.5;
-				float clampResult52 = clamp( step( simplePerlin2D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin2D48 , _Advance1 );
+				float simplePerlin3D60 = snoise( PositionWS );
+				simplePerlin3D60 = simplePerlin3D60*0.5 + 0.5;
+				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
+				float simplePerlin3D48 = snoise( PositionWS*0.35 );
+				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
+				float temp_output_62_0 = ( 1.0 - _Advance1 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float3 temp_cast_0 = (( 0.0 + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )).xxx;
-				float simplePerlin3D55 = snoise( temp_cast_0*_flamenoisescale1 );
+				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
 				float simplePerlin2D19 = snoise( PositionWS.xy*_Taillenoise );
 				simplePerlin2D19 = simplePerlin2D19*0.5 + 0.5;
@@ -729,12 +729,13 @@ Shader "MA_Planet"
 				float4 color15 = IsGammaSpace() ? float4( 0.254902, 0.6666667, 0.5651051, 0 ) : float4( 0.05286067, 0.4019779, 0.2793257, 0 );
 				float2 temp_output_27_0 = ( input.ase_texcoord7.xy * _tailletexture );
 				float3 lerpResult20 = lerp( color16.rgb , color15.rgb , tex2D( _TX_Papier, temp_output_27_0 ).rgb);
+				float4 lerpResult58 = lerp( temp_cast_0 , ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ) , clampResult52);
 				
 				float3 unpack34 = UnpackNormalScale( tex2D( _TX_PapierNORMAL, temp_output_27_0 ), _normalscale );
 				unpack34.z = lerp( 1, unpack34.z, saturate(_normalscale) );
 				
 
-				float3 BaseColor = ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ).rgb;
+				float3 BaseColor = lerpResult58.rgb;
 				float3 Normal = unpack34;
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -1086,7 +1087,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -1396,7 +1396,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -1649,9 +1648,9 @@ Shader "MA_Planet"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 
 
@@ -1683,7 +1682,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -1724,35 +1722,6 @@ Shader "MA_Planet"
 			sampler2D _TX_Papier;
 
 
-			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
-			float snoise( float2 v )
-			{
-				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
-				float2 i = floor( v + dot( v, C.yy ) );
-				float2 x0 = v - i + dot( i, C.xx );
-				float2 i1;
-				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
-				float4 x12 = x0.xyxy + C.xxzz;
-				x12.xy -= i1;
-				i = mod2D289( i );
-				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
-				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
-				m = m * m;
-				m = m * m;
-				float3 x = 2.0 * frac( p * C.www ) - 1.0;
-				float3 h = abs( x ) - 0.5;
-				float3 ox = floor( x + 0.5 );
-				float3 a0 = x - ox;
-				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
-				float3 g;
-				g.x = a0.x * x0.x + h.x * x0.y;
-				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-				return 130.0 * dot( m, g );
-			}
-			
-			
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
@@ -1800,6 +1769,7 @@ Shader "MA_Planet"
 				return 42.0 * dot( m, px);
 			}
 			
+			
 			float4 SampleGradient( Gradient gradient, float time )
 			{
 				float3 color = gradient.colors[0].rgb;
@@ -1820,6 +1790,34 @@ Shader "MA_Planet"
 				alpha = lerp(alpha, gradient.alphas[a].x, lerp(alphaPos, step(0.01, alphaPos), gradient.type));
 				}
 				return float4(color, alpha);
+			}
+			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
 			}
 			
 
@@ -1971,14 +1969,16 @@ Shader "MA_Planet"
 				float3 PositionRWS = GetCameraRelativePositionWS( input.positionWS );
 				float4 ShadowCoord = shadowCoord;
 
-				float2 texCoord47 = input.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D48 = snoise( texCoord47*_flamenoisescale1 );
-				simplePerlin2D48 = simplePerlin2D48*0.5 + 0.5;
-				float clampResult52 = clamp( step( simplePerlin2D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin2D48 , _Advance1 );
+				float simplePerlin3D60 = snoise( PositionWS );
+				simplePerlin3D60 = simplePerlin3D60*0.5 + 0.5;
+				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
+				float simplePerlin3D48 = snoise( PositionWS*0.35 );
+				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
+				float temp_output_62_0 = ( 1.0 - _Advance1 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float3 temp_cast_0 = (( 0.0 + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )).xxx;
-				float simplePerlin3D55 = snoise( temp_cast_0*_flamenoisescale1 );
+				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
 				float simplePerlin2D19 = snoise( PositionWS.xy*_Taillenoise );
 				simplePerlin2D19 = simplePerlin2D19*0.5 + 0.5;
@@ -1987,9 +1987,10 @@ Shader "MA_Planet"
 				float4 color15 = IsGammaSpace() ? float4( 0.254902, 0.6666667, 0.5651051, 0 ) : float4( 0.05286067, 0.4019779, 0.2793257, 0 );
 				float2 temp_output_27_0 = ( input.ase_texcoord3.xy * _tailletexture );
 				float3 lerpResult20 = lerp( color16.rgb , color15.rgb , tex2D( _TX_Papier, temp_output_27_0 ).rgb);
+				float4 lerpResult58 = lerp( temp_cast_0 , ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ) , clampResult52);
 				
 
-				float3 BaseColor = ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ).rgb;
+				float3 BaseColor = lerpResult58.rgb;
 				float3 Emission = 0;
 				float Alpha = 1;
 				#if defined( _ALPHATEST_ON )
@@ -2063,9 +2064,9 @@ Shader "MA_Planet"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 
 
@@ -2090,7 +2091,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -2131,35 +2131,6 @@ Shader "MA_Planet"
 			sampler2D _TX_Papier;
 
 
-			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
-			float snoise( float2 v )
-			{
-				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
-				float2 i = floor( v + dot( v, C.yy ) );
-				float2 x0 = v - i + dot( i, C.xx );
-				float2 i1;
-				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
-				float4 x12 = x0.xyxy + C.xxzz;
-				x12.xy -= i1;
-				i = mod2D289( i );
-				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
-				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
-				m = m * m;
-				m = m * m;
-				float3 x = 2.0 * frac( p * C.www ) - 1.0;
-				float3 h = abs( x ) - 0.5;
-				float3 ox = floor( x + 0.5 );
-				float3 a0 = x - ox;
-				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
-				float3 g;
-				g.x = a0.x * x0.x + h.x * x0.y;
-				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-				return 130.0 * dot( m, g );
-			}
-			
-			
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
@@ -2207,6 +2178,7 @@ Shader "MA_Planet"
 				return 42.0 * dot( m, px);
 			}
 			
+			
 			float4 SampleGradient( Gradient gradient, float time )
 			{
 				float3 color = gradient.colors[0].rgb;
@@ -2227,6 +2199,34 @@ Shader "MA_Planet"
 				alpha = lerp(alpha, gradient.alphas[a].x, lerp(alphaPos, step(0.01, alphaPos), gradient.type));
 				}
 				return float4(color, alpha);
+			}
+			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
 			}
 			
 
@@ -2364,14 +2364,16 @@ Shader "MA_Planet"
 				float3 PositionRWS = GetCameraRelativePositionWS( input.positionWS );
 				float4 ShadowCoord = shadowCoord;
 
-				float2 texCoord47 = input.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D48 = snoise( texCoord47*_flamenoisescale1 );
-				simplePerlin2D48 = simplePerlin2D48*0.5 + 0.5;
-				float clampResult52 = clamp( step( simplePerlin2D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin2D48 , _Advance1 );
+				float simplePerlin3D60 = snoise( PositionWS );
+				simplePerlin3D60 = simplePerlin3D60*0.5 + 0.5;
+				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
+				float simplePerlin3D48 = snoise( PositionWS*0.35 );
+				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
+				float temp_output_62_0 = ( 1.0 - _Advance1 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float3 temp_cast_0 = (( 0.0 + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )).xxx;
-				float simplePerlin3D55 = snoise( temp_cast_0*_flamenoisescale1 );
+				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
 				float simplePerlin2D19 = snoise( PositionWS.xy*_Taillenoise );
 				simplePerlin2D19 = simplePerlin2D19*0.5 + 0.5;
@@ -2380,9 +2382,10 @@ Shader "MA_Planet"
 				float4 color15 = IsGammaSpace() ? float4( 0.254902, 0.6666667, 0.5651051, 0 ) : float4( 0.05286067, 0.4019779, 0.2793257, 0 );
 				float2 temp_output_27_0 = ( input.ase_texcoord1.xy * _tailletexture );
 				float3 lerpResult20 = lerp( color16.rgb , color15.rgb , tex2D( _TX_Papier, temp_output_27_0 ).rgb);
+				float4 lerpResult58 = lerp( temp_cast_0 , ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ) , clampResult52);
 				
 
-				float3 BaseColor = ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ).rgb;
+				float3 BaseColor = lerpResult58.rgb;
 				float Alpha = 1;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
@@ -2496,7 +2499,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -2873,9 +2875,9 @@ Shader "MA_Planet"
 			#endif
 
 			#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 
 
@@ -2927,7 +2929,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -2975,35 +2976,6 @@ Shader "MA_Planet"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			#endif
 
-			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
-			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
-			float snoise( float2 v )
-			{
-				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
-				float2 i = floor( v + dot( v, C.yy ) );
-				float2 x0 = v - i + dot( i, C.xx );
-				float2 i1;
-				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
-				float4 x12 = x0.xyxy + C.xxzz;
-				x12.xy -= i1;
-				i = mod2D289( i );
-				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
-				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
-				m = m * m;
-				m = m * m;
-				float3 x = 2.0 * frac( p * C.www ) - 1.0;
-				float3 h = abs( x ) - 0.5;
-				float3 ox = floor( x + 0.5 );
-				float3 a0 = x - ox;
-				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
-				float3 g;
-				g.x = a0.x * x0.x + h.x * x0.y;
-				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-				return 130.0 * dot( m, g );
-			}
-			
-			
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
@@ -3051,6 +3023,7 @@ Shader "MA_Planet"
 				return 42.0 * dot( m, px);
 			}
 			
+			
 			float4 SampleGradient( Gradient gradient, float time )
 			{
 				float3 color = gradient.colors[0].rgb;
@@ -3071,6 +3044,34 @@ Shader "MA_Planet"
 				alpha = lerp(alpha, gradient.alphas[a].x, lerp(alphaPos, step(0.01, alphaPos), gradient.type));
 				}
 				return float4(color, alpha);
+			}
+			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
 			}
 			
 
@@ -3281,14 +3282,16 @@ Shader "MA_Planet"
 					BitangentWS = cross(NormalWS, -TangentWS);
 				#endif
 
-				float2 texCoord47 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D48 = snoise( texCoord47*_flamenoisescale1 );
-				simplePerlin2D48 = simplePerlin2D48*0.5 + 0.5;
-				float clampResult52 = clamp( step( simplePerlin2D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin2D48 , _Advance1 );
+				float simplePerlin3D60 = snoise( PositionWS );
+				simplePerlin3D60 = simplePerlin3D60*0.5 + 0.5;
+				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
+				float simplePerlin3D48 = snoise( PositionWS*0.35 );
+				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
+				float temp_output_62_0 = ( 1.0 - _Advance1 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float3 temp_cast_0 = (( 0.0 + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )).xxx;
-				float simplePerlin3D55 = snoise( temp_cast_0*_flamenoisescale1 );
+				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
 				float simplePerlin2D19 = snoise( PositionWS.xy*_Taillenoise );
 				simplePerlin2D19 = simplePerlin2D19*0.5 + 0.5;
@@ -3297,12 +3300,13 @@ Shader "MA_Planet"
 				float4 color15 = IsGammaSpace() ? float4( 0.254902, 0.6666667, 0.5651051, 0 ) : float4( 0.05286067, 0.4019779, 0.2793257, 0 );
 				float2 temp_output_27_0 = ( input.ase_texcoord7.xy * _tailletexture );
 				float3 lerpResult20 = lerp( color16.rgb , color15.rgb , tex2D( _TX_Papier, temp_output_27_0 ).rgb);
+				float4 lerpResult58 = lerp( temp_cast_0 , ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ) , clampResult52);
 				
 				float3 unpack34 = UnpackNormalScale( tex2D( _TX_PapierNORMAL, temp_output_27_0 ), _normalscale );
 				unpack34.z = lerp( 1, unpack34.z, saturate(_normalscale) );
 				
 
-				float3 BaseColor = ( ( ( clampResult52 - temp_output_49_0 ) * SampleGradient( gradient42, simplePerlin3D55 ) ) + float4( ( temp_output_49_0 * ( lerpResult21 * lerpResult20 ) ) , 0.0 ) ).rgb;
+				float3 BaseColor = lerpResult58.rgb;
 				float3 Normal = unpack34;
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -3529,7 +3533,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -3811,7 +3814,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -4106,7 +4108,6 @@ Shader "MA_Planet"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color3;
 			float4 _Color0;
-			float _flamenoisescale1;
 			float _Advance1;
 			float _timespeed1;
 			float _Taillenoise;
@@ -4270,11 +4271,11 @@ Version=19909
 Node;AmplifyShaderEditor.TexCoordVertexDataNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;25;-1632,192;Inherit;False;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;24;-1120,240;Inherit;True;Property;_TX_Papier;TX_Papier;0;0;Create;True;0;0;0;False;0;False;-1;e83c7616adcc89f4aa24ae028eaf9aa3;e83c7616adcc89f4aa24ae028eaf9aa3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;27;-1344,272;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;28;-1568,336;Inherit;False;Property;_tailletexture;taille texture;4;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;28;-1568,336;Inherit;False;Property;_tailletexture;taille texture;3;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;30;-32,144;Inherit;False;Constant;_Float0;Float 0;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.UnpackScaleNormalNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;34;-272,240;Inherit;False;Tangent;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;32;-752,304;Inherit;True;Property;_TX_PapierNORMAL;TX_PapierNORMAL;8;0;Create;True;0;0;0;False;0;False;-1;6557f7a25306d6f42ae02f6afde3ae9a;6557f7a25306d6f42ae02f6afde3ae9a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;35;-432,400;Inherit;False;Property;_normalscale;normal scale;9;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;32;-752,304;Inherit;True;Property;_TX_PapierNORMAL;TX_PapierNORMAL;7;0;Create;True;0;0;0;False;0;False;-1;6557f7a25306d6f42ae02f6afde3ae9a;6557f7a25306d6f42ae02f6afde3ae9a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;35;-432,400;Inherit;False;Property;_normalscale;normal scale;8;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;15;-1392,-112;Inherit;False;Constant;_Color1;Color 1;2;0;Create;True;0;0;0;False;0;False;0.254902,0.6666667,0.5651051,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;16;-1392,-288;Inherit;False;Constant;_Color2;Color 0;2;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;19;-1584,-432;Inherit;False;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
@@ -4283,29 +4284,35 @@ Node;AmplifyShaderEditor.LerpOp, AmplifyShaderEditor, Version=0.0.0.0, Culture=n
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;22;-784,-64;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;13;-1792,-368;Inherit;False;Property;_Taillenoise;Taille noise;2;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;29;-1888,-544;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-1392,-592;Inherit;False;Property;_Color0;Color 0;6;0;Create;True;0;0;0;False;0;False;0.2953007,0.6065826,0.8943396,0;0.2953007,0.6065826,0.8943396,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;18;-1392,-768;Inherit;False;Property;_Color3;Color 3;7;0;Create;True;0;0;0;False;0;False;0.1113207,1,0.291026,0;0.1113207,1,0.291026,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-1392,-592;Inherit;False;Property;_Color0;Color 0;5;0;Create;True;0;0;0;False;0;False;0.2953007,0.6065826,0.8943396,0;0.2953007,0.6065826,0.8943396,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;18;-1392,-768;Inherit;False;Property;_Color3;Color 3;6;0;Create;True;0;0;0;False;0;False;0.1113207,1,0.291026,0;0.1113207,1,0.291026,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;36;-128,-1136;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;37;-2016,-928;Inherit;False;Property;_timespeed1;time speed;5;0;Create;True;0;0;0;False;0;False;-0.1;-0.16;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;37;-2016,-928;Inherit;False;Property;_timespeed1;time speed;4;0;Create;True;0;0;0;False;0;False;-1.4;-0.16;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;38;-1856,-1040;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;39;-1808,-896;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;40;-1616,-992;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;41;-1472,-1072;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;41;-1472,-1072;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GradientNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;42;-1072,-1152;Inherit;False;0;2;2;1,0.7699075,0.2396226,0;1,0.1415093,0.1415093,0.9988251;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.GradientSampleNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;43;-864,-1104;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;44;-336,-1040;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;45;-336,-1152;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;46;-960,-896;Inherit;False;Constant;_Color4;Color 0;5;0;Create;True;0;0;0;False;0;False;1,0.2471698,0.2471698,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.TextureCoordinatesNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;47;-1520,-1568;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;48;-1216,-1472;Inherit;False;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;20;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StepOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;49;-832,-1600;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StepOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;50;-832,-1392;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;51;-1456,-1760;Inherit;False;Property;_Advance1;Advance;1;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;52;-640,-1344;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;53;-464,-1360;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;54;-1072,-1792;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1.5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;55;-1184,-1072;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;56;-1408,-944;Inherit;False;Property;_flamenoisescale1;flame noise scale;3;0;Create;True;0;0;0;False;0;False;1;1.88;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;57;-1792,-1248;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.LerpOp, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;58;162.1937,-846.2065;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StepOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;49;-832,-1600;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;60;-320,-544;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;61;-480,-384;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;51;-1744,-1776;Inherit;False;Property;_Advance1;Advance;1;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;62;-1408,-1760;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;59;-112,-768;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.01;False;4;FLOAT;0.1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;63;-1463.16,-1547.949;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;48;-1216,-1472;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;20;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;56;-1488,-1296;Inherit;False;Constant;_flamenoisescale;flame noise scale;3;0;Create;True;0;0;0;False;0;False;0.35;1.88;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;3;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -4339,6 +4346,7 @@ WireConnection;36;1;44;0
 WireConnection;39;1;37;0
 WireConnection;40;0;38;0
 WireConnection;40;1;39;0
+WireConnection;41;0;57;0
 WireConnection;41;1;40;0
 WireConnection;43;0;42;0
 WireConnection;43;1;55;0
@@ -4346,20 +4354,26 @@ WireConnection;44;0;49;0
 WireConnection;44;1;22;0
 WireConnection;45;0;53;0
 WireConnection;45;1;43;0
-WireConnection;48;0;47;0
-WireConnection;48;1;56;0
-WireConnection;49;0;48;0
-WireConnection;49;1;51;0
 WireConnection;50;0;48;0
 WireConnection;50;1;54;0
 WireConnection;52;0;50;0
 WireConnection;53;0;52;0
 WireConnection;53;1;49;0
-WireConnection;54;0;51;0
+WireConnection;54;0;62;0
 WireConnection;55;0;41;0
 WireConnection;55;1;56;0
-WireConnection;1;0;36;0
+WireConnection;58;0;59;0
+WireConnection;58;1;36;0
+WireConnection;58;2;52;0
+WireConnection;49;0;48;0
+WireConnection;49;1;62;0
+WireConnection;60;0;61;0
+WireConnection;62;0;51;0
+WireConnection;59;0;60;0
+WireConnection;48;0;63;0
+WireConnection;48;1;56;0
+WireConnection;1;0;58;0
 WireConnection;1;1;34;0
 WireConnection;1;4;30;0
 ASEEND*/
-//CHKSM=C29B8AD6931758B37467C3E4CF7FFC67C97A8790
+//CHKSM=53D10B2E4CCF24CCA0EADAD2F7BB6B2119DE47C2
