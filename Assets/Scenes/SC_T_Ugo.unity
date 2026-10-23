@@ -1741,6 +1741,18 @@ PrefabInstance:
       propertyPath: _cursor
       value: 
       objectReference: {fileID: 724299328}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _clampPosX
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _cursorVerticalSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _cursorHorizontalSpeed
+      value: 7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2294734615536852007, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _healthSlider
       value: 
