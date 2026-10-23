@@ -2051,11 +2051,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _cursorVerticalSpeed
-      value: 12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _cursorHorizontalSpeed
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _deadZoneAngleVertical
@@ -2131,15 +2131,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _maxSpeed
-      value: 0.6
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _acceleration
-      value: 0.3
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 5719437762091455000, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _deceleration
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6681134221454344774, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_Name
