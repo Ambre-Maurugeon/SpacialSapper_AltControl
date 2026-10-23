@@ -1904,6 +1904,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- MANAGERS --
       objectReference: {fileID: 0}
+    - target: {fileID: 5218302637916061037, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: sounds.Array.data[9].volume
+      value: 0.042
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218302637916061037, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
+      propertyPath: sounds.Array.data[16].volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6842485808886166491, guid: 98f2dde788c613641970cd5600ed09c9, type: 3}
       propertyPath: _intervalTime
       value: 22
