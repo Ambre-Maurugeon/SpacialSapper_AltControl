@@ -64,6 +64,9 @@ public class WaterGun : MonoBehaviour
 
     private bool _isShooting = false;
 
+    private float _yaw;
+    private float _pitch;
+
     // For Arduino reload Timer
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer;
@@ -124,12 +127,12 @@ public class WaterGun : MonoBehaviour
         else
         {
             Vector3 cursorPos = _cursor.position;
-            float yaw = ArduinoInputReceiver.Instance._yaw;
-            float pitch = ArduinoInputReceiver.Instance._pitch;
-            yaw = CheckDeadZones(yaw, pitch)[0];
-            pitch = CheckDeadZones(yaw, pitch)[1];
-            cursorPos.x -= yaw * _cursorHorizontalSpeed * Time.deltaTime;
-            cursorPos.y -= pitch * _cursorVerticalSpeed * Time.deltaTime;
+            _yaw = ArduinoInputReceiver.Instance._yaw;
+            _pitch = ArduinoInputReceiver.Instance._pitch;
+            _yaw = CheckDeadZones(_yaw, _pitch)[0];
+            _pitch = CheckDeadZones(_yaw, _pitch)[1];
+            cursorPos.x += _yaw * _cursorHorizontalSpeed * Time.deltaTime;
+            cursorPos.y += _pitch * _cursorVerticalSpeed * Time.deltaTime;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, cursorPos, null, out Vector2 localPos);
             localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
             localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
