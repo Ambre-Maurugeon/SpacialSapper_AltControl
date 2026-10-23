@@ -708,6 +708,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8213867317063674910, guid: a2f2f4e5bb17cd34db03e814ce145b91, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2019,11 +2023,11 @@ PrefabInstance:
       objectReference: {fileID: 724299328}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _clampPosX
-      value: 190
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _clampPosY
-      value: 190
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _firingDelay
