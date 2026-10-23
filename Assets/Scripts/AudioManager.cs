@@ -87,6 +87,24 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    //get data
+    public AudioClip GetAudioClip(SoundType type)
+    {
+
+        if (_soundDict.TryGetValue(type, out SoundData data))
+        {
+            if (data.clip != null)
+            {
+                return data.clip;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Sound {type} not found in AudioManager!");
+        }
+        return null;
+    }
+
 
     // Play background music (loops continuously)
     public void PlayMusic(SoundType type)

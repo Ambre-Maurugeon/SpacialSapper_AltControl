@@ -1,4 +1,5 @@
 
+
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
@@ -52,12 +53,14 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _waterRadius = 0.1f;
     [SerializeField] float _firingDistance = 2f;
 
-    [Space(5)]
-    [SerializeField] float _jetExtendDuration = 0.3f;
-
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
     [SerializeField] float _damageFrequency = 2f;
+
+    [Header("Water Jet")]
+    [SerializeField] float _jetExtendDuration = 0.3f;
+    [SerializeField] float _waterJetRotationSpeed = 360f;
+
 
     private bool _isShooting = false;
 
@@ -83,12 +86,10 @@ public class WaterGun : MonoBehaviour
     {
         CalculateCursorPos();
 
-        //test
-        // Impact VFX
-        _waterImpactVFX.SetActive(_hit.collider!=null);
-        if(_hit.collider != null)
-            _waterImpactVFX.transform.position = _hit.point;
+        FeedbacksUpdate();
     }
+
+   
     #endregion
 
     #region Init
@@ -143,7 +144,8 @@ public class WaterGun : MonoBehaviour
         // barrel roation, move barrel look at rot
         Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
         Vector3 destination = ray.GetPoint(_firingDistance);
-        _barrel.transform.rotation = GeometryUtils.GetLookRotation(_barrel.transform.position, destination);
+
+        UpdateBarrelRotation(destination);
     }
 
     void OnReload()
@@ -243,8 +245,6 @@ public class WaterGun : MonoBehaviour
         ResetWaterJet();
         _hit = new RaycastHit();
 
-        //debug
-        //Debug.Log("Shooting ended");
 
         // feedbacks
         // sound
@@ -285,6 +285,38 @@ public class WaterGun : MonoBehaviour
 
         // visuals
         UpdateWaterJetAdvance(destination);
+    }
+
+    private void UpdateBarrelRotation(Vector3 destination)
+    {
+        // get mouse direction in local space of barrel
+        Vector3 localDirection = _barrelAnchor.InverseTransformDirection(destination - _barrelAnchor.position);
+
+        if (localDirection.sqrMagnitude < 0.001f)
+            return;
+
+        // Yaw => horizontale rot
+        float yaw = Mathf.Atan2(localDirection.x,localDirection.z) * Mathf.Rad2Deg;
+
+        // Pitch => verticale rot 
+        float pitch = -Mathf.Atan2(localDirection.y,new Vector2(localDirection.x, localDirection.z).magnitude) * Mathf.Rad2Deg;
+
+        // no roll
+        _barrel.localRotation = Quaternion.Euler(pitch, yaw, 0f);
+    }
+
+    private void FeedbacksUpdate()
+    {
+        // Impact VFX => can be edit
+        _waterImpactVFX.SetActive(_hit.collider != null);
+        if (_hit.collider != null)
+            _waterImpactVFX.transform.position = _hit.point;
+
+        // visuals
+        if (_isShooting)
+        {
+            _waterRenderer.transform.Rotate(0f, _waterJetRotationSpeed * Time.deltaTime * -1, 0f, Space.Self);
+        }
     }
 
     #region WaterJet

@@ -24,14 +24,21 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float _breathingRadius = 0.5f;
     [SerializeField] private int _flames = 5;
 
+    //SOUND
+    [Header("Sound")]
+    [SerializeField] private float _flyFrequency = 1f;
+    AudioSource _audioSource;
+
+    //
     private bool _canBreath = false;
+
+    //
     GameObject _planet;
 
     // splines
     SplineAnimate splineAnimate;
 
-    //SOUND
-    AudioSource _audioSource;
+    
 
     #endregion
 
@@ -45,7 +52,7 @@ public class DragonController : MonoBehaviour
         InitWithOthers();
 
         // fly sfx
-        //LoopFlySFX(); // in test
+        StartCoroutine("LoopFlySFX"); // in test
 
         // launch dragon breathing loop at start
         StartCoroutine("StartBreathingBehaviour");
@@ -63,6 +70,9 @@ public class DragonController : MonoBehaviour
 
         //vfx
         _breathVFX.SetActive(false);
+
+        // sfx
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void InitWithOthers()
@@ -168,12 +178,17 @@ public class DragonController : MonoBehaviour
     #region Sound
 
     // IN TEST
-    private void LoopFlySFX() 
+    private IEnumerator LoopFlySFX() 
     {
-        _audioSource.loop = true;
-        AudioManager.Instance.PlaySFX(SoundType.DragonFly, _audioSource); // fly
 
-        //yield return new WaitUntil
+        AudioClip clip = AudioManager.Instance.GetAudioClip(SoundType.DragonFly);
+
+        while (true)
+        {
+            _audioSource.PlayOneShot(clip);
+
+            yield return new WaitForSeconds(_flyFrequency);
+        }
     }
     #endregion
 }

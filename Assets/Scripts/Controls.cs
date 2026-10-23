@@ -28,12 +28,18 @@ public class Controls : MonoBehaviour
     [SerializeField] float _acceleration = 1f;
     [SerializeField] float _deceleration = 1f;
 
+    float _horizontalSpeed = 0f;
+    float _verticalSpeed = 0f;
+
     [Header("Sound")]
     [SerializeField] float _horizontalSoundFrequency = 0.75f;
     [SerializeField] float _verticalSoundFrequency = 0.75f;
 
-    float _horizontalSpeed = 0f;
-    float _verticalSpeed = 0f;
+    bool _isPlayingHorizontalSound = false;
+    bool _isPlayingVerticalSound = false;
+
+    [Header("Art")]
+    [SerializeField] Transform _verticalRoad;
 
     // planet
     Transform _planet;
@@ -42,8 +48,6 @@ public class Controls : MonoBehaviour
     float _dirX;
     float _dirY;
 
-    bool _isPlayingHorizontalSound = false;
-    bool _isPlayingVerticalSound = false;
 
     #endregion
 
@@ -65,6 +69,12 @@ public class Controls : MonoBehaviour
 
         // sound
         UpdateSound();
+
+        // visual effet, rotate road
+        if (Mathf.Abs(_verticalSpeed)>0)
+        {
+            _verticalRoad.Rotate(10 * Time.deltaTime , 0f, 0f, Space.Self);
+        }
     }
     #endregion
 
