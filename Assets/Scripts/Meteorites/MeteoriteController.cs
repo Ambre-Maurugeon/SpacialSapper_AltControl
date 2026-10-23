@@ -17,7 +17,7 @@ public class MeteoriteController : MonoBehaviour
     private MeteoriteData _myData ; // { get; set; }
 
     // collision
-    private bool _hasCollided = false;
+    private bool _hasTriggered = false;
     private Vector3 _contactPoint;
 
     // Audio
@@ -51,7 +51,7 @@ public class MeteoriteController : MonoBehaviour
         AudioManager.Instance.PlaySFX(SoundType.DragonKamimazeFonce, _audioSource); // start rushing
 
         // rush towards planet until collide with it
-        while (!_hasCollided)
+        while (!_hasTriggered)
         {
             transform.position += _myData.speed * Time.deltaTime * transform.forward; // meteorite is facing the planet and rushing towards it
 
@@ -98,9 +98,9 @@ public class MeteoriteController : MonoBehaviour
         Destroy(gameObject,4); // hard code for now, wait until shake achieved => that s why i think it's bad shake component ?
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider coll)
     {
-        _hasCollided = true;
+        _hasTriggered = true;
     }
 
 }
