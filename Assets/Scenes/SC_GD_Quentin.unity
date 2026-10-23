@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 28
+  _lapDuration: 31
 --- !u!114 &387647914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 32
+  _lapDuration: 36
 --- !u!1001 &724299326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1517,7 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7559a46dce1876045ac0246aacc49153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonSplineController
-  _lapDuration: 42
+  _lapDuration: 45
 --- !u!114 &1958165856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2035,15 +2035,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _firingDelay
-      value: 2.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _waterRadius
-      value: 2.3
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _firingDuration
-      value: 22
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _arduinoReloadTimer
@@ -2051,11 +2051,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _cursorVerticalSpeed
-      value: 12.5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _cursorHorizontalSpeed
-      value: 7.5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _deadZoneAngleVertical
