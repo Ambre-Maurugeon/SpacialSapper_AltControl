@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4305735987080105604}
@@ -71,8 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd46fc220268f34a8b1945f414607f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteoriteController
-  _shakeIntensity: 1.5
-  _shakeDuration: 0.5
+  _shakeIntensity: 1.8
+  _shakeDuration: 0.3
   _meteoriteRIG: {fileID: 3768591500286476222}
   _explosionVFX: {fileID: 2151647916526162947}
 --- !u!54 &1342815086686045620
@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: 95069489dfd19b74988a61c0be08f7e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.181
+      value: 1.231
       objectReference: {fileID: 0}
     - target: {fileID: 4550198314368269368, guid: 95069489dfd19b74988a61c0be08f7e5, type: 3}
       propertyPath: m_LocalRotation.w

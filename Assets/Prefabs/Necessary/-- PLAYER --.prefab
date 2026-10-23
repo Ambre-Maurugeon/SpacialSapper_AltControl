@@ -346,8 +346,8 @@ MonoBehaviour:
   _player: {fileID: 1859797442456142450}
   _ancre: {fileID: 7631764672880786041}
   _playerParent: {fileID: 0}
-  _audioSourceVertical: {fileID: 0}
-  _audioSourceHorizontal: {fileID: 0}
+  _audioSourceVertical: {fileID: 6883306098955396564}
+  _audioSourceHorizontal: {fileID: 6280639463636312256}
   _maxSpeed: 2
   _acceleration: 1
   _deceleration: 1
@@ -1157,9 +1157,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   _waterImpactVFX: {fileID: 6726699913044831653}
-  _uiWaterLevel: {fileID: 0}
-  _waterReloadUp: {fileID: 0}
-  _waterReloadDown: {fileID: 0}
+  _uiWaterLevel: {fileID: 2743282921512219584}
+  _waterReloadUp: {fileID: 4097716807070547656}
+  _waterReloadDown: {fileID: 1960472712801333594}
   _clampPosX: 600
   _clampPosY: 600
   _cursorHorizontalSpeed: 1
@@ -1799,6 +1799,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
+--- !u!4 &1960472712801333594 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4572716107326608790, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
+  m_PrefabInstance: {fileID: 2612495260671435980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2743282921512219584 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 167596157652424460, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
+  m_PrefabInstance: {fileID: 2612495260671435980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4097716807070547656 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2062491539398990340, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
+  m_PrefabInstance: {fileID: 2612495260671435980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6652479495169772109 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8652303580903796353, guid: eea33f88d8321634c806b411ed3d7354, type: 3}
