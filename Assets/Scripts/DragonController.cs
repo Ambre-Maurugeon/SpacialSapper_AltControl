@@ -12,7 +12,10 @@ public class DragonController : MonoBehaviour
     #region Fields
     [Foldout("References"),SerializeField] private Transform _dragonMouth;
     [Foldout("References"),SerializeField] private LayerMask _layerToBreathOn;
-    [Foldout("References"),SerializeField] private Animator _dragonAnimator;
+
+    [Header("Art")]
+    [Foldout("References"), SerializeField] private GameObject _breathVFX;
+    [Foldout("References"), SerializeField] private Animator _dragonAnimator;
 
     [Header("Fire breathing")]
     [SerializeField] private float _breathingDelay = 5f;
@@ -52,9 +55,14 @@ public class DragonController : MonoBehaviour
     #region Init
     private void InitMySelf()
     {
+        //position
         if (!_dragonMouth) _dragonMouth = GetComponent<Transform>();
 
+        // spline
         splineAnimate = GetComponent<SplineAnimate>();
+
+        //vfx
+        _breathVFX.SetActive(false);
     }
 
     private void InitWithOthers()
@@ -72,7 +80,9 @@ public class DragonController : MonoBehaviour
     private IEnumerator StartBreathingBehaviour()
     {
         while(true){
+            // reset for another breath
             _canBreath = false;
+            ResetBreathingFeedbacks();
 
             // delay before breathing 
             yield return new WaitForSeconds(_breathingDelay); 
@@ -123,6 +133,14 @@ public class DragonController : MonoBehaviour
         AudioManager.Instance.PlaySFX(SoundType.DragonBreath, _audioSource); // breath
         // Anim
         _dragonAnimator.SetTrigger("BreathFire");
+        // vfx
+        _breathVFX.SetActive(true);
+    }
+
+    private void ResetBreathingFeedbacks()
+    {
+        // vfx
+        _breathVFX.SetActive(false);
     }
 
     public void FollowSpline(SplineContainer spline, float lapDuration)
@@ -141,7 +159,10 @@ public class DragonController : MonoBehaviour
     // broadcast in health component
     private void OnDie()
     {
-        Destroy(gameObject);
+        // sound
+        AudioManager.Instance.PlaySFX(SoundType.DragonDie, _audioSource);  // die
+
+        Destroy(gameObject,1);
     }
 
     #region Sound

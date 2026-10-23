@@ -268,7 +268,7 @@ MonoBehaviour:
     volume: 0
   - soundType: 10
     clip: {fileID: 8300000, guid: 392a9f512d45a95409add150806bdb8d, type: 3}
-    volume: 0
+    volume: 0.2
   - soundType: 11
     clip: {fileID: 8300000, guid: f92aa4916e98d294ab73680d93bca7c4, type: 3}
     volume: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
     volume: 0.5
   - soundType: 17
     clip: {fileID: 8300000, guid: 78cd0f1093086fa48a670399b73ee5de, type: 3}
-    volume: 0.5
+    volume: 0.2
 --- !u!82 &7893777812732764508
 AudioSource:
   m_ObjectHideFlags: 0

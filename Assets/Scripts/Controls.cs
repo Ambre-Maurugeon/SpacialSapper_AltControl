@@ -49,11 +49,6 @@ public class Controls : MonoBehaviour
 
     #region Main
 
-    //private void Awake()
-    //{
-    //    InitSoundComponents();
-    //}
-
     private void Start()
     {
         InitWithOthers();
@@ -74,17 +69,6 @@ public class Controls : MonoBehaviour
     #endregion
 
     #region Init
-    //private void InitSoundComponents()
-    //{
-    //    if (_audioSourceVertical == null) _audioSourceVertical = gameObject.AddComponent<AudioSource>();
-    //    if (_audioSourceHorizontal == null) _audioSourceHorizontal = gameObject.AddComponent<AudioSource>();
-
-    //    _audioSourceVertical.playOnAwake = false;
-    //    _audioSourceHorizontal.playOnAwake = false;
-
-    //    _audioSourceVertical.loop = true;
-    //    _audioSourceHorizontal.loop = true;
-    //}
 
     private void InitWithOthers()
     {
@@ -190,7 +174,7 @@ public class Controls : MonoBehaviour
         // Horizontal sound
         if (!_isPlayingHorizontalSound)
         {
-            if (IsHorizontalMoving)
+            if (_horizontalSpeed > 0)
                 StartCoroutine("LoopHorizontalSound");
             else
                 _isPlayingHorizontalSound = false;
@@ -200,7 +184,7 @@ public class Controls : MonoBehaviour
         // Vertical sound
         if (!_isPlayingVerticalSound)
         {
-            if (IsVerticalMoving)
+            if (_verticalSpeed > 0)
                 StartCoroutine("LoopVerticalSound");
             else
                 _isPlayingVerticalSound = false;
@@ -216,7 +200,7 @@ public class Controls : MonoBehaviour
         float time = 0;
         while (_horizontalSpeed>0)
         {
-            time += Time.deltaTime * _horizontalSpeed; // sound frequency depends on player speed
+            time += Time.deltaTime; // * _horizontalSpeed; // sound frequency depends on player speed
 
             if (time >= _horizontalSoundFrequency)// sound frequency
             {
@@ -237,7 +221,7 @@ public class Controls : MonoBehaviour
         float time = 0;
         while (_verticalSpeed > 0)
         {
-            time += Time.deltaTime * _verticalSpeed;
+            time += Time.deltaTime; // * _verticalSpeed;
 
             if (time >= _verticalSoundFrequency)// sound frequency
             {

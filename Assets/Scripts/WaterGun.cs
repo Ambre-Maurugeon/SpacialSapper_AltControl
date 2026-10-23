@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
-using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -16,8 +15,11 @@ public class WaterGun : MonoBehaviour
     [Foldout("References"), SerializeField] Transform _barrel;
 
     [Header("Water jet")]
-    [Foldout("References"), SerializeField] LineRenderer _ballisticLine;
     [Foldout("References"), SerializeField] Renderer _waterRenderer;
+    [Foldout("References"), SerializeField] AudioSource _audioWaterSource;
+
+    private float _currentJetDistance = 0f;
+
     // Transform _ImpactAnchor;
 
     List<Material> _waterJetMaterials = new();
@@ -49,6 +51,9 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _firingDuration = 10;
     [SerializeField] float _waterRadius = 0.1f;
     [SerializeField] float _firingDistance = 2f;
+
+    [Space(5)]
+    [SerializeField] float _jetExtendDuration = 0.3f;
 
     [Header("Gun Dmg")]
     [SerializeField] int _waterDamage = 10;
@@ -179,16 +184,20 @@ public class WaterGun : MonoBehaviour
         //Debug.Log("Start shooting");
 
         _isShooting = true;
+        _currentJetDistance = 0f;
 
         StartCoroutine("Shoot");
+
+        // visuals
         StartCoroutine(UpdateReloadWaterLevel(_waterReloadUp, _waterReloadDown, _firingDuration));
     }
 
     IEnumerator Shoot()
     {
-        // debug
-        //Debug.Log("je shoot");
+        // sound
+        _audioWaterSource.Play();
 
+        //
         float time = 0;
         float frequencyTime = _damageFrequency;
 
@@ -239,6 +248,7 @@ public class WaterGun : MonoBehaviour
 
         // feedbacks
         // sound
+        _audioWaterSource.Stop();
         AudioManager.Instance.PlaySFX(SoundType.EmptyBarrel, _audioSource);
 
     }
@@ -246,34 +256,35 @@ public class WaterGun : MonoBehaviour
 
     private void UpdateBallisticTrajectory(out RaycastHit[] hits)
     {
-        // ray from barrel to X distance
+        // extend water jet
+        float extendSpeed = _firingDistance / _jetExtendDuration;
+
+        _currentJetDistance = Mathf.MoveTowards(_currentJetDistance,_firingDistance,extendSpeed * Time.deltaTime);
+
+        // get point aimed by mouse
         Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
-        Vector3 destination = ray.GetPoint(_firingDistance); // default end pos
+        Vector3 aimPoint = ray.GetPoint(_firingDistance);
 
-        Vector3 dir = (destination - _barrelAnchor.position).normalized;
+        // dir from barrel to aimPoint by mouse
+        Vector3 direction = (aimPoint - _barrelAnchor.position).normalized;
 
-        // Get all touched objects
-        hits = Physics.SphereCastAll(_barrelAnchor.position, _waterRadius, dir, _firingDistance); // layerMask  to edit
+        // increase distance progressively
+        float distance = _currentJetDistance;
 
-        // -- TO EDIT/ CLEAN jsuis fatiguee --
-        // raycast when firing to get end pos of water jet, by impact point
-        if (Physics.Raycast(_barrelAnchor.position, dir, out _hit, _firingDistance)) // layerMask  to debug
+        // get all detection hits
+        hits = Physics.SphereCastAll(_barrelAnchor.position,_waterRadius,direction,distance,_waterDamageable);
+
+        // default max destination
+        Vector3 destination = _barrelAnchor.position + direction * distance;
+
+        // hit point detection
+        if (Physics.Raycast(_barrelAnchor.position,direction,out _hit,distance))
         {
-            // update end pos at contact
             destination = _hit.point;
-            
         }
 
-
-        // line from start to end
-        _ballisticLine.SetPosition(0, _barrelAnchor.position);
-        _ballisticLine.SetPosition(_ballisticLine.positionCount - 1, destination);
-
-        // Update Water Vfx Placement 
+        // visuals
         UpdateWaterJetAdvance(destination);
-
-        // move barrel look at rot
-        _barrel.transform.rotation = GeometryUtils.GetLookRotation(_barrel.transform.position,destination); // to call in calculate mouse pos => which destination
     }
 
     #region WaterJet

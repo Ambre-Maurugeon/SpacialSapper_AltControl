@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4281564331709490683}
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EasingMode: 0
   m_AlignmentMode: 1
   m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
+  m_ObjectUpAxis: 0
   m_StartOffset: 0
 --- !u!114 &8248079888394058984
 MonoBehaviour:
@@ -86,10 +86,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4ab4fd5d74fd24785b991a74a7a76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonController
-  _dragonMouth: {fileID: 0}
+  _dragonMouth: {fileID: 8806922716382662445}
   _layerToBreathOn:
     serializedVersion: 2
     m_Bits: 256
+  _breathVFX: {fileID: 5209599192134735037}
   _dragonAnimator: {fileID: 7848433572582716183}
   _breathingDelay: 12
   _breathingDuration: 2.7
@@ -222,6 +223,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8806922716382662445}
     m_Modifications:
+    - target: {fileID: 2530410001883669034, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530410001883669034, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561345205658427559, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561345205658427559, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561345205658427559, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561345205658427559, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8040568431624158867, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.010000002
@@ -283,6 +308,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+--- !u!1 &5209599192134735037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8290290503623765236, guid: 7f83397d3f00db349a071186df4242f4, type: 3}
+  m_PrefabInstance: {fileID: 4269748446804817993}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6112765630937482970 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8040568431624158867, guid: 7f83397d3f00db349a071186df4242f4, type: 3}

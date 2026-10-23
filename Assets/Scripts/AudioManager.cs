@@ -6,10 +6,10 @@ using UnityEngine;
 public enum SoundType
 {
     None = 0,
-    DragonDie = 1,
+    DragonDie = 1, // done
     DragonFly = 2, // 
     RedFire = 3, 
-    YellowFire = 4,
+    YellowFire = 4, // done
     DragonKamimazeAnnonce = 5, // done
     DragonKamimazeExplosion = 6, // done
     DragonKamimazeFonce = 7, // done
@@ -18,7 +18,7 @@ public enum SoundType
     FireExtinct = 10, //done
     EmptyBarrel = 11, // done
     ReloadWater = 12, // done
-    WaterFullReload = 13,
+    WaterFullReload = 13, // done
     BarrelShotWater = 14,
     WaterHitFire = 15, //done => to edit ig
     DragonBreath = 16, // done

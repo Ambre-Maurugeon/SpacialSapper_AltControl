@@ -1445,6 +1445,10 @@ PrefabInstance:
       propertyPath: _firingDuration
       value: 22
       objectReference: {fileID: 0}
+    - target: {fileID: 1494425473092930108, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2294734615536852007, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: _healthSlider
       value: 
