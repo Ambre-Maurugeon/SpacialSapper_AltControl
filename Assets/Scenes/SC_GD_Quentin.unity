@@ -2041,6 +2041,14 @@ PrefabInstance:
       propertyPath: _cursorHorizontalSpeed
       value: 7.5
       objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _deadZoneAngleVertical
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 941862166707020824, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
+      propertyPath: _deadZoneAngleHorizontal
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1494425473092930108, guid: f1aba0f186f514f4faa54f4b5d101a78, type: 3}
       propertyPath: m_PlayOnAwake
       value: 1
