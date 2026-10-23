@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b43463d2392384409a1db1e4ae10eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _initHealth: 100
+  _initHealth: 70
   _weakness: 1
 --- !u!114 &6696157471731975525
 MonoBehaviour:

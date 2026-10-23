@@ -33,10 +33,10 @@ MonoBehaviour:
       time: 0
     - type: 2
       id: M_B
-      time: 30
+      time: 33
     - type: 2
       id: M_B
-      time: 30
+      time: 33
   - name: Wave 03
     id: 
     obstacles:
