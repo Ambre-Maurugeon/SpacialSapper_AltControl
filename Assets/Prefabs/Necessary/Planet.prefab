@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlanetController
   _lifeRenderer: {fileID: 1224309697848318231}
+  _planetRenderer: {fileID: 3700111260611895023}
 --- !u!135 &4058222238886024224
 SphereCollider:
   m_ObjectHideFlags: 0

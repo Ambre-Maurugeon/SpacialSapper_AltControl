@@ -7,9 +7,11 @@ public class PlanetController : MonoBehaviour
 {
     [Header("Life")]
     [SerializeField] Renderer _lifeRenderer;
+    [SerializeField] Renderer _planetRenderer;
 
     // ui life advance
     List<Material> _lifeMaterials= new();
+    List<Material> _planetMaterials = new();
     private float _lifeAdvance = 0;
 
     private bool _lifeIsDrecreasing = false;
@@ -47,9 +49,11 @@ public class PlanetController : MonoBehaviour
 
         _initHealth = _healthComponent.MyHealth;
 
-        // water jet
+        // life ui
         _lifeRenderer.GetMaterials(_lifeMaterials); // init material list
-        ResetLifeAdvance(); // start without water jet
+        ResetLifeAdvance();
+
+        _planetRenderer.GetMaterials(_planetMaterials); // init material list
     }
    
 
@@ -61,19 +65,17 @@ public class PlanetController : MonoBehaviour
         {
             float targetAdvance = Mathf.Clamp01(_healthComponent.MyHealth / _initHealth);
 
-            _lifeAdvance = Mathf.MoveTowards(
-                _lifeAdvance,
-                targetAdvance,
-                Time.deltaTime / 2f
-            );
+            _lifeAdvance = Mathf.MoveTowards(_lifeAdvance,targetAdvance, Time.deltaTime / 2f);
 
             ApplyAdvanceOnLife();
+            ApplyAdvanceOnPlanet();
 
             yield return null;
         }
 
         _lifeAdvance = Mathf.Clamp01(_healthComponent.MyHealth / _initHealth);
         ApplyAdvanceOnLife();
+        ApplyAdvanceOnPlanet();
 
         _lifeIsDrecreasing = false;
     }
@@ -83,6 +85,7 @@ public class PlanetController : MonoBehaviour
     {
         _lifeAdvance = 1; 
         ApplyAdvanceOnLife();
+        ApplyAdvanceOnPlanet();
     }
     private void ApplyAdvanceOnLife()
     {
@@ -90,6 +93,15 @@ public class PlanetController : MonoBehaviour
         for (int i = 0; i < _lifeMaterials.Count; i++)
         {
             _lifeMaterials[i].SetFloat("_advance", _lifeAdvance);
+        }
+    }
+
+    private void ApplyAdvanceOnPlanet()
+    {
+        // apply advance value in mats
+        for (int i = 0; i < _planetMaterials.Count; i++)
+        {
+            _planetMaterials[i].SetFloat("_Advance1", _lifeAdvance);
         }
     }
 
