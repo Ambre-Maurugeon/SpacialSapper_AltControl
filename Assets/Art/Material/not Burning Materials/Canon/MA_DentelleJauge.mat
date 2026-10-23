@@ -51,10 +51,11 @@ Material:
     - _ReceiveShadows: 1
     - _SpecularHighlights: 1
     - _layers: 6.9
+    - _light: 1.1
     m_Colors:
     - _Color1: {r: 0.95660377, g: 0.9873848, b: 1, a: 0}
-    - _Color2: {r: 0.48113203, g: 0.78047884, b: 1, a: 0}
-    - _Color3: {r: 0.4584905, g: 0.6240175, b: 1, a: 0}
+    - _Color2: {r: 0.5641509, g: 0.81509453, b: 1, a: 0}
+    - _Color3: {r: 0.22515482, g: 0.49895725, b: 0.93962264, a: 0}
     - _Color4: {r: 0.28490567, g: 0.6963661, b: 1, a: 0}
     - _Color5: {r: 0.6622641, g: 0.9022344, b: 1, a: 0}
   m_BuildTextureStacks: []
