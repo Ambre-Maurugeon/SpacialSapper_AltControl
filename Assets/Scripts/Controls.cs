@@ -128,7 +128,7 @@ public class Controls : MonoBehaviour
                 _dirX = PlayerController.ArduinoMoveVector.x;
 
             if (Mathf.Abs(PlayerController.ArduinoMoveVector.y) > 0.01f) // if YInput != 0 => update dirY
-                _dirY = PlayerController.ArduinoMoveVector.y;
+                _dirY = -PlayerController.ArduinoMoveVector.y;
         }
     }
 

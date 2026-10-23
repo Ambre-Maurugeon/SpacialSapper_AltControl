@@ -40,7 +40,7 @@ public class ArduinoInputReceiver : MonoBehaviour
     
     public void OnMessageArrived(string message)
     {
-        //Debug.Log(message);
+        Debug.Log(message);
         var splitMessage = message.Split(':');
         if (splitMessage.Length < 2) return;
         _isButtonOn = splitMessage[^1] == "1";
