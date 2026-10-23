@@ -1645,6 +1645,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- DECOR --
       objectReference: {fileID: 0}
+    - target: {fileID: 4960929215502995385, guid: 40de33bd78dd08c48b28ba089316f366, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960929215502995385, guid: 40de33bd78dd08c48b28ba089316f366, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960929215502995385, guid: 40de33bd78dd08c48b28ba089316f366, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960929215502995385, guid: 40de33bd78dd08c48b28ba089316f366, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7391215059165590511, guid: 40de33bd78dd08c48b28ba089316f366, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
