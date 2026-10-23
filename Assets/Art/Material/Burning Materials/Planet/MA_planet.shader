@@ -716,9 +716,8 @@ Shader "MA_Planet"
 				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
 				float simplePerlin3D48 = snoise( PositionWS*0.35 );
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
-				float temp_output_62_0 = ( 1.0 - _Advance1 );
-				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , _Advance1 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
@@ -1974,9 +1973,8 @@ Shader "MA_Planet"
 				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
 				float simplePerlin3D48 = snoise( PositionWS*0.35 );
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
-				float temp_output_62_0 = ( 1.0 - _Advance1 );
-				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , _Advance1 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
@@ -2369,9 +2367,8 @@ Shader "MA_Planet"
 				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
 				float simplePerlin3D48 = snoise( PositionWS*0.35 );
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
-				float temp_output_62_0 = ( 1.0 - _Advance1 );
-				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , _Advance1 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
@@ -3287,9 +3284,8 @@ Shader "MA_Planet"
 				float4 temp_cast_0 = ( (0.01 + ( simplePerlin3D60 - 0.0 ) * ( 0.1 - 0.01 ) / ( 1.0 - 0.0 ) )).xxxx;
 				float simplePerlin3D48 = snoise( PositionWS*0.35 );
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
-				float temp_output_62_0 = ( 1.0 - _Advance1 );
-				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( temp_output_62_0 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
-				float temp_output_49_0 = step( simplePerlin3D48 , temp_output_62_0 );
+				float clampResult52 = clamp( step( simplePerlin3D48 ,  (0.0 + ( _Advance1 - 0.0 ) * ( 1.5 - 0.0 ) / ( 1.0 - 0.0 ) ) ) , 0.0 , 1.0 );
+				float temp_output_49_0 = step( simplePerlin3D48 , _Advance1 );
 				Gradient gradient42 = NewGradient( 0, 2, 2, float4( 1, 0.7699075, 0.2396226, 0 ), float4( 1, 0.1415093, 0.1415093, 0.9988251 ), 0, 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float simplePerlin3D55 = snoise( ( PositionWS + ( _TimeParameters.x * ( 0.0 * _timespeed1 ) ) )*0.35 );
 				simplePerlin3D55 = simplePerlin3D55*0.5 + 0.5;
@@ -4308,11 +4304,11 @@ Node;AmplifyShaderEditor.StepOpNode, AmplifyShaderEditor, Version=0.0.0.0, Cultu
 Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;60;-320,-544;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;61;-480,-384;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;51;-1744,-1776;Inherit;False;Property;_Advance1;Advance;1;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;62;-1408,-1760;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;59;-112,-768;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.01;False;4;FLOAT;0.1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;63;-1463.16,-1547.949;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.NoiseGeneratorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;48;-1216,-1472;Inherit;False;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;20;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;56;-1488,-1296;Inherit;False;Constant;_flamenoisescale;flame noise scale;3;0;Create;True;0;0;0;False;0;False;0.35;1.88;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;62;-1408,-1680;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;3;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -4359,21 +4355,21 @@ WireConnection;50;1;54;0
 WireConnection;52;0;50;0
 WireConnection;53;0;52;0
 WireConnection;53;1;49;0
-WireConnection;54;0;62;0
+WireConnection;54;0;51;0
 WireConnection;55;0;41;0
 WireConnection;55;1;56;0
 WireConnection;58;0;59;0
 WireConnection;58;1;36;0
 WireConnection;58;2;52;0
 WireConnection;49;0;48;0
-WireConnection;49;1;62;0
+WireConnection;49;1;51;0
 WireConnection;60;0;61;0
-WireConnection;62;0;51;0
 WireConnection;59;0;60;0
 WireConnection;48;0;63;0
 WireConnection;48;1;56;0
+WireConnection;62;0;51;0
 WireConnection;1;0;58;0
 WireConnection;1;1;34;0
 WireConnection;1;4;30;0
 ASEEND*/
-//CHKSM=53D10B2E4CCF24CCA0EADAD2F7BB6B2119DE47C2
+//CHKSM=BCA618D7F675E6548DC11111E7580ADBFECB0BCD
