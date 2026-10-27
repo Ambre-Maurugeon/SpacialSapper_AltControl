@@ -3,8 +3,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 using UnityEngine.UIElements;
 
 public class WaterGun : MonoBehaviour
@@ -41,11 +43,16 @@ public class WaterGun : MonoBehaviour
     [SerializeField] float _clampPosX = 300 ;
     [SerializeField] float _clampPosY = 300 ;
     [Space(5)]
-    [SerializeField] float _cursorHorizontalSpeed;
-    [SerializeField] float _cursorVerticalSpeed;
+    [SerializeAs("_cursorHorizontalSpeed")][SerializeField] float _arduinoCursorHorizontalSpeed;
+    [SerializeAs("_cursorVerticalSpeed")][SerializeField] float _arduinoCursorVerticalSpeed;
+    [Space(5)]
+    [SerializeField] float _joystickCursorHorizontalSpeed = 3;
+    [SerializeField] float _joystickCursorVerticalSpeed = 3;
     [Space(5)]
     [SerializeField] float _deadZoneAngleVertical;
     [SerializeField] float _deadZoneAngleHorizontal;
+
+    Vector3 _currentCursorPosition;
 
     [Header("Gun Values")]
     [SerializeField] float _firingDelay = 3;
@@ -63,6 +70,10 @@ public class WaterGun : MonoBehaviour
 
 
     private bool _isShooting = false;
+    private bool _isReloading = false;
+
+    // Ballistic trajectory
+    RaycastHit _hit; // to get the end position (destination => hit point) of the water s ballistic tractory
 
     private float _yaw;
     private float _pitch;
@@ -71,8 +82,6 @@ public class WaterGun : MonoBehaviour
     [Header("Arduino Reload")]
     [SerializeField] float _arduinoReloadTimer;
     private float _lastArduinoReload;
-
-    RaycastHit _hit; // in test
 
     // sound
     AudioSource _audioSource;
@@ -116,9 +125,31 @@ public class WaterGun : MonoBehaviour
    
     void CalculateCursorPos()
     {
-        if (ArduinoInputReceiver.Instance._useKeyboard){
-            Vector3 mousePos = Mouse.current.position.ReadValue();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, mousePos, null, out Vector2 localPos);
+        if (ArduinoInputReceiver.Instance._useKeyboard)
+        {
+            Vector3 cursorPos = Vector3.zero;
+
+            // use mouse
+            if (Mouse.current != null && Mouse.current.delta.ReadValue() != Vector2.zero)
+            {
+                // get mouse pos on screen
+                cursorPos = Mouse.current.position.ReadValue();
+                _currentCursorPosition = cursorPos;
+            }
+            // use right joystick of the gamepad
+            else
+            {
+                // in.decrease current x / y cursor pos using look vector and x / y speed
+                _currentCursorPosition.x += PlayerController.LookVector.x * _joystickCursorVerticalSpeed * Time.deltaTime;
+                _currentCursorPosition.y += PlayerController.LookVector.y * _joystickCursorHorizontalSpeed * Time.deltaTime;
+
+                _currentCursorPosition.x = Mathf.Clamp(_currentCursorPosition.x, 0, Screen.width);
+                _currentCursorPosition.y = Mathf.Clamp(_currentCursorPosition.y, 0, Screen.height);
+
+                cursorPos = _currentCursorPosition;
+            }
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, cursorPos, null, out Vector2 localPos);
             localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
             localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
 
@@ -131,8 +162,8 @@ public class WaterGun : MonoBehaviour
             _pitch = ArduinoInputReceiver.Instance._pitch;
             _yaw = CheckDeadZones(_yaw, _pitch)[0];
             _pitch = CheckDeadZones(_yaw, _pitch)[1];
-            cursorPos.x += _yaw * _cursorHorizontalSpeed * Time.deltaTime;
-            cursorPos.y += _pitch * _cursorVerticalSpeed * Time.deltaTime;
+            cursorPos.x += _yaw * _arduinoCursorHorizontalSpeed * Time.deltaTime;
+            cursorPos.y += _pitch * _arduinoCursorVerticalSpeed * Time.deltaTime;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_cursor.parent as RectTransform, cursorPos, null, out Vector2 localPos);
             localPos.x = Mathf.Clamp(localPos.x,-_clampPosX, _clampPosX);
             localPos.y = Mathf.Clamp(localPos.y,-_clampPosY, _clampPosY);
@@ -140,9 +171,7 @@ public class WaterGun : MonoBehaviour
             _cursor.localPosition = localPos;
             
         }
-        // clamp
 
-        // -- TO EDIT/ CLEAN jsuis fatiguee --
         // barrel roation, move barrel look at rot
         Ray ray = Camera.main.ScreenPointToRay(_cursor.position);
         Vector3 destination = ray.GetPoint(_firingDistance);
@@ -154,9 +183,9 @@ public class WaterGun : MonoBehaviour
     {
         if (GameManager.Instance.State == GAME_STATE.DEFEAT) return;
 
-        // debug
-        //Debug.Log("delay, reload in " + _firingDelay + " seconds.");
+        if (_isShooting || _isReloading) return;
 
+        // reload, then shoot
         StartCoroutine(UpdateReloadWaterLevel(_waterReloadDown, _waterReloadUp, _firingDelay));
         Invoke("StartShooting",_firingDelay);
 
@@ -166,11 +195,14 @@ public class WaterGun : MonoBehaviour
     
     void OnArduinoReload()
     {
-        if (GameManager.Instance.State == GAME_STATE.DEFEAT || _isShooting) return;
+        if (GameManager.Instance.State == GAME_STATE.DEFEAT) return;
+
+        if (_isShooting || _isReloading) return;
 
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
 
+        // reload, then shoot
         StartCoroutine(UpdateReloadWaterLevel(_waterReloadDown, _waterReloadUp, _firingDelay));
         Invoke("StartShooting",_firingDelay);
 
@@ -183,9 +215,6 @@ public class WaterGun : MonoBehaviour
     {
         // sound
         AudioManager.Instance.PlaySFX(SoundType.WaterFullReload, _audioSource); // water full reload it's time to shoot
-
-        // debug
-        //Debug.Log("Start shooting");
 
         _isShooting = true;
         _currentJetDistance = 0f;
@@ -362,6 +391,8 @@ public class WaterGun : MonoBehaviour
 
     IEnumerator UpdateReloadWaterLevel(Transform from, Transform to, float duration)
     {
+        _isReloading = true;
+
         float time = 0;
         while (time < duration)
         {
@@ -373,6 +404,8 @@ public class WaterGun : MonoBehaviour
         }
 
         _uiWaterLevel.localPosition = to.localPosition;
+
+        _isReloading = false;
     }
 
     #endregion

@@ -244,7 +244,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4359793714106639307}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ReadReloadInput
+        m_MethodName: ReadFirstReloadInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -257,7 +257,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4359793714106639307}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ReadSecondReloadInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -329,6 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d2e03404d11b544880c29076e46fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  _simultaneousTolerance: 0.005
 --- !u!114 &5876142767020347935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,9 +361,9 @@ MonoBehaviour:
   _playerParent: {fileID: 0}
   _audioSourceVertical: {fileID: 6883306098955396564}
   _audioSourceHorizontal: {fileID: 6280639463636312256}
-  _maxSpeed: 2
-  _acceleration: 1
-  _deceleration: 1
+  _maxSpeed: 0.4
+  _acceleration: 0.15
+  _deceleration: 0.25
   _horizontalSoundFrequency: 0.75
   _verticalSoundFrequency: 0.75
   _verticalRoad: {fileID: 7344132392608002934}
@@ -1164,8 +1177,10 @@ MonoBehaviour:
   _waterReloadDown: {fileID: 1960472712801333594}
   _clampPosX: 600
   _clampPosY: 600
-  _cursorHorizontalSpeed: 1
-  _cursorVerticalSpeed: 1
+  _arduinoCursorHorizontalSpeed: 20
+  _arduinoCursorVerticalSpeed: 15
+  _joystickCursorHorizontalSpeed: 250
+  _joystickCursorVerticalSpeed: 200
   _deadZoneAngleVertical: 0
   _deadZoneAngleHorizontal: 0
   _firingDelay: 3

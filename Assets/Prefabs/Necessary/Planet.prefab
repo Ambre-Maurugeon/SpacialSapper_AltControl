@@ -355,10 +355,6 @@ PrefabInstance:
       value: -- PLAYER --
       objectReference: {fileID: 0}
     - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
-      propertyPath: _maxSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _ancreTest
       value: 
       objectReference: {fileID: 43552533370011651}
@@ -366,14 +362,6 @@ PrefabInstance:
       propertyPath: _playerTest
       value: 
       objectReference: {fileID: 2073723653486024218}
-    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
-      propertyPath: _acceleration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
-      propertyPath: _deceleration
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5876142767020347935, guid: ea4204b1d9eee73419d800eddcab6382, type: 3}
       propertyPath: _playerParent
       value: 
