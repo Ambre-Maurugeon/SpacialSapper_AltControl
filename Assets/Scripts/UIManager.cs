@@ -23,9 +23,6 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
         //DontDestroyOnLoad(this.gameObject); // can be edit later
-        
-        // -- CANVAS -- 
-        InitCanvas();
     }
 
     private void Start()
@@ -40,20 +37,25 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void InitCanvas()
+    public void ActivateStartCanva()
     {
         _startScreen.SetActive(true);
         _defeatScreen.SetActive(false);
     }
-
+    public void ActiveDefeatScreen()
+    {
+        _startScreen.SetActive(false);
+        _defeatScreen.SetActive(true);
+    }
     public void RemoveStartScreen()
     {
         _startScreen.SetActive(false);
     }
 
-    public void ActiveDefeatScreen()
+    public void DeactivateAllCanvas()
     {
-        _defeatScreen.SetActive(true);
+        _startScreen.SetActive(false);
+        _defeatScreen.SetActive(false);
     }
 
 }

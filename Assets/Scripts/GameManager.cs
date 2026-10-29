@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     private float _lastArduinoReload;
 
     public GAME_STATE State => _state;
+
+    [Header("Debug")]
+    [SerializeField]
     private GAME_STATE _state = GAME_STATE.HUB;
 
 
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitWithOthers();
+        InitMyState();
 
         AudioManager.Instance.PlayMusic(SoundType.Music);
     }
@@ -53,11 +57,32 @@ public class GameManager : MonoBehaviour
         PlayerController.OnArduinoReload += OnArduinoReload;
 
     }
+
+    private void InitMyState()
+    {
+        switch (_state)
+        {
+            case GAME_STATE.HUB:
+                UIManager.Instance.ActivateStartCanva();
+                break;
+            case GAME_STATE.TUTO:
+                LaunchTuto();
+                break;
+            case GAME_STATE.PLAYING:
+                UIManager.Instance.DeactivateAllCanvas();
+                LaunchGame();
+                break;
+            case GAME_STATE.DEFEAT:
+                LaunchDefeat();
+                break;
+        }
+    }
+
     #endregion
 
     private void OnReload()
     {
-        ReloadBehaviour();
+        WaterReloadBehaviour();
     }
 
     void OnArduinoReload()
@@ -65,15 +90,10 @@ public class GameManager : MonoBehaviour
         if (Time.time < _lastArduinoReload + _arduinoReloadTimer) return;
         _lastArduinoReload = Time.time;
 
-        ReloadBehaviour();
+        WaterReloadBehaviour();
     }
 
-    //private void IncrementState(GAME_STATE state)
-    //{
-    //    _state++;
-    //}
-
-    private void ReloadBehaviour()
+    private void WaterReloadBehaviour()
     {
         switch (_state)
         {
@@ -102,7 +122,7 @@ public class GameManager : MonoBehaviour
     // Call after first reload
     private void LaunchTuto()
     {
-        UIManager.Instance.RemoveStartScreen();
+        UIManager.Instance.DeactivateAllCanvas();
         ChangeState(GAME_STATE.TUTO);
     }
 
