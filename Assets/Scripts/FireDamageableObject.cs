@@ -20,7 +20,7 @@ public class FireDamageableObject : MonoBehaviour
 
     private float _initHealth;
     private float _currentHealth;
-    private float _maskOffsetAdvance = 1;
+    private float _maskOffsetAdvance = 0;
 
     private List<Material> _materials = new();
 
@@ -79,7 +79,7 @@ public class FireDamageableObject : MonoBehaviour
         {
             _currentHealth -= Time.deltaTime * _speed; 
 
-            _maskOffsetAdvance = _currentHealth / _initHealth; // get percent for GA use
+            _maskOffsetAdvance = 1-(_currentHealth / _initHealth); // get percent for GA use
             ApplyMaskOffsetOnMat();
 
             yield return new WaitForEndOfFrame();
@@ -96,7 +96,7 @@ public class FireDamageableObject : MonoBehaviour
     private void ResetMaskOffsetAdvance() // doesn't work ? why
     {
         _currentHealth = 0;
-        _maskOffsetAdvance = 1; // to edit => do it progressively 
+        _maskOffsetAdvance = 0; // to edit => do it progressively 
         ApplyMaskOffsetOnMat();
     }
 
@@ -105,7 +105,7 @@ public class FireDamageableObject : MonoBehaviour
         // apply advance value in mats
         for (int i = 0; i < _materials.Count; i++)
         {
-            _materials[i].SetFloat("_Advance1", _maskOffsetAdvance);
+            _materials[i].SetFloat("_advance", _maskOffsetAdvance);
         }
     }
 
